@@ -1,10 +1,7 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 
@@ -15,8 +12,6 @@ public class Frog extends Entity {
 		RIGHT,
 		DOWN,
 		LEFT;
-
-
 	};
 	rotazione r;
 	int dy;
@@ -48,25 +43,22 @@ public class Frog extends Entity {
 					p.x=0;
 				}
 				rotate(rotazione.RIGHT);
-
 				break;
+
 			case KeyEvent.VK_RIGHT:
 				p.x += dx;
 				if (p.x>92) {
 					p.x=92;
 				}
 				rotate(rotazione.LEFT);
-
-
 				break;
+
 			case KeyEvent.VK_DOWN:
 				p.y -= dy;
 				if (p.y<0) {
 					p.y=0;
 				}
 				rotate(rotazione.DOWN);
-
-
 				break;
 			case KeyEvent.VK_UP:
 				p.y += dy;
@@ -74,9 +66,7 @@ public class Frog extends Entity {
 					p.y=142;
 				}
 				rotate(rotazione.UP);
-
 				break;
-
 		}
 
 
