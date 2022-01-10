@@ -18,12 +18,12 @@ public class Frog extends Entity {
 	private rotazione next(rotazione r) {
 		switch (r) {
 			case UP:
-				return rotazione.RIGHT;
-			case RIGHT:
-				return rotazione.DOWN;
-			case DOWN:
 				return rotazione.LEFT;
 			case LEFT:
+				return rotazione.DOWN;
+			case DOWN:
+				return rotazione.RIGHT;
+			case RIGHT:
 				return rotazione.UP;
 		}
 		return null;
@@ -37,12 +37,12 @@ public class Frog extends Entity {
 
 	public void moveFrog(KeyEvent e, Graphics2D g2){
 		switch(e.getKeyCode()){       //todo capire why è al contrario
-			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_LEFT:    //è perché l'algoritmo routa attorno all'angolo top left
 				p.x -= dx;
 				if (p.x<0) {
 					p.x=0;
 				}
-				rotate(rotazione.RIGHT);
+				rotate(rotazione.LEFT);
 				break;
 
 			case KeyEvent.VK_RIGHT:
@@ -50,7 +50,7 @@ public class Frog extends Entity {
 				if (p.x>92) {
 					p.x=92;
 				}
-				rotate(rotazione.LEFT);
+				rotate(rotazione.RIGHT);
 				break;
 
 			case KeyEvent.VK_DOWN:
