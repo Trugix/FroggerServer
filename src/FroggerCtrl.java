@@ -3,6 +3,8 @@ import java.io.IOException;
 
 
 public class FroggerCtrl {
+	PnlFrog frogView;
+	FroggerModel model;
 
 
 	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException {

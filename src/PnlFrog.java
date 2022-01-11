@@ -68,7 +68,7 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.scale(s, -s);
         g2.translate(0, -150);
 
-        g2.setColor(Color.BLACK);    //sfondo
+        g2.setColor(Color.BLACK);    //Sfondo nero neutro, il primo layer
         g2.fillRect(0, 0, 100, 150);
 
         paintBackground(g2);  //Sfodno giocabile, secondo layer
@@ -80,9 +80,34 @@ public class PnlFrog extends JPanel implements KeyListener{
       /*  g2.drawImage(entities.get(0).sprite, entities.get(0).p.x, entities.get(0).p.y, null);
         g2.drawImage(carro1, xc1, yc1, null);*/
 
-
-        printMenu(g2);
+        printHud(g2);
     }
+
+    /**
+     * Metodo che si occupa della creazione dello sfondo giocabile
+     * @param g2
+     */
+    private void paintBackground (Graphics2D g2)
+    {
+        g2.setColor(COLORE_CHECHKPOINT);   //Riga di partenza, colore marrone
+        g2.fillRect(0, 0, 100, 8);
+
+        g2.setColor(COLORE_STRADA);   //Strade, colore grigio
+        paintRiga(g2,8,5);
+
+        g2.setColor(COLORE_CHECHKPOINT);   //Riga di riposo, colore marrone
+        paintRiga(g2,48,1);
+
+        g2.setColor(COLORE_ACQUA);   //Acqua, colore blu
+        paintRiga(g2,56,5);
+
+        g2.setColor(COLORE_ARRIVO);  //Contorno destinazione, colore verde
+        g2.fillRect(0, 96, 100, 14);
+
+        g2.setColor(COLORE_ACQUA); // Destinazione, colore blu
+        paintArrivo(g2,96);
+    }
+
 
     private void paintRiga(Graphics2D g2,int inizio,int nCaselle)
     {
@@ -101,7 +126,11 @@ public class PnlFrog extends JPanel implements KeyListener{
         }
     }
 
-    private void printMenu (Graphics2D g2)
+    /**
+     * Metodo che crea l'Hud
+     * @param g2
+     */
+    private void printHud (Graphics2D g2)
     {
         
         printVite(g2,6);
@@ -111,9 +140,9 @@ public class PnlFrog extends JPanel implements KeyListener{
     private final static int MAX_VITE=6;
     private void printVite (Graphics2D g2,int vite)
     {
-        for (int c=0;c<MAX_VITE;c++)
+        for (int c=0;c<vite;c++)
 
-            g2.drawImage(lillFrog, 1+c*5, 145, null);
+            g2.drawImage(lilFrog, 1+c*5, 145, null);
     }
     
     private void printTempo (Graphics2D g2)
@@ -125,13 +154,13 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.drawString("TIME",190,-322); // Scritta TIME circa formatta
         g2.scale(2.222222222222222222,-2.222222222222222222); //todo sistemare sto schifo
     }
-    
+
+
     @Override
     public void keyTyped(KeyEvent e) {
         //    System.out.println("2");
         //        shoot(e);
     }
-
 
     @Override
     public void keyPressed(KeyEvent e) {
