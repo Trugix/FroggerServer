@@ -44,10 +44,13 @@ public class FroggerApp{
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(Color.WHITE);
 
+		FroggerModel model = new FroggerModel();
+		FroggerCtrl control = new FroggerCtrl(model/*, frogView*/);
+		//PnlFrog frogView = new PnlFrog(model.entities);
 
-        PnlFrog pnlfrog = new PnlFrog();
-        frame.add(pnlfrog, BorderLayout.CENTER);
-        pnlfrog.setVisible(true);
+
+        frame.add(control.frogView, BorderLayout.CENTER);
+        control.frogView.setVisible(true);
         frame.setVisible(true);
 	}
 

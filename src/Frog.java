@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class Frog extends Entity {
 
-	private enum rotazione{
+	public enum rotazione{
 		UP,
 		RIGHT,
 		DOWN,
@@ -15,7 +15,7 @@ public class Frog extends Entity {
 	};
 	rotazione r;
 	int dy;
-	private rotazione next(rotazione r) {
+	public rotazione next(rotazione r) {
 		switch (r) {
 			case UP:
 				return rotazione.LEFT;
@@ -35,52 +35,16 @@ public class Frog extends Entity {
 		sprite = (BufferedImage) ImageIO.read(new File("src/frog.png"));
 	}
 
-	public void moveFrog(KeyEvent e, Graphics2D g2){
-		switch(e.getKeyCode()){       //todo capire why è al contrario
-			case KeyEvent.VK_LEFT:    //è perché l'algoritmo routa attorno all'angolo top left
-				p.x -= dx;
-				if (p.x<0) {
-					p.x=0;
-				}
-				rotate(rotazione.LEFT);
-				break;
 
-			case KeyEvent.VK_RIGHT:
-				p.x += dx;
-				if (p.x>92) {
-					p.x=92;
-				}
-				rotate(rotazione.RIGHT);
-				break;
-
-			case KeyEvent.VK_DOWN:
-				p.y -= dy;
-				if (p.y<0) {
-					p.y=0;
-				}
-				rotate(rotazione.DOWN);
-				break;
-			case KeyEvent.VK_UP:
-				p.y += dy;
-				if (p.y>142) {
-					p.y=142;
-				}
-				rotate(rotazione.UP);
-				break;
-		}
-
-
-		//PnlFrog.repaint();
-	}
-	private void rotate(rotazione targetDir){
+	public void rotate(rotazione targetDir){
 		while(targetDir!=r)
 		{
-			sprite=rotateCw(sprite);
+			sprite=rotateSprite(sprite);
 			r=next(r);
 		}
 	}
 
-	public static BufferedImage rotateCw( BufferedImage img )
+	public BufferedImage rotateSprite( BufferedImage img )
 	{
 		int         width  = img.getWidth();
 		int         height = img.getHeight();

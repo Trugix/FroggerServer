@@ -8,34 +8,42 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.Shape;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 
-public class PnlFrog extends JPanel implements KeyListener {
+public class PnlFrog extends JPanel implements KeyListener{
     int x = 46;
     int y = 142;
 
     int dx = 8;
     int dy = 8;
+
+    FroggerCtrl ctrl;
     //int my = 300;
     Graphics2D g2;
     // Image frog = Toolkit.getDefaultToolkit().getImage("src/frog.png");
     Image carro1 = Toolkit.getDefaultToolkit().getImage("src/carro1.png");
+
+    BufferedImage lilFrog = (BufferedImage) ImageIO.read(new File("src/frogSmall.png"));
     BufferedImage sprite = (BufferedImage) ImageIO.read(new File("src/frog.png"));
-    BufferedImage lillFrog = (BufferedImage) ImageIO.read(new File("src/frogSmall.png"));
-    Frog frog = new Frog(46, 0, 8,sprite,8,8);
     public Rectangle2D rec = new Rectangle2D.Double(x, y, 30, 10);
     int xc1 = 100;
     int yc1 = 134;
 
-    public PnlFrog() throws IOException {
-        this.addKeyListener(this);
-        //this.setBackground(new Color(0,0,0,0));
-        this.setFocusable(true);
+    public void setEntities(ArrayList<Entity> entities) {
+        this.entities = entities;
+    }
 
+    ArrayList<Entity> entities;
+
+    public PnlFrog(ArrayList<Entity> entities, FroggerCtrl ctrl) throws IOException {
+        this.entities = entities;
+        this.ctrl=ctrl;
+        this.addKeyListener(this);
+        this.setFocusable(true);
     }
 
 	   /* public void shoot(KeyEvent e){
@@ -63,27 +71,14 @@ public class PnlFrog extends JPanel implements KeyListener {
         g2.setColor(Color.BLACK);    //sfondo
         g2.fillRect(0, 0, 100, 150);
 
+        paintBackground(g2);  //Sfodno giocabile, secondo layer
 
-        g2.setColor(COLORE_CHECHKPOINT);   //Riga di partenza, colore marrone
-        g2.fillRect(0, 0, 100, 8);
 
-        g2.setColor(COLORE_STRADA);   //Strade, colore grigio
-        paintRiga(g2,8,5);
-
-        g2.setColor(COLORE_CHECHKPOINT);   //Riga di riposo, colore marrone
-        paintRiga(g2,48,1);
-
-        g2.setColor(COLORE_ACQUA);   //Acqua, colore blu
-        paintRiga(g2,56,5);
-
-        g2.setColor(COLORE_ARRIVO);  //Contorno destinazione, colore verde
-		g2.fillRect(0, 96, 100, 14);
-
-        g2.setColor(COLORE_ACQUA); // Destinazione, colore blu
-        paintArrivo(g2,96);
-
-        g2.drawImage(frog.sprite, frog.p.x, frog.p.y, null);
-        g2.drawImage(carro1, xc1, yc1, null);
+        for (Entity e: entities) {
+            g2.drawImage(e.sprite, e.p.getX(), e.p.y, null);
+        }
+      /*  g2.drawImage(entities.get(0).sprite, entities.get(0).p.x, entities.get(0).p.y, null);
+        g2.drawImage(carro1, xc1, yc1, null);*/
 
 
         printMenu(g2);
@@ -140,12 +135,12 @@ public class PnlFrog extends JPanel implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        frog.moveFrog(e, g2);
-
+        ctrl.model.moveFrog(e);
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 
     }
+
 }
