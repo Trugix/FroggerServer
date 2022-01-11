@@ -1,4 +1,5 @@
 import javax.swing.Timer;
+import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 
 
@@ -29,12 +30,24 @@ public class FroggerCtrl {
 					n.p.setX(102);
 				}
 			}
+			if(n.p.getY() == model.frog.p.getY())
+				checkCollision(model.frog,n);
 		}
-		//checkCollision();
 		frogView.setEntities(model.entities);
 		frogView.repaint();
 	}
 
-//	private
+    private void checkCollision (Entity frog, NPC entity )
+    {
+		boolean collisione= frog.hitbox.intersects(entity.hitbox);
+		if(!entity.deathTouch) //acqua
+		{
+			if (!collisione)
+				model.frog.morte();
+		}
+		else //macchine
+	        if(collisione)
+				model.frog.morte();
+    }
 
 }

@@ -56,7 +56,7 @@ public class PnlFrog extends JPanel implements KeyListener{
 
     // Colori go brrrr
     private static final Color COLORE_STRADA = new Color(40,40,40);
-    private static final Color COLORE_ACQUA = new Color(30,30,180);
+    private static final Color COLORE_ACQUA = new Color(25,25,180);
     private static final Color COLORE_CHECHKPOINT = new Color(85,25,25);
     private static final Color COLORE_ARRIVO = new Color(30,220,30);
 
@@ -112,7 +112,7 @@ public class PnlFrog extends JPanel implements KeyListener{
     private void paintRiga(Graphics2D g2,int inizio,int nCaselle)
     {
         for(int c=0 ;c<nCaselle;c++)
-            g2.fillRect(0, inizio+8*c, 100, 8);
+            g2.fillRect(0, inizio+10*c, 100, 10);
     }
 
     private void paintArrivo(Graphics2D g2, int inizio)
@@ -133,7 +133,7 @@ public class PnlFrog extends JPanel implements KeyListener{
     private void printHud (Graphics2D g2)
     {
         
-        printVite(g2,6);
+        printVite(g2,ctrl.model.frog.vite);
         printTempo(g2);
     }
     
@@ -150,9 +150,7 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.setColor(COLORE_ARRIVO);
         int t=50; //Fattore temporale iniziale
         g2.fillRect(33,145,t,4); //Barra della vita
-        g2.scale(0.45,-0.45);
-        g2.drawString("TIME",190,-322); // Scritta TIME circa formatta
-        g2.scale(2.222222222222222222,-2.222222222222222222); //todo sistemare sto schifo
+      //  g2.drawString("TIME",80,100); // Scritta TIME circa formatta //todo sistemare sto robo
     }
 
 
