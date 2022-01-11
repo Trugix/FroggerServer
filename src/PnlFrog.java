@@ -71,14 +71,14 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.setColor(Color.BLACK);    //Sfondo nero neutro, il primo layer
         g2.fillRect(0, 0, 100, 150);
 
-        paintBackground(g2);  //Sfodno giocabile, secondo layer
+        paintBackground(g2);  //Sfondo giocabile, secondo layer
 
 
-        for (Entity e: entities) {
-            g2.drawImage(e.sprite, e.p.getX(), e.p.y, null);
+        for (Entity e: entities)
+        {
+                g2.drawImage(e.sprite, e.p.getX(), e.p.getY(), null);
         }
-      /*  g2.drawImage(entities.get(0).sprite, entities.get(0).p.x, entities.get(0).p.y, null);
-        g2.drawImage(carro1, xc1, yc1, null);*/
+        g2.drawImage(entities.get(0).sprite, entities.get(0).p.x, entities.get(0).p.y, null);
 
         printHud(g2);
     }
@@ -90,22 +90,22 @@ public class PnlFrog extends JPanel implements KeyListener{
     private void paintBackground (Graphics2D g2)
     {
         g2.setColor(COLORE_CHECHKPOINT);   //Riga di partenza, colore marrone
-        g2.fillRect(0, 0, 100, 8);
+        g2.fillRect(0, 0, 100, 10);
 
         g2.setColor(COLORE_STRADA);   //Strade, colore grigio
-        paintRiga(g2,8,5);
+        paintRiga(g2,10,5);
 
         g2.setColor(COLORE_CHECHKPOINT);   //Riga di riposo, colore marrone
-        paintRiga(g2,48,1);
+        paintRiga(g2,60,1);
 
         g2.setColor(COLORE_ACQUA);   //Acqua, colore blu
-        paintRiga(g2,56,5);
+        paintRiga(g2,70,5);
 
         g2.setColor(COLORE_ARRIVO);  //Contorno destinazione, colore verde
-        g2.fillRect(0, 96, 100, 14);
+        g2.fillRect(0, 120, 100, 16);
 
         g2.setColor(COLORE_ACQUA); // Destinazione, colore blu
-        paintArrivo(g2,96);
+        paintArrivo(g2,120);
     }
 
 
@@ -122,7 +122,7 @@ public class PnlFrog extends JPanel implements KeyListener{
         {
             if(c!=0)
                 x+=21;
-            g2.fillRect(x, inizio, 12, 10);
+            g2.fillRect(x, inizio, 12, 12);
         }
     }
 

@@ -7,7 +7,6 @@ public class FroggerCtrl {
 	PnlFrog frogView;
 	FroggerModel model;
 
-
 	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException {
 		this.model=model;
 		this.frogView = new PnlFrog(model.entities,this);

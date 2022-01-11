@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -7,6 +8,8 @@ import java.util.ArrayList;
 
 public class FroggerModel {
 
+	private static final int STARTING_FROGX = 46;
+	private static final int STARTING_FROGY = 1;
 	public ArrayList<Entity> entities = new ArrayList<>();
 	public ArrayList<NPC> NPCs = new ArrayList<>();
 	BufferedImage spriteFrog = ImageIO.read(new File("src/frog.png"));
@@ -27,6 +30,9 @@ public class FroggerModel {
 		entities.add(log4);
 		entities.add(log3);
 		NPCs.add(carro1);
+		NPCs.add(log6);
+		NPCs.add(log4);
+		NPCs.add(log3);
 	}
 
 	public void moveFrog(KeyEvent e) {

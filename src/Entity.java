@@ -1,5 +1,6 @@
 import java.awt.geom.Area;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 public class Entity
@@ -34,14 +35,24 @@ public class Entity
 		{
 			this.x = x;
 		}
+		
+		public int getY()
+		{
+			return y;
+		}
+		
+		public void setY(int y)
+		{
+			this.y = y;
+		}
 	}
 	
 	protected Position p;
 	protected BufferedImage sprite;
 	protected int dx;
-	private int dimx;
+	protected int dimx;
 	protected int dimy;
-	protected Area hitbox;
+	protected Rectangle2D hitbox;
 	
 	public Entity(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy)
 	{

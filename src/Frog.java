@@ -1,20 +1,19 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 public class Frog extends Entity {
-
+	private static final int MAX_VITE = 6;
 	public enum rotazione{
 		UP,
 		RIGHT,
 		DOWN,
 		LEFT;
 	};
-	rotazione r;
-	int dy;
 	public rotazione next(rotazione r) {
 		switch (r) {
 			case UP:
@@ -28,9 +27,15 @@ public class Frog extends Entity {
 		}
 		return null;
 	}
+	rotazione r;
+	int dy;
+	int vite;
+	private static final int STARTING_FROGX = 46;
+	private static final int STARTING_FROGY = 1;
 	public Frog(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy) throws IOException {
 		super(x, y, dx, sprite, dimx, dimy);
 		dy=dx;
+		vite=MAX_VITE;
 		r=rotazione.UP;
 		sprite = (BufferedImage) ImageIO.read(new File("src/frog.png"));
 	}
@@ -55,5 +60,18 @@ public class Frog extends Entity {
 				newImage.setRGB( height-1-j, i, img.getRGB(i,j) );
 
 		return newImage;
+	}
+	
+	public void updateHitbox ()
+	{
+		this.hitbox = new Rectangle(this.p.x, this.p.y, this.dimx, this.dimy);
+	}
+	public void morte()
+	{
+		this.p.setX(STARTING_FROGX);
+		this.p.setY(STARTING_FROGY);
+		updateHitbox();
+		rotate(rotazione.UP);
+		this.vite--;
 	}
 }
