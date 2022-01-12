@@ -19,9 +19,9 @@ public class FroggerCtrl {
 	
 	private void nextFrame() {
 		
-		if (nframe==33)
+		if (nframe==15)
 		{
-			model.tempo--;
+			model.tempo-=5;
 			nframe=0;
 		}else
 		{

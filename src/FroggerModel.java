@@ -21,7 +21,7 @@ public class FroggerModel {
 	BufferedImage spriteLog4 = ImageIO.read(new File("src/log4.png"));
 	BufferedImage spriteLilyPad = ImageIO.read(new File("src/lilyPad.png"));
 	
-	Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 10, spriteFrog, 8, 8);
+	Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 100, spriteFrog, 80, 80);
 	
 	NPC carroA = new NPC(1000,110, -10, spriteCarro, 160,1100,2,true);
 	NPC carroB = new NPC(500,110, -10, spriteCarro, 160,100,2,true);
@@ -37,13 +37,13 @@ public class FroggerModel {
 	NPC lilyPadA = new NPC(30,1210,0,spriteLilyPad,100,100,0,false);
 	NPC lilyPadB = new NPC(240,1210,0,spriteLilyPad,100,100,0,false);
 	NPC lilyPadC = new NPC(450,1210,0,spriteLilyPad,1000,1000,0,false);
-	NPC lilyPadD = new NPC(66,121,0,spriteLilyPad,1000,1000,0,false);
+	NPC lilyPadD = new NPC(66,1210,0,spriteLilyPad,1000,1000,0,false);
 	NPC lilyPadE = new NPC(870,1210,0,spriteLilyPad,100,100,0,false);
 
 	public FroggerModel() throws IOException {
 		entities.add(frog);
 		
-		NPCs.add(carroA);
+		/*NPCs.add(carroA);
 		NPCs.add(carroB);
 		NPCs.add(log6A);
 		NPCs.add(log6B);
@@ -63,7 +63,7 @@ public class FroggerModel {
 		for (NPC n:NPCs)
 		{
 			entities.add(n);
-		}
+		}*/
 	}
 
 	public void moveFrog(KeyEvent e) {

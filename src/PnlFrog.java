@@ -97,8 +97,8 @@ public class PnlFrog extends JPanel implements KeyListener{
         paintArrivo(g2,1200);
     
         g2.setColor(COLORE_RIGHE);
-        g2.fillRect(0,100, 1000, 10);
-        g2.fillRect(0,600, 1000, 10);
+        g2.fillRect(0,100-5, 1000, 9);
+        g2.fillRect(0,600-5, 1000, 9);
     }
 
 
@@ -106,7 +106,7 @@ public class PnlFrog extends JPanel implements KeyListener{
     {
         for(int c=1 ;c<nCaselle;c++)
             for (int i=20;i<1000;i+=100)
-                g2.fillRect(i,inizio+100*c , 50, 10);
+                g2.fillRect(i,inizio+100*c-5 , 50, 9);
         
     }
     
