@@ -30,8 +30,8 @@ public class FroggerCtrl {
 		for (NPC n:	 model.NPCs) {
 			n.stepNext();
 			if(n.dx>0){
-				if(n.p.getX() - n.getDimx()>102){
-					n.p.setX(-n.getDimx()-2);
+				if(n.p.getX() - n.getDimx()>1020){
+					n.p.setX(-n.getDimx()-20);
 				}
 			}else{
 				if(n.p.getX() + n.getDimx()<-20){
@@ -87,7 +87,7 @@ public class FroggerCtrl {
 	 */
 	private void resetTempo()
 	{
-		model.tempo =50;
+		model.tempo =500;
 	}
 
 }

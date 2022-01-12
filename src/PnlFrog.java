@@ -94,7 +94,11 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.fillRect(0, 1200, 1000, 160);
 
         g2.setColor(COLORE_ACQUA); // Destinazione, colore blu
-        paintArrivo(g2,120);
+        paintArrivo(g2,1200);
+    
+        g2.setColor(COLORE_RIGHE);
+        g2.fillRect(0,100, 1000, 10);
+        g2.fillRect(0,600, 1000, 10);
     }
 
 
@@ -109,17 +113,17 @@ public class PnlFrog extends JPanel implements KeyListener{
     private void paintRiga(Graphics2D g2,int inizio,int nCaselle)
     {
         for(int c=0 ;c<nCaselle;c++)
-            g2.fillRect(0, inizio+10*c, 100, 10);
+            g2.fillRect(0, inizio+100*c, 1000, 100);
     }
 
     private void paintArrivo(Graphics2D g2, int inizio)
     {
-        int x=2;
+        int x=20;
         for (int c=0;c<5;c++)
         {
             if(c!=0)
-                x+=21;
-            g2.fillRect(x, inizio, 12, 12);
+                x+=210;
+            g2.fillRect(x, inizio, 120, 120);
         }
     }
 
@@ -139,17 +143,17 @@ public class PnlFrog extends JPanel implements KeyListener{
     {
         for (int c=0;c<vite;c++)
 
-            g2.drawImage(lilFrog, 1+c*5, 145, null);
+            g2.drawImage(lilFrog, 1+c*50, 1450, null);
     }
     
     private void printTempo (Graphics2D g2)
     {
         g2.setColor(COLORE_ARRIVO);
         int t=ctrl.model.tempo; //Fattore temporale iniziale
-        g2.fillRect(83-t,145,t,4); //Barra della vita
+        g2.fillRect(830-t,1450,t,40); //Barra della vita
         g2.scale(1,-1);
-        g2.setFont(new Font("calibri",1,6));
-        g2.drawString("TIME",85,-145); // Scritta TIME circa formatta //todo sistemare sto robo
+        g2.setFont(new Font("calibri",1,60));
+        g2.drawString("TIME",850,-1450); // Scritta TIME circa formatta //todo sistemare sto robo
         g2.scale(1,-1);
     }
 

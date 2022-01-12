@@ -13,7 +13,7 @@ public class FroggerModel {
 	private static final int STARTING_FROGY = 10;
 	public ArrayList<Entity> entities = new ArrayList<>();
 	public ArrayList<NPC> NPCs = new ArrayList<>();
-	public int tempo=50;
+	public int tempo=500;
 	BufferedImage spriteFrog = ImageIO.read(new File("src/frog.png"));
 	BufferedImage spriteCarro =  ImageIO.read(new File("src/carro1.png"));
 	BufferedImage spriteLog6 = ImageIO.read(new File("src/log6.png"));
