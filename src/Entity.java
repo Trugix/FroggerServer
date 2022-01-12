@@ -91,7 +91,7 @@ public class Entity
 		return !a.isEmpty();
 	}
 	
-	public void collisionDetected(){
+	/*public void collisionDetected(Entity e)
 	
 	}
 	*/
