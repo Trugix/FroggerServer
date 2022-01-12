@@ -34,8 +34,8 @@ public class FroggerCtrl {
 					n.p.setX(-n.getDimx()-2);
 				}
 			}else{
-				if(n.p.getX() + n.getDimx()<-2){
-					n.p.setX(102);
+				if(n.p.getX() + n.getDimx()<-20){
+					n.p.setX(1020);
 				}
 			}
 			if(n.p.getY() == model.frog.p.getY())
@@ -62,7 +62,7 @@ public class FroggerCtrl {
 				
 				if(ent[i].checkCollision(ent[j]))
 				{
-					ent[i].collisionDetected();
+					//ent[i].collisionDetected();
 				}
 			}
 		}

@@ -94,5 +94,5 @@ public class Entity
 	public void collisionDetected(){
 	
 	}
-	
+	*/
 }

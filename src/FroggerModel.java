@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class FroggerModel {
 
-	private static final int STARTING_FROGX = 46;
-	private static final int STARTING_FROGY = 1;
+	private static final int STARTING_FROGX = 460;
+	private static final int STARTING_FROGY = 10;
 	public ArrayList<Entity> entities = new ArrayList<>();
 	public ArrayList<NPC> NPCs = new ArrayList<>();
 	public int tempo=50;
@@ -23,22 +23,22 @@ public class FroggerModel {
 	
 	Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 10, spriteFrog, 8, 8);
 	
-	NPC carroA = new NPC(100,11, -1, spriteCarro, 16,110,2,true);
-	NPC carroB = new NPC(50,11, -1, spriteCarro, 16,10,2,true);
-	NPC log6A = new NPC(100,111,1,spriteLog6,48,10,1,false);
-	NPC log6B = new NPC(10,111,1,spriteLog6,48,10,1,false);
-	NPC log4A = new NPC(100,81,1,spriteLog4,32,10,1,false);
-	NPC log4B = new NPC(5,81,1,spriteLog4,32,10,1,false);
-	NPC log4C = new NPC(55,81,1,spriteLog4,32,10,1,false);
-	NPC log3A = new NPC(105,91,1,spriteLog3,24,10,2,false);
-	NPC log3B = new NPC(67,91,1,spriteLog3,24,10,2,false);
-	NPC log3C = new NPC(38,91,1,spriteLog3,24,10,2,false);
-	NPC log3D = new NPC(0,91,1,spriteLog3,24,10,2,false);
-	NPC lilyPadA = new NPC(3,121,0,spriteLilyPad,10,10,0,false);
-	NPC lilyPadB = new NPC(24,121,0,spriteLilyPad,10,10,0,false);
-	NPC lilyPadC = new NPC(45,121,0,spriteLilyPad,10,10,0,false);
-	NPC lilyPadD = new NPC(66,121,0,spriteLilyPad,10,10,0,false);
-	NPC lilyPadE = new NPC(87,121,0,spriteLilyPad,10,10,0,false);
+	NPC carroA = new NPC(1000,110, -10, spriteCarro, 160,1100,2,true);
+	NPC carroB = new NPC(500,110, -10, spriteCarro, 160,100,2,true);
+	NPC log6A = new NPC(1000,1110,10,spriteLog6,480,100,1,false);
+	NPC log6B = new NPC(100,1110,10,spriteLog6,480,100,1,false);
+	NPC log4A = new NPC(1000,810,10,spriteLog4,320,100,1,false);
+	NPC log4B = new NPC(50,810,1,spriteLog4,320,100,1,false);
+	NPC log4C = new NPC(550,810,1,spriteLog4,320,100,1,false);
+	NPC log3A = new NPC(1050,910,1,spriteLog3,240,100,2,false);
+	NPC log3B = new NPC(670,910,1,spriteLog3,240,100,2,false);
+	NPC log3C = new NPC(380,910,1,spriteLog3,240,100,2,false);
+	NPC log3D = new NPC(0,910,1,spriteLog3,240,100,2,false);
+	NPC lilyPadA = new NPC(30,1210,0,spriteLilyPad,100,100,0,false);
+	NPC lilyPadB = new NPC(240,1210,0,spriteLilyPad,100,100,0,false);
+	NPC lilyPadC = new NPC(450,1210,0,spriteLilyPad,1000,1000,0,false);
+	NPC lilyPadD = new NPC(66,121,0,spriteLilyPad,1000,1000,0,false);
+	NPC lilyPadE = new NPC(870,1210,0,spriteLilyPad,100,100,0,false);
 
 	public FroggerModel() throws IOException {
 		entities.add(frog);
@@ -76,8 +76,8 @@ public class FroggerModel {
 				break;
 			case KeyEvent.VK_RIGHT:
 				frog.p.setX(frog.p.getX() + frog.dx);
-				if (frog.p.getX() > 92)
-					frog.p.setX(92);
+				if (frog.p.getX() > 920)
+					frog.p.setX(920);
 				frog.rotate(Frog.rotazione.RIGHT);
 				break;
 			case KeyEvent.VK_DOWN:
@@ -88,8 +88,8 @@ public class FroggerModel {
 				break;
 			case KeyEvent.VK_UP:
 				frog.p.setY(frog.p.getY()+frog.dy);
-				if (frog.p.getY() > 121)
-					frog.p.setY(121);
+				if (frog.p.getY() > 1210)
+					frog.p.setY(1210);
 				frog.rotate(Frog.rotazione.UP);
 				break;
 		}

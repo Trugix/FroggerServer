@@ -42,19 +42,20 @@ public class PnlFrog extends JPanel implements KeyListener{
     // Colori go brrrr
     private static final Color COLORE_STRADA = new Color(40,40,40);
     private static final Color COLORE_ACQUA = new Color(25,25,180);
-    private static final Color COLORE_CHECHKPOINT = new Color(85,25,25);
+    private static final Color COLORE_CHECHKPOINT = new Color(119,121,63);
     private static final Color COLORE_ARRIVO = new Color(30,220,30);
+    private static final Color COLORE_RIGHE = new Color(200,200,200);
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g2 = (Graphics2D) g;
-        double s = Math.min(getWidth(), getHeight() / 1.5) / 100.;
+        double s = Math.min(getWidth(), getHeight() / 1.5) / 1000.;
         g2.scale(s, -s);
-        g2.translate(0, -150);
+        g2.translate(0, -1500);
 
         g2.setColor(Color.BLACK);    //Sfondo nero neutro, il primo layer
-        g2.fillRect(0, 0, 100, 150);
+        g2.fillRect(0, 0, 1000, 1500);
 
         paintBackground(g2);  //Sfondo giocabile, secondo layer
 
@@ -75,25 +76,36 @@ public class PnlFrog extends JPanel implements KeyListener{
     private void paintBackground (Graphics2D g2)
     {
         g2.setColor(COLORE_CHECHKPOINT);   //Riga di partenza, colore marrone
-        g2.fillRect(0, 0, 100, 10);
+        g2.fillRect(0, 0, 1000, 100);
 
         g2.setColor(COLORE_STRADA);   //Strade, colore grigio
-        paintRiga(g2,10,5);
-
+        paintRiga(g2,100,5);
+        
+        g2.setColor(COLORE_RIGHE);   //Righe tra le corsie
+        paintLinee(g2,100,5);
+        
         g2.setColor(COLORE_CHECHKPOINT);   //Riga di riposo, colore marrone
-        paintRiga(g2,60,1);
+        paintRiga(g2,600,1);
 
         g2.setColor(COLORE_ACQUA);   //Acqua, colore blu
-        paintRiga(g2,70,5);
+        paintRiga(g2,700,5);
 
         g2.setColor(COLORE_ARRIVO);  //Contorno destinazione, colore verde
-        g2.fillRect(0, 120, 100, 16);
+        g2.fillRect(0, 1200, 1000, 160);
 
         g2.setColor(COLORE_ACQUA); // Destinazione, colore blu
         paintArrivo(g2,120);
     }
 
 
+    private void paintLinee (Graphics2D g2,int inizio,int nCaselle)
+    {
+        for(int c=1 ;c<nCaselle;c++)
+            for (int i=20;i<1000;i+=100)
+                g2.fillRect(i,inizio+100*c , 50, 10);
+        
+    }
+    
     private void paintRiga(Graphics2D g2,int inizio,int nCaselle)
     {
         for(int c=0 ;c<nCaselle;c++)

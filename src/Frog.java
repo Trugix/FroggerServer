@@ -30,8 +30,8 @@ public class Frog extends Entity {
 	rotazione r;
 	int dy;
 	int vite;
-	private static final int STARTING_FROGX = 46;
-	private static final int STARTING_FROGY = 1;
+	private static final int STARTING_FROGX = 460;
+	private static final int STARTING_FROGY = 10;
 	public Frog(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy) throws IOException {
 		super(x, y, dx, sprite, dimx, dimy);
 		dy=dx;
