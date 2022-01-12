@@ -5,7 +5,8 @@ public class NPC extends Entity {
 
 	int v;  //ogni quanti frame si muove
 	boolean deathTouch;
-	public NPC(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy, boolean deathTouch) {
+	int c=0;
+	public NPC(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy, int v, boolean deathTouch) {
 		super(x, y, dx, sprite, dimx, dimy);
 		this.v = v;
 		this.deathTouch=deathTouch;
@@ -14,8 +15,12 @@ public class NPC extends Entity {
 	@Override
 	public void stepNext()
 	{
-		this.p.setX(this.p.getX() + this.dx);
-		this.hitbox=new Rectangle(this.p.getX(), this.p.getY(), dimx, dimy);
+		if(++c==v)
+		{
+			this.p.setX(this.p.getX() + this.dx);
+			this.hitbox=new Rectangle(this.p.getX(), this.p.getY(), dimx, dimy);
+			c=0;
+		}
 	}
 
 }

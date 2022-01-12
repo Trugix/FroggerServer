@@ -1,37 +1,22 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.geom.Rectangle2D;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class PnlFrog extends JPanel implements KeyListener{
-    int x = 46;
-    int y = 142;
-
-    int dx = 8;
-    int dy = 8;
 
     FroggerCtrl ctrl;
-    //int my = 300;
     Graphics2D g2;
-    // Image frog = Toolkit.getDefaultToolkit().getImage("src/frog.png");
-    Image carro1 = Toolkit.getDefaultToolkit().getImage("src/carro1.png");
 
     BufferedImage lilFrog = (BufferedImage) ImageIO.read(new File("src/frogSmall.png"));
-    BufferedImage sprite = (BufferedImage) ImageIO.read(new File("src/frog.png"));
-    public Rectangle2D rec = new Rectangle2D.Double(x, y, 30, 10);
-    int xc1 = 100;
-    int yc1 = 134;
+   // public Rectangle2D rec = new Rectangle2D.Double(x, y, 30, 10);
 
     public void setEntities(ArrayList<Entity> entities) {
         this.entities = entities;
@@ -148,9 +133,12 @@ public class PnlFrog extends JPanel implements KeyListener{
     private void printTempo (Graphics2D g2)
     {
         g2.setColor(COLORE_ARRIVO);
-        int t=50; //Fattore temporale iniziale
-        g2.fillRect(33,145,t,4); //Barra della vita
-      //  g2.drawString("TIME",80,100); // Scritta TIME circa formatta //todo sistemare sto robo
+        int t=ctrl.model.tempo; //Fattore temporale iniziale
+        g2.fillRect(83-t,145,t,4); //Barra della vita
+        g2.scale(1,-1);
+        g2.setFont(new Font("calibri",1,6));
+        g2.drawString("TIME",85,-145); // Scritta TIME circa formatta //todo sistemare sto robo
+        g2.scale(1,-1);
     }
 
 

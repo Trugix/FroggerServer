@@ -10,7 +10,7 @@ public class FroggerCtrl {
 	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException {
 		this.model=model;
 		this.frogView = new PnlFrog(model.entities,this);
-		Timer t = new Timer(30, (e) -> {
+		Timer t = new Timer(33, (e) -> {
 			nextFrame();
 		});
 		
@@ -36,17 +36,29 @@ public class FroggerCtrl {
 		frogView.repaint();
 	}
 
-    private void checkCollision (Entity frog, NPC entity )
+    private void checkCollision (Entity frog, NPC entity)
     {
 		boolean collisione= frog.hitbox.intersects(entity.hitbox);
 		if(!entity.deathTouch) //acqua
 		{
 			if (!collisione)
 				model.frog.morte();
+			resetTempo();
 		}
 		else //macchine
 	        if(collisione)
-				model.frog.morte();
+	        {
+		        model.frog.morte();
+		        resetTempo();
+	        }
     }
+	
+	/**
+	 * Resetta il tempo ogni volta che la rana muore o riempie uno spazio
+	 */
+	private void resetTempo()
+	{
+		model.tempo =50;
+	}
 
 }
