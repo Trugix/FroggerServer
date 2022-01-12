@@ -38,6 +38,26 @@ public class FroggerCtrl {
 
     private void checkCollision (Entity frog, NPC entity)
     {
+	
+		int nobjs = model.entities.size();
+		if(nobjs < 2)
+			return;
+		Entity [] ent = new Entity[nobjs];
+		model.entities.toArray(ent);
+		for(int i=0; i< nobjs-1; i++)
+		{
+			for(int j=i+1; j<nobjs; j++)
+			{
+				if(!ent[i].isAlive() || !ent[j].isAlive())
+					continue;
+				
+				if(ent[i].checkCollision(ent[j]))
+				{
+					ent[i].collisionDetected();
+				}
+			}
+		}
+		
 		boolean collisione= frog.hitbox.intersects(entity.hitbox);
 		if(!entity.deathTouch) //acqua
 		{

@@ -1,5 +1,7 @@
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -68,6 +70,29 @@ public class Entity
 	{
 		p.setX(p.getX() + dx);
 		hitbox = (new Rectangle(this.p.x, this.p.y, this.dimx,this.dimy));
+	}
+	protected boolean isAlive = true;
+	public boolean isAlive(){
+		return isAlive;
+	}
+	
+	protected Shape shape;
+	
+	public Shape getShape(){
+		AffineTransform t = new AffineTransform();
+		t.translate(p.getX(), p.getY());
+		return t.createTransformedShape(shape);
+	}
+	
+	public boolean checkCollision(Entity e){
+		Area a = new Area(this.getShape());
+		a.intersect(new Area(e.getShape()));
+		
+		return !a.isEmpty();
+	}
+	
+	public void collisionDetected(){
+	
 	}
 	
 }
