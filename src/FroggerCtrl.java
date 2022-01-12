@@ -6,7 +6,7 @@ import java.io.IOException;
 public class FroggerCtrl {
 	PnlFrog frogView;
 	FroggerModel model;
-
+	int nframe=0;
 	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException {
 		this.model=model;
 		this.frogView = new PnlFrog(model.entities,this);
@@ -18,6 +18,15 @@ public class FroggerCtrl {
 	}
 	
 	private void nextFrame() {
+		
+		if (nframe==33)
+		{
+			model.tempo--;
+			nframe=0;
+		}else
+		{
+			nframe++;
+		}
 		for (NPC n:	 model.NPCs) {
 			n.stepNext();
 			if(n.dx>0){

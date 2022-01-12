@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class FroggerModel {
@@ -12,6 +13,7 @@ public class FroggerModel {
 	private static final int STARTING_FROGY = 1;
 	public ArrayList<Entity> entities = new ArrayList<>();
 	public ArrayList<NPC> NPCs = new ArrayList<>();
+	public int tempo=50;
 	BufferedImage spriteFrog = ImageIO.read(new File("src/frog.png"));
 	BufferedImage spriteCarro =  ImageIO.read(new File("src/carro1.png"));
 	BufferedImage spriteLog6 = ImageIO.read(new File("src/log6.png"));
@@ -86,8 +88,8 @@ public class FroggerModel {
 				break;
 			case KeyEvent.VK_UP:
 				frog.p.setY(frog.p.getY()+frog.dy);
-				if (frog.p.getY() > 122)
-					frog.p.setY(122);
+				if (frog.p.getY() > 121)
+					frog.p.setY(121);
 				frog.rotate(Frog.rotazione.UP);
 				break;
 		}
