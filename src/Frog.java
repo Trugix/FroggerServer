@@ -7,7 +7,21 @@ import java.io.File;
 import java.io.IOException;
 
 public class Frog extends Entity {
+	
 	private static final int MAX_VITE = 6;
+	
+	private boolean stable = true;
+	
+	public boolean isStable()
+	{
+		return stable;
+	}
+	
+	public void setStable(boolean stable)
+	{
+		this.stable = stable;
+	}
+	
 	public enum rotazione{
 		UP,
 		RIGHT,

@@ -38,16 +38,58 @@ public class FroggerCtrl {
 					n.p.setX(1020);
 				}
 			}
-			if(n.p.getY() == model.frog.p.getY())
-				checkCollision(model.frog,n);
+			/*if(n.p.getY() == model.frog.p.getY())
+				checkCollision(model.frog,n);*/
 		}
+		checkCollisionRiga(model.frog);
+		model.frog.setStable(false);
 		frogView.setEntities(model.entities);
 		frogView.repaint();
 	}
-
-    private void checkCollision (Entity frog, NPC entity)
-    {
 	
+	private void checkCollisionRiga (Frog frog)
+	{
+		int c=0;
+		for (NPC n:	 model.NPCs)
+		{
+			if(n.p.getY() == model.frog.p.getY())
+			{
+				checkCollision(frog, n);
+				c++;
+			}
+		}
+		
+		if(!frog.isStable() &&c!=0)
+		{
+			model.frog.morte();
+			resetTempo();
+		}
+		c=0;
+	}
+   
+    private void checkCollision (Frog frog, NPC entity)
+    {
+	   
+		boolean collisione= frog.hitbox.intersects(entity.hitbox);
+		
+		if(!entity.deathTouch) //acqua
+	    {
+		    if (!collisione)
+			    frog.setStable(true);
+	    }
+	    else //macchine
+		{
+			frog.setStable(true);
+			if (collisione)
+			{
+				model.frog.morte();
+				resetTempo();
+			}
+		}
+		
+		
+		
+		/*
 		int nobjs = model.entities.size();
 		if(nobjs < 2)
 			return;
@@ -79,7 +121,7 @@ public class FroggerCtrl {
 	        {
 		        model.frog.morte();
 		        resetTempo();
-	        }
+	        }*/
     }
 	
 	/**

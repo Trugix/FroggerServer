@@ -23,27 +23,40 @@ public class FroggerModel {
 	
 	Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 100, spriteFrog, 80, 80);
 	
-	NPC carroA = new NPC(1000,110, -10, spriteCarro, 160,1100,2,true);
-	NPC carroB = new NPC(500,110, -10, spriteCarro, 160,100,2,true);
-	NPC log6A = new NPC(1000,1110,10,spriteLog6,480,100,1,false);
-	NPC log6B = new NPC(100,1110,10,spriteLog6,480,100,1,false);
-	NPC log4A = new NPC(1000,810,10,spriteLog4,320,100,1,false);
-	NPC log4B = new NPC(50,810,1,spriteLog4,320,100,1,false);
-	NPC log4C = new NPC(550,810,1,spriteLog4,320,100,1,false);
-	NPC log3A = new NPC(1050,910,1,spriteLog3,240,100,2,false);
-	NPC log3B = new NPC(670,910,1,spriteLog3,240,100,2,false);
-	NPC log3C = new NPC(380,910,1,spriteLog3,240,100,2,false);
-	NPC log3D = new NPC(0,910,1,spriteLog3,240,100,2,false);
-	NPC lilyPadA = new NPC(30,1210,0,spriteLilyPad,100,100,0,false);
-	NPC lilyPadB = new NPC(240,1210,0,spriteLilyPad,100,100,0,false);
-	NPC lilyPadC = new NPC(450,1210,0,spriteLilyPad,1000,1000,0,false);
-	NPC lilyPadD = new NPC(66,1210,0,spriteLilyPad,1000,1000,0,false);
-	NPC lilyPadE = new NPC(870,1210,0,spriteLilyPad,100,100,0,false);
+	NPC carroA = new NPC(1000,110, -5, spriteCarro, 160,1100,true);
+	//NPC carroB = new NPC(500,110, -5, spriteCarro, 160,100,true);
+	
+	NPC carroB = new NPC(500,210, -5, spriteCarro, 160,100,true);
+	NPC carroC = new NPC(500,310, -5, spriteCarro, 160,100,true);
+	NPC carroD = new NPC(500,410, -5, spriteCarro, 160,100,true);
+	NPC carroE = new NPC(500,510, -5, spriteCarro, 160,100,true);
+	
+	
+	NPC log6A = new NPC(1000,1110,12,spriteLog6,480,100,false);
+	NPC log6B = new NPC(100,1110,12,spriteLog6,480,100,false);
+	NPC log4A = new NPC(1000,810,10,spriteLog4,320,100,false);
+	NPC log4B = new NPC(50,810,10,spriteLog4,320,100,false);
+	NPC log4C = new NPC(550,810,10,spriteLog4,320,100,false);
+	NPC log3A = new NPC(1050,910,5,spriteLog3,240,100,false);
+	NPC log3B = new NPC(668,910,5,spriteLog3,240,100,false);
+	NPC log3C = new NPC(300,910,5,spriteLog3,240,100,false);
+	NPC log3D = new NPC(-10,910,5,spriteLog3,240,100,false);
+	NPC lilyPadA = new NPC(30,1210,0,spriteLilyPad,100,100,false);
+	NPC lilyPadB = new NPC(240,1210,0,spriteLilyPad,100,100,false);
+	NPC lilyPadC = new NPC(450,1210,0,spriteLilyPad,1000,1000,false);
+	NPC lilyPadD = new NPC(66,1210,0,spriteLilyPad,1000,1000,false);
+	NPC lilyPadE = new NPC(870,1210,0,spriteLilyPad,100,100,false);
 
 	public FroggerModel() throws IOException {
 		entities.add(frog);
 		
-		/*NPCs.add(carroA);
+		
+		NPCs.add(carroC);
+		NPCs.add(carroD);
+		NPCs.add(carroE);
+
+		
+		NPCs.add(carroA);
 		NPCs.add(carroB);
 		NPCs.add(log6A);
 		NPCs.add(log6B);
@@ -63,7 +76,7 @@ public class FroggerModel {
 		for (NPC n:NPCs)
 		{
 			entities.add(n);
-		}*/
+		}
 	}
 
 	public void moveFrog(KeyEvent e) {

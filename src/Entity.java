@@ -71,10 +71,10 @@ public class Entity
 		p.setX(p.getX() + dx);
 		hitbox = (new Rectangle(this.p.x, this.p.y, this.dimx,this.dimy));
 	}
-	protected boolean isAlive = true;
+	/*protected boolean isAlive = true;
 	public boolean isAlive(){
 		return isAlive;
-	}
+	}*/
 	
 	protected Shape shape;
 	
