@@ -15,8 +15,10 @@ public class PnlFrog extends JPanel implements KeyListener{
     FroggerCtrl ctrl;
     Graphics2D g2;
 
-    BufferedImage lilFrog = (BufferedImage) ImageIO.read(new File("src/frogSmall.png"));
+    
    // public Rectangle2D rec = new Rectangle2D.Double(x, y, 30, 10);
+    
+    BufferedImage lilFrog = (BufferedImage) ImageIO.read(new File("src/../sprites/frogSmall.png"));
 
     public void setEntities(ArrayList<Entity> entities) {
         this.entities = entities;
@@ -30,6 +32,8 @@ public class PnlFrog extends JPanel implements KeyListener{
         this.addKeyListener(this);
         this.setFocusable(true);
     }
+    
+    
 
 	   /* public void shoot(KeyEvent e){
 	        if (e.getKeyCode() == KeyEvent.VK_SPACE){
@@ -53,7 +57,7 @@ public class PnlFrog extends JPanel implements KeyListener{
         double s = Math.min(getWidth(), getHeight() / 1.5) / 1000.;
         g2.scale(s, -s);
         g2.translate(0, -1500);
-
+        
         g2.setColor(Color.BLACK);    //Sfondo nero neutro, il primo layer
         g2.fillRect(0, 0, 1000, 1500);
 
@@ -67,6 +71,8 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.drawImage(entities.get(0).sprite, entities.get(0).p.x, entities.get(0).p.y, null);
 
         printHud(g2);
+        g2.setColor(Color.WHITE);
+        g2.fillRect(1000,0,2000,1500);
     }
 
     /**
@@ -99,6 +105,8 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.setColor(COLORE_RIGHE);
         g2.fillRect(0,100-5, 1000, 9);
         g2.fillRect(0,600-5, 1000, 9);
+    
+        
     }
 
 
@@ -139,11 +147,13 @@ public class PnlFrog extends JPanel implements KeyListener{
     }
     
     private final static int MAX_VITE=6;
+    
+    
     private void printVite (Graphics2D g2,int vite)
     {
         for (int c=0;c<vite;c++)
 
-            g2.drawImage(lilFrog, 1+c*50, 1450, null);
+            g2.drawImage(lilFrog, 1+c*54, 1447, null);
     }
     
     private void printTempo (Graphics2D g2)
@@ -166,7 +176,14 @@ public class PnlFrog extends JPanel implements KeyListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        ctrl.model.moveFrog(e);
+        try
+        {
+            ctrl.model.moveFrog(e);
+        }
+        catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
     }
 
     @Override

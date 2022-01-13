@@ -22,12 +22,13 @@ public class Frog extends Entity {
 		this.stable = stable;
 	}
 	
-	public enum rotazione{
+	/*public enum rotazione{
 		UP,
 		RIGHT,
 		DOWN,
 		LEFT;
 	};
+	
 	public rotazione next(rotazione r) {
 		switch (r) {
 			case UP:
@@ -40,8 +41,9 @@ public class Frog extends Entity {
 				return rotazione.UP;
 		}
 		return null;
-	}
-	rotazione r;
+	}*/
+	
+	//rotazione r;
 	int dy;
 	int vite;
 	private static final int STARTING_FROGX = 460;
@@ -50,42 +52,42 @@ public class Frog extends Entity {
 		super(x, y, dx, sprite, dimx, dimy);
 		dy=dx;
 		vite=MAX_VITE;
-		r=rotazione.UP;
-		sprite = (BufferedImage) ImageIO.read(new File("src/frog.png"));
+		//r=rotazione.UP;
 	}
 
 
-	public void rotate(rotazione targetDir){
-		while(targetDir!=r)
-		{
-			sprite=rotateSprite(sprite);
-			r=next(r);
-		}
-	}
-
-	public BufferedImage rotateSprite( BufferedImage img )
+	public void rotate(String targetDir) throws IOException
 	{
-		int         width  = img.getWidth();
-		int         height = img.getHeight();
-		BufferedImage   newImage = new BufferedImage( height, width, img.getType() );
-
-		for( int i=0 ; i < width ; i++ )
-			for( int j=0 ; j < height ; j++ )
-				newImage.setRGB( height-1-j, i, img.getRGB(i,j) );
-
-		return newImage;
+		String dir="";
+		switch (targetDir)
+		{
+			case "UP":
+				dir = "src/../sprites/frogUp.png";
+				break;
+			case "LEFT":
+				dir = "src/../sprites/frogLeft.png";
+				break;
+			case "DOWN":
+				dir = "src/../sprites/frogDown.png";
+				break;
+			case "RIGHT":
+				dir = "src/../sprites/frogRight.png";
+				break;
+		}
+			this.sprite = ImageIO.read(new File(dir));
 	}
+	
 	
 	public void updateHitbox ()
 	{
 		this.hitbox = new Rectangle(this.p.x, this.p.y, this.dimx, this.dimy);
 	}
-	public void morte()
+	public void morte() throws IOException
 	{
 		this.p.setX(STARTING_FROGX);
 		this.p.setY(STARTING_FROGY);
 		updateHitbox();
-		rotate(rotazione.UP);
+		rotate("UP");
 		this.vite--;
 	}
 }

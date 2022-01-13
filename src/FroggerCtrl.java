@@ -11,13 +11,21 @@ public class FroggerCtrl {
 		this.model=model;
 		this.frogView = new PnlFrog(model.entities,this);
 		Timer t = new Timer(33, (e) -> {
-			nextFrame();
+			try
+			{
+				nextFrame();
+			}
+			catch (IOException ex)
+			{
+				ex.printStackTrace();
+			}
 		});
 		
 		t.start();
 	}
 	
-	private void nextFrame() {
+	private void nextFrame() throws IOException
+	{
 		
 		if (nframe==15)
 		{
@@ -47,7 +55,7 @@ public class FroggerCtrl {
 		frogView.repaint();
 	}
 	
-	private void checkCollisionRiga (Frog frog)
+	private void checkCollisionRiga (Frog frog) throws IOException
 	{
 		int c=0;
 		for (NPC n:	 model.NPCs)
@@ -67,7 +75,7 @@ public class FroggerCtrl {
 		c=0;
 	}
    
-    private void checkCollision (Frog frog, NPC entity)
+    private void checkCollision (Frog frog, NPC entity) throws IOException
     {
 	   
 		boolean collisione= frog.hitbox.intersects(entity.hitbox);
