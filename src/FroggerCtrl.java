@@ -49,13 +49,14 @@ public class FroggerCtrl {
 			/*if(n.p.getY() == model.frog.p.getY())
 				checkCollision(model.frog,n);*/
 		}
-		checkCollisionRiga(model.frog);
+		//checkCollisionRiga(model.frog);
+		checkCollision ( model.frog);
 		model.frog.setStable(false);
 		frogView.setEntities(model.entities);
 		frogView.repaint();
 	}
 	
-	private void checkCollisionRiga (Frog frog) throws IOException
+	/*private void checkCollisionRiga (Frog frog) throws IOException
 	{
 		int c=0;
 		for (NPC n:	 model.NPCs)
@@ -73,12 +74,34 @@ public class FroggerCtrl {
 			resetTempo();
 		}
 		c=0;
-	}
+	}*/
    
-    private void checkCollision (Frog frog, NPC entity) throws IOException
+    private void checkCollision (Frog frog) throws IOException
     {
-	   
-		boolean collisione= frog.hitbox.intersects(entity.hitbox);
+	    // Per ora questo è l'unico metodo che funziona anche se non è il più efficiente
+		boolean collisione=false;     //todo sistemare le hitbox che sono stortissime
+	    for (int i=0;i<model.NPCs.size();i++)
+	    {
+		   if (frog.hitbox.intersects(model.NPCs.get(i).hitbox))
+			   collisione = true;
+	    }
+		
+		if ((collisione && frog.p.getY()>=0 && frog.p.getY()<=600) || (!collisione && frog.p.getY()>=701 && frog.p.getY()<=1100))
+		{
+			frog.morte();
+			resetTempo();
+		}
+	/*
+	    if ()
+	    {
+		    frog.morte();
+		    resetTempo();
+	    }*/
+		
+		
+		
+		
+		/*boolean collisione= frog.hitbox.intersects(entity.hitbox);
 		
 		if(!entity.deathTouch) //acqua
 	    {
@@ -93,7 +116,7 @@ public class FroggerCtrl {
 				model.frog.morte();
 				resetTempo();
 			}
-		}
+		}*/
 		
 		
 		
