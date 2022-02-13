@@ -14,7 +14,8 @@ public class PnlFrog extends JPanel implements KeyListener{
 
     FroggerCtrl ctrl;
     Graphics2D g2;
-
+    
+    ArrayList <Entity.Position> destinations = new ArrayList<>();
     
    // public Rectangle2D rec = new Rectangle2D.Double(x, y, 30, 10);
     
@@ -132,6 +133,7 @@ public class PnlFrog extends JPanel implements KeyListener{
             if(c!=0)
                 x+=210;
             g2.fillRect(x, inizio, 120, 120);
+            destinations.add((new Entity()).new Position (x,inizio));
         }
     }
 

@@ -56,6 +56,11 @@ public class Entity
 	protected int dimy;
 	protected Rectangle2D hitbox;
 	
+	public Entity ()
+	{
+	
+	}
+	
 	public Entity(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy)
 	{
 		this.p = new Position(x, y);

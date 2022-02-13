@@ -1,12 +1,18 @@
 import javax.swing.Timer;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
 
 
 public class FroggerCtrl {
+	
 	PnlFrog frogView;
 	FroggerModel model;
 	int nframe=0;
+	Random random = new Random();
+	
+	
 	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException {
 		this.model=model;
 		this.frogView = new PnlFrog(model.entities,this);
@@ -31,7 +37,8 @@ public class FroggerCtrl {
 		{
 			model.tempo-=5;
 			nframe=0;
-		}else
+		}
+		else
 		{
 			nframe++;
 		}
@@ -50,10 +57,34 @@ public class FroggerCtrl {
 				checkCollision(model.frog,n);*/
 		}
 		//checkCollisionRiga(model.frog);
+		checkTime(model.frog);
 		checkCollision ( model.frog);
 		model.frog.setStable(false);
 		frogView.setEntities(model.entities);
 		frogView.repaint();
+	}
+	
+	private void updatePrize ()
+	{
+		if(random.nextInt(51)<= model.tempo)
+		{
+			for (Prize p: model.prizes)
+			{
+				if(p.isBonus())
+				{
+					p.stepNext(frogView.destinations); //todo sistemare spostamento premi
+				}
+			}
+		}
+	}
+	
+	private void checkTime (Frog frog) throws IOException
+	{
+		if (model.tempo<=0)
+		{
+			frog.morte();
+			resetTempo();
+		}
 	}
 	
 	/*private void checkCollisionRiga (Frog frog) throws IOException
@@ -79,11 +110,15 @@ public class FroggerCtrl {
     private void checkCollision (Frog frog) throws IOException
     {
 	    // Per ora questo è l'unico metodo che funziona anche se non è il più efficiente
-		boolean collisione=false;     //todo sistemare le hitbox che sono stortissime
+		boolean collisione=false;
+		
 	    for (int i=0;i<model.NPCs.size();i++)
 	    {
 		   if (frog.hitbox.intersects(model.NPCs.get(i).hitbox))
+		   {
 			   collisione = true;
+			   break;
+		   }
 	    }
 		
 		if ((collisione && frog.p.getY()>=0 && frog.p.getY()<=600) || (!collisione && frog.p.getY()>=701 && frog.p.getY()<=1100))
@@ -91,32 +126,7 @@ public class FroggerCtrl {
 			frog.morte();
 			resetTempo();
 		}
-	/*
-	    if ()
-	    {
-		    frog.morte();
-		    resetTempo();
-	    }*/
 		
-		
-		
-		
-		/*boolean collisione= frog.hitbox.intersects(entity.hitbox);
-		
-		if(!entity.deathTouch) //acqua
-	    {
-		    if (!collisione)
-			    frog.setStable(true);
-	    }
-	    else //macchine
-		{
-			frog.setStable(true);
-			if (collisione)
-			{
-				model.frog.morte();
-				resetTempo();
-			}
-		}*/
 		
 		
 		
@@ -156,7 +166,7 @@ public class FroggerCtrl {
     }
 	
 	/**
-	 * Resetta il tempo ogni volta che la rana muore o riempie uno spazio
+	 * Resetta il tempo ogni volta che viene chiamato
 	 */
 	private void resetTempo()
 	{
