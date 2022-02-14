@@ -1,6 +1,5 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -56,23 +55,15 @@ public class Frog extends Entity {
 	
 	public void rotate(String targetDir) throws IOException
 	{
-		String dir="";
-		switch (targetDir)
-		{
-			case "UP":
-				dir = "src/../sprites/frogUp.png";
-				break;
-			case "LEFT":
-				dir = "src/../sprites/frogLeft.png";
-				break;
-			case "DOWN":
-				dir = "src/../sprites/frogDown.png";
-				break;
-			case "RIGHT":
-				dir = "src/../sprites/frogRight.png";
-				break;
-		}
-			this.sprite = ImageIO.read(new File(dir));
+		String dir = switch (targetDir)
+				{
+					case "UP" -> "src/../sprites/frogUp.png";
+					case "LEFT" -> "src/../sprites/frogLeft.png";
+					case "DOWN" -> "src/../sprites/frogDown.png";
+					case "RIGHT" -> "src/../sprites/frogRight.png";
+					default -> "";
+				};
+		this.sprite = ImageIO.read(new File(dir));
 	}
 	
 	

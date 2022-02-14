@@ -19,7 +19,7 @@ public class PnlFrog extends JPanel implements KeyListener{
     
    // public Rectangle2D rec = new Rectangle2D.Double(x, y, 30, 10);
     
-    BufferedImage lilFrog = (BufferedImage) ImageIO.read(new File("src/../sprites/frogSmall.png"));
+    BufferedImage lilFrog = ImageIO.read(new File("src/../sprites/frogSmall.png"));
 
     public void setEntities(ArrayList<Entity> entities) {
         this.entities = entities;
@@ -160,7 +160,7 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.fillRect(830-t,1450,t,40); //Barra della vita
         g2.scale(1,-1);
         g2.setFont(new Font("calibri",1,60));
-        g2.drawString("TIME",850,-1450); // Scritta TIME circa formatta //todo sistemare sto robo
+        g2.drawString("TIME",850,-1450); // Scritta TIME circa formatta //todo migliorare le scritte
         g2.scale(1,-1);
     }
     

@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class Prize extends Entity
 {
-	private boolean bonus;
+	private final boolean bonus;
 	private final int point;
 	
 	public Prize(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy, boolean bonus, int point)

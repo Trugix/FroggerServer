@@ -66,6 +66,11 @@ public class FroggerCtrl
 			}
 		}
 		
+		if(model.frog.vite<=0)
+		{
+			//todo fare finire il gioco
+		}
+		
 		checkTime(model.frog);
 		checkCollision(model.frog);
 		updatePrize();
@@ -108,7 +113,7 @@ public class FroggerCtrl
 				{
 					if (p.isBonus())
 					{
-						p.stepNext(frogView.destinations); //todo sistemare spostamento premi
+						p.stepNext(frogView.destinations);
 						p.setSprite(ImageIO.read(new File("src/../sprites/fly.png")));
 					}
 				}

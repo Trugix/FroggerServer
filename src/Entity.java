@@ -1,5 +1,3 @@
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
@@ -69,11 +67,6 @@ public class Entity
 		this.dimy = dimy;
 		this.sprite = sprite;
 		this.hitbox = new Rectangle(x, y, dimx, dimy);
-	}
-	
-	public BufferedImage getSprite()
-	{
-		return sprite;
 	}
 	
 	public void setSprite(BufferedImage sprite)
