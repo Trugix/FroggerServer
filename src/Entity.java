@@ -68,7 +68,17 @@ public class Entity
 		this.setDimx(dimx);
 		this.dimy = dimy;
 		this.sprite = sprite;
-		hitbox = new Rectangle(x, y, dimx, dimy);
+		this.hitbox = new Rectangle(x, y, dimx, dimy);
+	}
+	
+	public BufferedImage getSprite()
+	{
+		return sprite;
+	}
+	
+	public void setSprite(BufferedImage sprite)
+	{
+		this.sprite = sprite;
 	}
 	
 	public void stepNext()

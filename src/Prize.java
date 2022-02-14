@@ -13,6 +13,7 @@ public class Prize extends Entity
 		super(x, y, dx, sprite, dimx, dimy);
 		this.bonus=bonus;
 		this.point = point;
+		this.hitbox = new Rectangle(x+dimx/4, y+dimy/4, dimx/2, dimy/2);
 	}
 	
 	public boolean isBonus()

@@ -1,22 +1,27 @@
+import javax.imageio.ImageIO;
 import javax.swing.Timer;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
 
-public class FroggerCtrl {
+public class FroggerCtrl
+{
 	
 	PnlFrog frogView;
 	FroggerModel model;
-	int nframe=0;
+	private int nframe = 0;
 	Random random = new Random();
+	private int timerPrize = random.nextInt(150)+100;
 	
-	
-	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException {
-		this.model=model;
-		this.frogView = new PnlFrog(model.entities,this);
-		Timer t = new Timer(33, (e) -> {
+	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException
+	{
+		this.model = model;
+		this.frogView = new PnlFrog(model.entities, this);
+		Timer t = new Timer(33, (e) ->
+		{
 			try
 			{
 				nextFrame();
@@ -33,120 +38,133 @@ public class FroggerCtrl {
 	private void nextFrame() throws IOException
 	{
 		
-		if (nframe==15)
+		if (nframe == 15)
 		{
-			model.tempo-=5;
-			nframe=0;
+			model.tempo -= 5;
+			nframe = 0;
 		}
 		else
 		{
 			nframe++;
 		}
-		for (NPC n:	 model.NPCs) {
+		for (NPC n : model.NPCs)
+		{
 			n.stepNext();
-			if(n.dx>0){
-				if(n.p.getX() - n.getDimx()>1020){
-					n.p.setX(-n.getDimx()-20);
+			if (n.dx > 0)
+			{
+				if (n.p.getX() - n.getDimx() > 1020)
+				{
+					n.p.setX(-n.getDimx() - 20);
 				}
-			}else{
-				if(n.p.getX() + n.getDimx()<-20){
+			}
+			else
+			{
+				if (n.p.getX() + n.getDimx() < -20)
+				{
 					n.p.setX(1020);
 				}
 			}
-			/*if(n.p.getY() == model.frog.p.getY())
-				checkCollision(model.frog,n);*/
 		}
-		//checkCollisionRiga(model.frog);
+		
 		checkTime(model.frog);
-		checkCollision ( model.frog);
-		updatePrize ();
+		checkCollision(model.frog);
+		updatePrize();
+		
 		frogView.setEntities(model.entities);
 		frogView.repaint();
+		
 	}
 	
-	private void updatePrize ()
+	private void updatePrize() throws IOException
 	{
-		if(random.nextInt(10001)<= 50)
+		timerPrize--;
+		if (timerPrize <= 40) //todo definire quanti bonus ci sono
 		{
-			for (Prize p: model.prizes)
+			if(timerPrize%6>=3)
 			{
-				if(p.isBonus())
+				for (Prize p : model.prizes)
 				{
-					p.stepNext(frogView.destinations); //todo sistemare spostamento premi
+					if (p.isBonus())
+					{
+						p.setSprite(ImageIO.read(new File("src/../sprites/fly.png")));
+					}
+				}
+			}
+			else
+			{
+				for (Prize p : model.prizes)
+				{
+					if (p.isBonus())
+					{
+						p.setSprite(ImageIO.read(new File("src/../sprites/void.png")));
+					}
+				}
+			}
+			if(timerPrize <= 0)
+			{
+				timerPrize= random.nextInt(150)+100;
+				
+				for (Prize p : model.prizes)
+				{
+					if (p.isBonus())
+					{
+						p.stepNext(frogView.destinations); //todo sistemare spostamento premi
+						p.setSprite(ImageIO.read(new File("src/../sprites/fly.png")));
+					}
 				}
 			}
 		}
 	}
 	
-	private void checkTime (Frog frog) throws IOException
+	private void checkTime(Frog frog) throws IOException
 	{
-		if (model.tempo<=0)
+		if (model.tempo <= 0)
 		{
 			frog.morte();
 			resetTempo();
 		}
 	}
 	
-	/*private void checkCollisionRiga (Frog frog) throws IOException
+	
+	private void checkCollision(Frog frog) throws IOException
 	{
-		int c=0;
-		for (NPC n:	 model.NPCs)
+		// Per ora questo è l'unico metodo che funziona anche se non è il più efficiente
+		boolean collisione = false;
+		
+		for (int i = 0; i < model.NPCs.size(); i++)
 		{
-			if(n.p.getY() == model.frog.p.getY())
+			if (frog.hitbox.intersects(model.NPCs.get(i).hitbox))
 			{
-				checkCollision(frog, n);
-				c++;
+				collisione = true;
+				if (!model.NPCs.get(i).deathTouch)
+				{
+					frog.stepNext(model.NPCs.get(i).dx);
+				}
+				break;
 			}
 		}
 		
-		if(!frog.isStable() &&c!=0)
-		{
-			model.frog.morte();
-			resetTempo();
-		}
-		c=0;
-	}*/
-   
-    private void checkCollision (Frog frog) throws IOException
-    {
-	    // Per ora questo è l'unico metodo che funziona anche se non è il più efficiente
-		boolean collisione=false;
-		int tempDx=0;
-		
-	    for (int i=0;i<model.NPCs.size();i++)
-	    {
-		   if (frog.hitbox.intersects(model.NPCs.get(i).hitbox))
-		   {
-			   collisione = true;
-			   if(!model.NPCs.get(i).deathTouch)
-			   {
-				   frog.stepNext(model.NPCs.get(i).dx);
-			   }
-			   break;
-		   }
-	    }
-		
-		if ((collisione && frog.p.getY()>=0 && frog.p.getY()<=600) || (!collisione && frog.p.getY()>=701 && frog.p.getY()<=1100))
+		if ((collisione && frog.p.getY() >= 0 && frog.p.getY() <= 600) || (!collisione && frog.p.getY() >= 701 && frog.p.getY() <= 1100))
 		{
 			frog.morte();
 			resetTempo();
 		}
 		
-		if(frog.p.getY()>=1200)
+		if (frog.p.getY() >= 1200)
 			checkPrize(frog);
 		
-    }
+	}
 	
-	private void checkPrize (Frog frog) throws IOException
+	private void checkPrize(Frog frog) throws IOException
 	{
 		
 		boolean save = false;
 		
-		for (Prize p: model.prizes)
+		for (Prize p : model.prizes)
 		{
 			if (frog.hitbox.intersects(p.hitbox))
 			{
-				updatePoint(frog,p.getPoint());
+				updatePoint(frog, p.getPoint());
 				frog.resetPosition();
 				resetTempo();
 				save = true;
@@ -154,7 +172,7 @@ public class FroggerCtrl {
 			}
 		}
 		
-		if(!save)
+		if (!save)
 		{
 			frog.morte();
 			resetTempo();
@@ -164,12 +182,13 @@ public class FroggerCtrl {
 	
 	/**
 	 * Aggiorno il punteggio della rana in base a quello che ha fatto
-	 * @param frog, La rana da aggiornare
+	 *
+	 * @param frog,  La rana da aggiornare
 	 * @param point, I punti base dello sprite raggiunto
 	 */
-	private void updatePoint (Frog frog, int point)
+	private void updatePoint(Frog frog, int point)
 	{
-		frog.setPoint(frog.getPoint()+point+100*frog.vite+5*model.tempo);
+		frog.setPoint(frog.getPoint() + point + 100 * frog.vite + 5 * model.tempo);
 	}
 	
 	
@@ -180,5 +199,5 @@ public class FroggerCtrl {
 	{
 		model.tempo = 500;
 	}
-
+	
 }
