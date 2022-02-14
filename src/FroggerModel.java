@@ -18,6 +18,7 @@ public class FroggerModel {
 	public ArrayList<Prize> prizes = new ArrayList<>();
 	public int tempo=500;
 	
+	
 	BufferedImage spriteFrog = ImageIO.read(new File(PATH + "frogUp.png"));
 	
 	BufferedImage spriteCarro =  ImageIO.read(new File(PATH+"carro1.png"));
@@ -28,7 +29,7 @@ public class FroggerModel {
 	BufferedImage spriteLog4 = ImageIO.read(new File(PATH+"log4.png"));
 	
 	BufferedImage spriteFly = ImageIO.read(new File(PATH+"fly.png"));
-	//BufferedImage spriteLilyPad = ImageIO.read(new File(PATH+"lilyPad.png"));
+	BufferedImage spriteLilyPad = ImageIO.read(new File(PATH+"temp.png"));
 	
 	Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 100, spriteFrog, 75, 75);
 	/*
@@ -53,16 +54,17 @@ public class FroggerModel {
 	NPC log3C = new NPC(943,910,5,spriteLog3,295,85,false);
 	NPC log3D = new NPC(1005,910,5,spriteLog3,295,85,false);
 	
-	/*NPC lilyPadA = new NPC(30,1210,0,spriteLilyPad,100,100,false);
-	NPC lilyPadB = new NPC(240,1210,0,spriteLilyPad,100,100,false);
-	NPC lilyPadC = new NPC(450,1210,0,spriteLilyPad,1000,1000,false);
-	NPC lilyPadD = new NPC(66,1210,0,spriteLilyPad,1000,1000,false);
-	NPC lilyPadE = new NPC(870,1210,0,spriteLilyPad,100,100,false);*/
+	Prize lilyPadA = new Prize(30,1210,0,spriteLilyPad,100,85,false,50);
+	Prize lilyPadB = new Prize(240,1210,0,spriteLilyPad,100,85,false,50);
+	Prize lilyPadC = new Prize(450,1210,0,spriteLilyPad,100,85,false,50);
+	Prize lilyPadD = new Prize(660,1210,0,spriteLilyPad,100,85,false,50);
+	Prize lilyPadE = new Prize(870,1210,0,spriteLilyPad,100,85,false,50);
 	
 	NPC log6T1 = new NPC(1000,710,-12,spriteLog6,595,85,false);
 	NPC log6T2 = new NPC(1000,1010,-12,spriteLog6,595,85,false);
 	
-	Prize fly = new Prize(465,1215,0,spriteFly,75,75,true,200);
+	Prize fly = new Prize(465,1215,0,spriteFly,74,75,true,200);
+	
 	
 	public FroggerModel() throws IOException {
 		entities.add(frog);
@@ -93,13 +95,18 @@ public class FroggerModel {
 		NPCs.add(lilyPadD);
 		NPCs.add(lilyPadE);*/
 		
+		prizes.add(lilyPadA);
+		prizes.add(lilyPadB);
+		prizes.add(lilyPadC);
+		prizes.add(lilyPadD);
+		prizes.add(lilyPadE);
 		prizes.add(fly);
-		entities.add(fly);
 		
 		NPCs.add(log6T1);
 		NPCs.add(log6T2);
 		
 		entities.addAll(NPCs);
+		entities.addAll(prizes);
 		
 	}
 

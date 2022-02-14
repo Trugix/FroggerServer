@@ -66,6 +66,11 @@ public class Entity
 		this.hitbox = new Rectangle(x, y, dimx, dimy);
 	}
 	
+	public void setHitbox(Rectangle2D hitbox)
+	{
+		this.hitbox = hitbox;
+	}
+	
 	public void setSprite(BufferedImage sprite)
 	{
 		this.sprite = sprite;

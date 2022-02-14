@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import javax.swing.Timer;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class FroggerCtrl
 	private int nframe = 0;
 	Random random = new Random();
 	private int timerPrize = random.nextInt(150) + 100;
+	private boolean first = true;
 	
 	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException
 	{
@@ -25,6 +27,17 @@ public class FroggerCtrl
 			try
 			{
 				nextFrame();
+				if(first)
+				{
+					first=false;
+					for (Prize p: model.prizes)
+					{
+						if(p.isBonus())
+						{
+							p.stepNext(frogView.destinations);
+						}
+					}
+				}
 			}
 			catch (IOException ex)
 			{
@@ -33,6 +46,7 @@ public class FroggerCtrl
 		});
 		
 		t.start();
+		
 	}
 	
 	private void nextFrame() throws IOException
@@ -202,6 +216,10 @@ public class FroggerCtrl
 			if (frog.hitbox.intersects(p.hitbox))
 			{
 				updatePoint(frog, p.getPoint());
+				p.setSprite(ImageIO.read(new File("src/../sprites/tempD.png")));
+				p.setHitbox(null);
+				frogView.destinations.remove(p.p); //todo sistemare il fatto che la mosca va dove cazzo vuole
+				model.prizes.remove(p);
 				frog.resetPosition();
 				resetTempo();
 				save = true;

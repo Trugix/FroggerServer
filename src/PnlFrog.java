@@ -52,6 +52,8 @@ public class PnlFrog extends JPanel implements KeyListener{
     private static final Color COLORE_ARRIVO = new Color(30,220,30);
     private static final Color COLORE_RIGHE = new Color(200,200,200);
 
+    private static boolean  first = true;
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -62,9 +64,8 @@ public class PnlFrog extends JPanel implements KeyListener{
         
         g2.setColor(Color.BLACK);    //Sfondo nero neutro, il primo layer
         g2.fillRect(0, 0, 1000, 1500);
-
+        
         paintBackground(g2);  //Sfondo giocabile, secondo layer
-
 
         for (Entity e: entities)
         {
@@ -133,8 +134,10 @@ public class PnlFrog extends JPanel implements KeyListener{
             if(c!=0)
                 x+=210;
             g2.fillRect(x, inizio, 120, 120);
-            destinations.add((new Entity()).new Position (x+20,inizio+11));
+            if(first)
+                destinations.add((new Entity()).new Position (x+25,inizio+15));
         }
+        first=false;
     }
 
     /**
@@ -176,13 +179,15 @@ public class PnlFrog extends JPanel implements KeyListener{
 
 
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped(KeyEvent e)
+    {
         //    System.out.println("2");
         //        shoot(e);
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e)
+    {
         try
         {
             ctrl.model.moveFrog(e);
@@ -194,7 +199,8 @@ public class PnlFrog extends JPanel implements KeyListener{
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e)
+    {
 
     }
 
