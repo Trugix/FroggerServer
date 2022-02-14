@@ -29,7 +29,6 @@ public class FroggerModel {
 	Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 100, spriteFrog, 80, 80);
 	
 	NPC carroA = new NPC(1000,110, -5, spriteCarro, 160,100,true);
-	//NPC carroB = new NPC(500,110, -5, spriteCarro, 160,100,true);
 	
 	NPC carroB = new NPC(500,210, -5, spriteCarro, 160,100,true);
 	NPC carroC = new NPC(100,310, -5, spriteCarro, 160,100,true);
@@ -46,13 +45,18 @@ public class FroggerModel {
 	NPC log3B = new NPC(668,910,5,spriteLog3,240,100,false);
 	NPC log3C = new NPC(300,910,5,spriteLog3,240,100,false);
 	NPC log3D = new NPC(-10,910,5,spriteLog3,240,100,false);
+	
 	/*NPC lilyPadA = new NPC(30,1210,0,spriteLilyPad,100,100,false);
 	NPC lilyPadB = new NPC(240,1210,0,spriteLilyPad,100,100,false);
 	NPC lilyPadC = new NPC(450,1210,0,spriteLilyPad,1000,1000,false);
 	NPC lilyPadD = new NPC(66,1210,0,spriteLilyPad,1000,1000,false);
 	NPC lilyPadE = new NPC(870,1210,0,spriteLilyPad,100,100,false);*/
 	
-	Prize fly = new Prize(465,1215,0,spriteFly,100,100,true);
+	
+	NPC log6T1 = new NPC(1000,710,12,spriteLog6,480,100,false);
+	NPC log6T2 = new NPC(1000,1010,12,spriteLog6,480,100,false);
+	
+	Prize fly = new Prize(465,1215,0,spriteFly,100,100,true,200);
 	
 	public FroggerModel() throws IOException {
 		entities.add(frog);
@@ -83,6 +87,9 @@ public class FroggerModel {
 		
 		prizes.add(fly);
 		entities.add(fly);
+		
+		NPCs.add(log6T1);
+		NPCs.add(log6T2);
 		
 		for (NPC n:NPCs)
 			entities.add(n);

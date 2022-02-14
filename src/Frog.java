@@ -1,6 +1,5 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -43,19 +42,28 @@ public class Frog extends Entity {
 		return null;
 	}*/
 	
-	//rotazione r;
 	int dy;
 	int vite;
+	private int point=0;
 	private static final int STARTING_FROGX = 460;
 	private static final int STARTING_FROGY = 10;
+	
 	public Frog(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy) throws IOException {
 		super(x, y, dx, sprite, dimx, dimy);
 		dy=dx;
 		vite=MAX_VITE;
-		//r=rotazione.UP;
 	}
-
-
+	
+	public int getPoint()
+	{
+		return point;
+	}
+	
+	public void setPoint(int point)
+	{
+		this.point = point;
+	}
+	
 	public void rotate(String targetDir) throws IOException
 	{
 		String dir="";
@@ -82,6 +90,7 @@ public class Frog extends Entity {
 	{
 		this.hitbox = new Rectangle(this.p.x, this.p.y, this.dimx, this.dimy);
 	}
+	
 	public void morte() throws IOException
 	{
 		this.p.setX(STARTING_FROGX);
@@ -90,4 +99,11 @@ public class Frog extends Entity {
 		rotate("UP");
 		this.vite--;
 	}
+	
+	public void stepNext(int tempDx)
+	{
+		p.setX(p.getX() + tempDx);
+		hitbox = (new Rectangle(this.p.x, this.p.y, this.dimx,this.dimy));
+	}
+	
 }

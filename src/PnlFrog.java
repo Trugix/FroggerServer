@@ -133,7 +133,7 @@ public class PnlFrog extends JPanel implements KeyListener{
             if(c!=0)
                 x+=210;
             g2.fillRect(x, inizio, 120, 120);
-            destinations.add((new Entity()).new Position (x,inizio));
+            destinations.add((new Entity()).new Position (x+20,inizio+11));
         }
     }
 
@@ -146,15 +146,12 @@ public class PnlFrog extends JPanel implements KeyListener{
         
         printVite(g2,ctrl.model.frog.vite);
         printTempo(g2);
+        printPoint (g2,ctrl.model.frog.getPoint());
     }
-    
-    private final static int MAX_VITE=6;
-    
     
     private void printVite (Graphics2D g2,int vite)
     {
         for (int c=0;c<vite;c++)
-
             g2.drawImage(lilFrog, 1+c*54, 1447, null);
     }
     
@@ -166,6 +163,15 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.scale(1,-1);
         g2.setFont(new Font("calibri",1,60));
         g2.drawString("TIME",850,-1450); // Scritta TIME circa formatta //todo sistemare sto robo
+        g2.scale(1,-1);
+    }
+    
+    private void printPoint (Graphics2D g2, int point)
+    {
+        g2.scale(1,-1);
+        g2.setFont(new Font("calibri",1,60));
+        String s = "";
+        g2.drawString(String.format("POINT: "),1,-1380);
         g2.scale(1,-1);
     }
 

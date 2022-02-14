@@ -6,16 +6,23 @@ import java.util.Random;
 public class Prize extends Entity
 {
 	private boolean bonus;
+	private final int point;
 	
-	public Prize(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy, boolean bonus)
+	public Prize(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy, boolean bonus, int point)
 	{
 		super(x, y, dx, sprite, dimx, dimy);
 		this.bonus=bonus;
+		this.point = point;
 	}
 	
 	public boolean isBonus()
 	{
 		return bonus;
+	}
+	
+	public int getPoint()
+	{
+		return point;
 	}
 	
 	public void stepNext(ArrayList <Position> desination)

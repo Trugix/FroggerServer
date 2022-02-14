@@ -59,6 +59,7 @@ public class FroggerCtrl {
 		//checkCollisionRiga(model.frog);
 		checkTime(model.frog);
 		checkCollision ( model.frog);
+		updatePrize ();
 		model.frog.setStable(false);
 		frogView.setEntities(model.entities);
 		frogView.repaint();
@@ -66,7 +67,7 @@ public class FroggerCtrl {
 	
 	private void updatePrize ()
 	{
-		if(random.nextInt(51)<= model.tempo)
+		if(random.nextInt(10001)<= 50)
 		{
 			for (Prize p: model.prizes)
 			{
@@ -111,12 +112,17 @@ public class FroggerCtrl {
     {
 	    // Per ora questo è l'unico metodo che funziona anche se non è il più efficiente
 		boolean collisione=false;
+		int tempDx=0;
 		
 	    for (int i=0;i<model.NPCs.size();i++)
 	    {
 		   if (frog.hitbox.intersects(model.NPCs.get(i).hitbox))
 		   {
 			   collisione = true;
+			   if(!model.NPCs.get(i).deathTouch)
+			   {
+				   frog.stepNext(model.NPCs.get(i).dx);
+			   }
 			   break;
 		   }
 	    }
@@ -126,6 +132,9 @@ public class FroggerCtrl {
 			frog.morte();
 			resetTempo();
 		}
+		
+		if(frog.p.getY()>=1200)
+			checkPrize(frog);
 		
 		
 		
@@ -164,6 +173,30 @@ public class FroggerCtrl {
 		        resetTempo();
 	        }*/
     }
+	
+	private void checkPrize (Frog frog)
+	{
+		for (Prize p: model.prizes)
+		{
+			if (frog.hitbox.intersects(p.hitbox))
+			{
+				updatePoint(frog,p.getPoint());
+				resetTempo();
+			}
+		}
+	}
+	
+	
+	/**
+	 * Aggiorno il punteggio della rana in base a quello che ha fatto
+	 * @param frog, La rana da aggiornare
+	 * @param point, I punti base dello sprite raggiunto
+	 */
+	private void updatePoint (Frog frog, int point)
+	{
+		frog.setPoint(frog.getPoint()+point+100*frog.vite+10*model.tempo);
+	}
+	
 	
 	/**
 	 * Resetta il tempo ogni volta che viene chiamato
