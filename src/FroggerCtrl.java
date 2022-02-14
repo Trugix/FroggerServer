@@ -60,7 +60,6 @@ public class FroggerCtrl {
 		checkTime(model.frog);
 		checkCollision ( model.frog);
 		updatePrize ();
-		model.frog.setStable(false);
 		frogView.setEntities(model.entities);
 		frogView.repaint();
 	}
@@ -136,53 +135,29 @@ public class FroggerCtrl {
 		if(frog.p.getY()>=1200)
 			checkPrize(frog);
 		
-		
-		
-		
-		/*
-		int nobjs = model.entities.size();
-		if(nobjs < 2)
-			return;
-		Entity [] ent = new Entity[nobjs];
-		model.entities.toArray(ent);
-		for(int i=0; i< nobjs-1; i++)
-		{
-			for(int j=i+1; j<nobjs; j++)
-			{
-				if(!ent[i].isAlive() || !ent[j].isAlive())
-					continue;
-				
-				if(ent[i].checkCollision(ent[j]))
-				{
-					//ent[i].collisionDetected();
-				}
-			}
-		}
-		
-		boolean collisione= frog.hitbox.intersects(entity.hitbox);
-		if(!entity.deathTouch) //acqua
-		{
-			if (!collisione)
-				model.frog.morte();
-			resetTempo();
-		}
-		else //macchine
-	        if(collisione)
-	        {
-		        model.frog.morte();
-		        resetTempo();
-	        }*/
     }
 	
-	private void checkPrize (Frog frog)
+	private void checkPrize (Frog frog) throws IOException
 	{
+		
+		boolean save = false;
+		
 		for (Prize p: model.prizes)
 		{
 			if (frog.hitbox.intersects(p.hitbox))
 			{
 				updatePoint(frog,p.getPoint());
+				frog.resetPosition();
 				resetTempo();
+				save = true;
+				break;
 			}
+		}
+		
+		if(!save)
+		{
+			frog.morte();
+			resetTempo();
 		}
 	}
 	
@@ -194,7 +169,7 @@ public class FroggerCtrl {
 	 */
 	private void updatePoint (Frog frog, int point)
 	{
-		frog.setPoint(frog.getPoint()+point+100*frog.vite+10*model.tempo);
+		frog.setPoint(frog.getPoint()+point+100*frog.vite+5*model.tempo);
 	}
 	
 	
@@ -203,7 +178,7 @@ public class FroggerCtrl {
 	 */
 	private void resetTempo()
 	{
-		model.tempo =500;
+		model.tempo = 500;
 	}
 
 }

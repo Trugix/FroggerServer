@@ -103,11 +103,9 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.setColor(COLORE_ACQUA); // Destinazione, colore blu
         paintArrivo(g2,1200);
     
-        g2.setColor(COLORE_RIGHE);
+        g2.setColor(COLORE_RIGHE); //Righe continue ai bordi della strada
         g2.fillRect(0,100-5, 1000, 9);
         g2.fillRect(0,600-5, 1000, 9);
-    
-        
     }
 
 
@@ -170,8 +168,7 @@ public class PnlFrog extends JPanel implements KeyListener{
     {
         g2.scale(1,-1);
         g2.setFont(new Font("calibri",1,60));
-        String s = "";
-        g2.drawString(String.format("POINT: "),1,-1380);
+        g2.drawString(String.format("POINT: %05d", point),1,-1380);
         g2.scale(1,-1);
     }
 

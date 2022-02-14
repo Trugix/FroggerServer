@@ -9,17 +9,6 @@ public class Frog extends Entity {
 	
 	private static final int MAX_VITE = 6;
 	
-	private boolean stable = true;
-	
-	public boolean isStable()
-	{
-		return stable;
-	}
-	
-	public void setStable(boolean stable)
-	{
-		this.stable = stable;
-	}
 	
 	/*public enum rotazione{
 		UP,
@@ -48,7 +37,8 @@ public class Frog extends Entity {
 	private static final int STARTING_FROGX = 460;
 	private static final int STARTING_FROGY = 10;
 	
-	public Frog(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy) throws IOException {
+	public Frog(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy)
+	{
 		super(x, y, dx, sprite, dimx, dimy);
 		dy=dx;
 		vite=MAX_VITE;
@@ -93,17 +83,25 @@ public class Frog extends Entity {
 	
 	public void morte() throws IOException
 	{
+		resetPosition ();
+		this.vite--;
+	}
+	
+	public void resetPosition () throws IOException
+	{
 		this.p.setX(STARTING_FROGX);
 		this.p.setY(STARTING_FROGY);
 		updateHitbox();
 		rotate("UP");
-		this.vite--;
 	}
 	
 	public void stepNext(int tempDx)
 	{
 		p.setX(p.getX() + tempDx);
+		if (p.getX() > 920) //per evitare che la rana se ne vada dalla schermo
+			p.setX(920);
+		if (p.getX() < 0)
+			p.setX(0);
 		hitbox = (new Rectangle(this.p.x, this.p.y, this.dimx,this.dimy));
 	}
-	
 }
