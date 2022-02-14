@@ -14,7 +14,7 @@ public class FroggerCtrl
 	FroggerModel model;
 	private int nframe = 0;
 	Random random = new Random();
-	private int timerPrize = random.nextInt(150)+100;
+	private int timerPrize = random.nextInt(150) + 100;
 	
 	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException
 	{
@@ -37,6 +37,8 @@ public class FroggerCtrl
 	
 	private void nextFrame() throws IOException
 	{
+		boolean contact = false;
+		NPC npc=model.NPCs.get(0);
 		
 		if (nframe == 15)
 		{
@@ -44,9 +46,9 @@ public class FroggerCtrl
 			nframe = 0;
 		}
 		else
-		{
 			nframe++;
-		}
+		
+		
 		for (NPC n : model.NPCs)
 		{
 			n.stepNext();
@@ -64,15 +66,29 @@ public class FroggerCtrl
 					n.p.setX(1020);
 				}
 			}
+			
+			if (model.frog.hitbox.intersects(n.hitbox))
+			{
+				contact = true;
+				npc=n;
+			}
 		}
 		
-		if(model.frog.vite<=0)
+		checkCollision(model.frog,contact,npc);
+		if (!npc.deathTouch && contact)
+		{
+			model.frog.stepNext(npc.dx);
+		}
+		
+		if (model.frog.vite <= 0)
 		{
 			//todo fare finire il gioco
 		}
 		
 		checkTime(model.frog);
-		checkCollision(model.frog);
+		if (model.frog.p.getY() >= 1200)
+			checkPrize(model.frog);
+		//checkCollision(model.frog);
 		updatePrize();
 		
 		frogView.setEntities(model.entities);
@@ -80,12 +96,28 @@ public class FroggerCtrl
 		
 	}
 	
+	private void checkCollision(Frog frog,boolean contact, NPC npc) throws IOException
+	{
+		if ((contact && npc.deathTouch) || (!contact && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
+		{
+			frog.morte();
+			resetTempo();
+		}
+		
+		/*if ((contact && frog.p.getY() >= 0 && frog.p.getY() <= 600) || (!contact && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
+		{
+			frog.morte();
+			resetTempo();
+		}*/
+	}
+	
+	
 	private void updatePrize() throws IOException
 	{
 		timerPrize--;
 		if (timerPrize <= 40) //todo definire quanti bonus ci sono
 		{
-			if(timerPrize%6>=3)
+			if (timerPrize % 6 >= 3)
 			{
 				for (Prize p : model.prizes)
 				{
@@ -105,9 +137,9 @@ public class FroggerCtrl
 					}
 				}
 			}
-			if(timerPrize <= 0)
+			if (timerPrize <= 0)
 			{
-				timerPrize= random.nextInt(150)+100;
+				timerPrize = random.nextInt(150) + 100;
 				
 				for (Prize p : model.prizes)
 				{
@@ -131,7 +163,7 @@ public class FroggerCtrl
 	}
 	
 	
-	private void checkCollision(Frog frog) throws IOException
+	/*private void checkCollision(Frog frog) throws IOException
 	{
 		// Per ora questo è l'unico metodo che funziona anche se non è il più efficiente
 		boolean collisione = false;
@@ -149,7 +181,7 @@ public class FroggerCtrl
 			}
 		}
 		
-		if ((collisione && frog.p.getY() >= 0 && frog.p.getY() <= 600) || (!collisione && frog.p.getY() >= 701 && frog.p.getY() <= 1100))
+		if ((collisione && frog.p.getY() >= 0 && frog.p.getY() <= 600) || (!collisione && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
 		{
 			frog.morte();
 			resetTempo();
@@ -158,7 +190,7 @@ public class FroggerCtrl
 		if (frog.p.getY() >= 1200)
 			checkPrize(frog);
 		
-	}
+	}*/
 	
 	private void checkPrize(Frog frog) throws IOException
 	{

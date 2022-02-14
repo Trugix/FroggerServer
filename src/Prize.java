@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,8 +14,8 @@ public class Prize extends Entity
 		super(x, y, dx, sprite, dimx, dimy);
 		this.bonus=bonus;
 		this.point = point;
-		this.hitbox = new Rectangle(x+dimx/4, y+dimy/4, dimx/2, dimy/2);
 	}
+	
 	
 	public boolean isBonus()
 	{
@@ -34,7 +35,7 @@ public class Prize extends Entity
 			Position p=desination.get(random.nextInt(desination.size()));
 			this.p.setX(p.getX());
 			this.p.setY(p.getY());
-			this.hitbox=new Rectangle(this.p.getX(), this.p.getY(), dimx, dimy);
+			this.hitbox=new Rectangle(this.p.getX(), this.p.getY(), dimx/2, dimy/2);
 		}
 	}
 }

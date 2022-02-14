@@ -8,6 +8,7 @@ public class NPC extends Entity {
 	public NPC(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy, boolean deathTouch) {
 		super(x, y, dx, sprite, dimx, dimy);
 		this.deathTouch=deathTouch;
+		
 	}
 
 	@Override

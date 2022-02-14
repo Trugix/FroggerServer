@@ -30,28 +30,28 @@ public class FroggerModel {
 	BufferedImage spriteFly = ImageIO.read(new File(PATH+"fly.png"));
 	//BufferedImage spriteLilyPad = ImageIO.read(new File(PATH+"lilyPad.png"));
 	
-	Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 100, spriteFrog, 80, 80);
+	Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 100, spriteFrog, 75, 75);
 	/*
 	NPC carroE = new NPC(1000,110, -5, spriteCarro, 160,100,true);
 	NPC carroC = new NPC(500,210, -5, spriteCarro, 160,100,true);
 	*/
 	
-	NPC carroA = new NPC(500,510, -5, spriteCarro, 160,100,true);
-	NPC carroB = new NPC(981,510, -5, spriteCarro, 160,100,true);
-	NPC autoSportA = new NPC(235,410, 12, spriteAutoSport, 80,100,true);
-	NPC autoSportB = new NPC(884,410, 12, spriteAutoSport, 80,100,true);
+	NPC carroA = new NPC(500,510, -5, spriteCarro, 200,85,true);
+	NPC carroB = new NPC(981,510, -5, spriteCarro, 200,85,true);
+	NPC autoSportA = new NPC(235,410, 12, spriteAutoSport, 100,85,true);
+	NPC autoSportB = new NPC(884,410, 12, spriteAutoSport, 100,85,true);
 	
 	
 	
-	NPC log6A = new NPC(1000,1110,12,spriteLog6,480,100,false);
-	NPC log6B = new NPC(100,1110,12,spriteLog6,480,100,false);
-	NPC log4A = new NPC(1000,810,10,spriteLog4,320,100,false);
-	NPC log4B = new NPC(50,810,10,spriteLog4,320,100,false);
-	NPC log4C = new NPC(550,810,10,spriteLog4,320,100,false);
-	NPC log3A = new NPC(1050,910,5,spriteLog3,240,100,false);
-	NPC log3B = new NPC(668,910,5,spriteLog3,240,100,false);
-	NPC log3C = new NPC(300,910,5,spriteLog3,240,100,false);
-	NPC log3D = new NPC(-10,910,5,spriteLog3,240,100,false);
+	NPC log6A = new NPC(1000,1110,11,spriteLog6,595,85,false);
+	NPC log6B = new NPC(100,1110,11,spriteLog6,595,85,false);
+	NPC log4A = new NPC(987,810,9,spriteLog4,395,85,false);
+	NPC log4B = new NPC(-144,810,9,spriteLog4,395,85,false);
+	NPC log4C = new NPC(394,810,9,spriteLog4,395,85,false);
+	NPC log3A = new NPC(-217,910,5,spriteLog3,295,85,false);
+	NPC log3B = new NPC(397,910,5,spriteLog3,295,85,false);
+	NPC log3C = new NPC(943,910,5,spriteLog3,295,85,false);
+	NPC log3D = new NPC(1005,910,5,spriteLog3,295,85,false);
 	
 	/*NPC lilyPadA = new NPC(30,1210,0,spriteLilyPad,100,100,false);
 	NPC lilyPadB = new NPC(240,1210,0,spriteLilyPad,100,100,false);
@@ -59,10 +59,10 @@ public class FroggerModel {
 	NPC lilyPadD = new NPC(66,1210,0,spriteLilyPad,1000,1000,false);
 	NPC lilyPadE = new NPC(870,1210,0,spriteLilyPad,100,100,false);*/
 	
-	NPC log6T1 = new NPC(1000,710,-12,spriteLog6,480,100,false);
-	NPC log6T2 = new NPC(1000,1010,-12,spriteLog6,480,100,false);
+	NPC log6T1 = new NPC(1000,710,-12,spriteLog6,595,85,false);
+	NPC log6T2 = new NPC(1000,1010,-12,spriteLog6,595,85,false);
 	
-	Prize fly = new Prize(465,1215,0,spriteFly,100,100,true,200);
+	Prize fly = new Prize(465,1215,0,spriteFly,75,75,true,200);
 	
 	public FroggerModel() throws IOException {
 		entities.add(frog);
@@ -85,7 +85,7 @@ public class FroggerModel {
 		NPCs.add(log3A);
 		NPCs.add(log3B);
 		NPCs.add(log3C);
-		NPCs.add(log3D);
+		//NPCs.add(log3D);
 		
 		/*NPCs.add(lilyPadA);
 		NPCs.add(lilyPadB);

@@ -54,10 +54,7 @@ public class Entity
 	protected int dimy;
 	protected Rectangle2D hitbox;
 	
-	public Entity ()
-	{
-	
-	}
+	public Entity () {}
 	
 	public Entity(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy)
 	{
@@ -79,8 +76,5 @@ public class Entity
 		p.setX(p.getX() + dx);
 		hitbox = (new Rectangle(this.p.x, this.p.y, this.dimx,this.dimy));
 	}
-	
-	
-	
 	
 }
