@@ -15,7 +15,7 @@ public class FroggerCtrl
 	FroggerModel model;
 	private int nframe = 0;
 	Random random = new Random();
-	private int timerPrize = random.nextInt(150) + 100;
+	private int timerPrize = randTemp();
 	private boolean first = true;
 	
 	private Prize precedente;
@@ -162,7 +162,7 @@ public class FroggerCtrl
 			}
 			if (timerPrize <= 0)
 			{
-				timerPrize = random.nextInt(150) + 100;
+				timerPrize = randTemp();
 				
 				for (int i=0; i<model.prizes.size();i++)
 				{
@@ -201,36 +201,6 @@ public class FroggerCtrl
 		}
 	}
 	
-	
-	/*private void checkCollision(Frog frog) throws IOException
-	{
-		// Per ora questo è l'unico metodo che funziona anche se non è il più efficiente
-		boolean collisione = false;
-		
-		for (int i = 0; i < model.NPCs.size(); i++)
-		{
-			if (frog.hitbox.intersects(model.NPCs.get(i).hitbox))
-			{
-				collisione = true;
-				if (!model.NPCs.get(i).deathTouch)
-				{
-					frog.stepNext(model.NPCs.get(i).dx);
-				}
-				break;
-			}
-		}
-		
-		if ((collisione && frog.p.getY() >= 0 && frog.p.getY() <= 600) || (!collisione && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
-		{
-			frog.morte();
-			resetTempo();
-		}
-		
-		if (frog.p.getY() >= 1200)
-			checkPrize(frog);
-		
-	}*/
-	
 	private void checkPrize(Frog frog) throws IOException
 	{
 		
@@ -251,11 +221,12 @@ public class FroggerCtrl
 				
 				if(p.isBonus())
 				{
-					timerPrize=0;
+					resetBonus(p);
+					/*timerPrize=0;
+					updatePrize();
 					precedente.setSprite(ImageIO.read(new File("src/../sprites/tempD.png")));
 					precedente.setHitbox(null);
-					model.prizes.remove(precedente);
-					updatePrize();
+					model.prizes.remove(precedente);*/
 				}
 				else
 				{
@@ -269,7 +240,6 @@ public class FroggerCtrl
 				
 				save = true;
 				
-				
 				break;
 			}
 		}
@@ -281,11 +251,45 @@ public class FroggerCtrl
 		}
 	}
 	
+	private void resetBonus(Prize bonus) throws IOException
+	{
+		bonus.stepNext(frogView.destinations);
+		timerPrize = randTemp();
+		model.entities.add(precedente);
+		precedente.setSprite(ImageIO.read(new File("src/../sprites/tempD.png")));
+		precedente.setHitbox(null);
+		
+		for (int i=0; i<model.prizes.size();i++)
+		{
+			if(model.prizes.size()==1)
+			{
+				model.prizes.add(precedente);
+				model.entities.add(precedente);
+				model.prizes.remove(bonus);
+				model.entities.remove(bonus);
+				//todo fermare il gioco perchè si ha vinto
+			}
+			else
+				if (bonus.hitbox.intersects(model.prizes.get(i).hitbox) && bonus.p.getX()!=model.prizes.get(i).p.getX())
+				{
+					precedente=model.prizes.get(i);
+					model.prizes.remove(precedente);
+					model.entities.remove(precedente);
+				}
+		}
+	}
+	
+	
+	private int randTemp ()
+	{
+		return random.nextInt(150) + 100;
+	}
+	
+	
 	private double distance (Entity.Position p1, Entity.Position p2)
 	{
 		return Math.sqrt(Math.pow((p1.getX()-p2.getX()),2)+Math.pow((p1.getY()-p2.getY()),2));
 	}
-	
 	
 	
 	/**
@@ -305,7 +309,7 @@ public class FroggerCtrl
 	 */
 	private void resetTempo()
 	{
-		model.tempo = 500;
+		model.tempo = 500; //todo mettere costanti ovunque
 	}
 	
 }
