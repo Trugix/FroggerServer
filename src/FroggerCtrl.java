@@ -18,6 +18,8 @@ public class FroggerCtrl
 	private int timerPrize = random.nextInt(150) + 100;
 	private boolean first = true;
 	
+	private Prize precedente;
+	
 	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException
 	{
 		this.model = model;
@@ -30,11 +32,18 @@ public class FroggerCtrl
 				if(first)
 				{
 					first=false;
-					for (Prize p: model.prizes)
+					for (int j=0; j<model.prizes.size();j++)
 					{
-						if(p.isBonus())
+						if(model.prizes.get(j).isBonus())
 						{
-							p.stepNext(frogView.destinations);
+							model.prizes.get(j).stepNext(frogView.destinations);
+							for (int i=0; i<model.prizes.size();i++)
+							{
+								if (model.prizes.get(j).hitbox.intersects(model.prizes.get(i).hitbox) && model.prizes.get(j).p.getX()!=model.prizes.get(i).p.getX())
+									precedente=model.prizes.get(i);
+								
+							}
+							swapPrize (model.prizes.get(j));
 						}
 					}
 				}
@@ -155,17 +164,33 @@ public class FroggerCtrl
 			{
 				timerPrize = random.nextInt(150) + 100;
 				
-				for (Prize p : model.prizes)
+				for (int i=0; i<model.prizes.size();i++)
 				{
-					if (p.isBonus())
+					if (model.prizes.get(i).isBonus())
 					{
-						p.stepNext(frogView.destinations);
-						p.setSprite(ImageIO.read(new File("src/../sprites/fly.png")));
+						model.prizes.get(i).stepNext(frogView.destinations);
+						swapPrize (model.prizes.get(i));
 					}
 				}
 			}
 		}
 	}
+	
+	private void swapPrize (Prize bonus) throws IOException
+	{
+		model.prizes.add(precedente);
+		model.entities.add(precedente);
+		for (int i=0; i<model.prizes.size();i++)
+		{
+			if (bonus.hitbox.intersects(model.prizes.get(i).hitbox) && bonus.p.getX()!=model.prizes.get(i).p.getX())
+			{
+				precedente=model.prizes.get(i);
+				model.prizes.remove(precedente);
+				model.entities.remove(precedente);
+			}
+		}
+	}
+	
 	
 	private void checkTime(Frog frog) throws IOException
 	{
@@ -215,14 +240,36 @@ public class FroggerCtrl
 		{
 			if (frog.hitbox.intersects(p.hitbox))
 			{
+				
 				updatePoint(frog, p.getPoint());
-				p.setSprite(ImageIO.read(new File("src/../sprites/tempD.png")));
-				p.setHitbox(null);
-				frogView.destinations.remove(p.p); //todo sistemare il fatto che la mosca va dove cazzo vuole
-				model.prizes.remove(p);
+				
+				for (int i=0; i<frogView.destinations.size();i++)
+				{
+					if(distance(frog.p,frogView.destinations.get(i))<=100)
+						frogView.destinations.remove(i);
+				}
+				
+				if(p.isBonus())
+				{
+					timerPrize=0;
+					precedente.setSprite(ImageIO.read(new File("src/../sprites/tempD.png")));
+					precedente.setHitbox(null);
+					model.prizes.remove(precedente);
+					updatePrize();
+				}
+				else
+				{
+					p.setSprite(ImageIO.read(new File("src/../sprites/tempD.png")));
+					p.setHitbox(null);
+					model.prizes.remove(p);
+				}
+				
 				frog.resetPosition();
 				resetTempo();
+				
 				save = true;
+				
+				
 				break;
 			}
 		}
@@ -233,6 +280,12 @@ public class FroggerCtrl
 			resetTempo();
 		}
 	}
+	
+	private double distance (Entity.Position p1, Entity.Position p2)
+	{
+		return Math.sqrt(Math.pow((p1.getX()-p2.getX()),2)+Math.pow((p1.getY()-p2.getY()),2));
+	}
+	
 	
 	
 	/**
