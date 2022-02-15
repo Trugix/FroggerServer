@@ -60,8 +60,8 @@ public class FroggerModel {
 	NPC log3C = new NPC(943,910,5,spriteLog3,295,85,false);
 	NPC log3D = new NPC(1005,910,5,spriteLog3,295,85,false);
 	
-	Turtle t1 = new Turtle(1000,710,6,spriteTurtle3,95,85,false,false);
-	Turtle t2 = new Turtle(500,710,6,spriteTurtle3,95,85,false,true);
+	Turtle t1 = new Turtle(1000,710,-6,spriteTurtle3,95,85,false,false);
+	Turtle t2 = new Turtle(500,710,-6,spriteTurtle3,95,85,false,true);
 	
 	Prize lilyPadA = new Prize(30,1210,0,spriteLilyPad,100,85,false,50);
 	Prize lilyPadB = new Prize(240,1210,0,spriteLilyPad,100,85,false,50);
