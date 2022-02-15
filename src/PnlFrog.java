@@ -17,7 +17,6 @@ public class PnlFrog extends JPanel implements KeyListener{
     
     ArrayList <Entity.Position> destinations = new ArrayList<>();
     
-   // public Rectangle2D rec = new Rectangle2D.Double(x, y, 30, 10);
     
     BufferedImage lilFrog = ImageIO.read(new File("src/../sprites/frogSmall.png"));
 
@@ -35,14 +34,6 @@ public class PnlFrog extends JPanel implements KeyListener{
         this.setFocusable(true);
     }
     
-    
-
-	   /* public void shoot(KeyEvent e){
-	        if (e.getKeyCode() == KeyEvent.VK_SPACE){
-	       // my -= 7;
-	        repaint();
-	        }
-	    }*/
 
 
     // Colori go brrrr
