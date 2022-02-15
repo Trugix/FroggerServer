@@ -16,6 +16,8 @@ public class FroggerModel {
 	public ArrayList<Entity> entities = new ArrayList<>();
 	public ArrayList<NPC> NPCs = new ArrayList<>();
 	public ArrayList<Prize> prizes = new ArrayList<>();
+	public ArrayList<Turtle> turtles = new ArrayList<>();
+	
 	public int tempo=500;
 	
 	
@@ -27,6 +29,10 @@ public class FroggerModel {
 	BufferedImage spriteLog6 = ImageIO.read(new File(PATH+"log6.png"));
 	BufferedImage spriteLog3 = ImageIO.read(new File(PATH+"log3.png"));
 	BufferedImage spriteLog4 = ImageIO.read(new File(PATH+"log4.png"));
+	
+	BufferedImage spriteTurtle1 = ImageIO.read(new File(PATH+"r1.png"));
+	BufferedImage spriteTurtle2 = ImageIO.read(new File(PATH+"r2.png"));
+	BufferedImage spriteTurtle3 = ImageIO.read(new File(PATH+"r3.png"));
 	
 	BufferedImage spriteFly = ImageIO.read(new File(PATH+"fly.png"));
 	BufferedImage spriteLilyPad = ImageIO.read(new File(PATH+"temp.png"));
@@ -53,6 +59,9 @@ public class FroggerModel {
 	NPC log3B = new NPC(397,910,5,spriteLog3,295,85,false);
 	NPC log3C = new NPC(943,910,5,spriteLog3,295,85,false);
 	NPC log3D = new NPC(1005,910,5,spriteLog3,295,85,false);
+	
+	Turtle t1 = new Turtle(1000,710,6,spriteTurtle3,95,85,false,false);
+	Turtle t2 = new Turtle(500,710,6,spriteTurtle3,95,85,false,true);
 	
 	Prize lilyPadA = new Prize(30,1210,0,spriteLilyPad,100,85,false,50);
 	Prize lilyPadB = new Prize(240,1210,0,spriteLilyPad,100,85,false,50);
@@ -89,11 +98,8 @@ public class FroggerModel {
 		NPCs.add(log3C);
 		//NPCs.add(log3D);
 		
-		/*NPCs.add(lilyPadA);
-		NPCs.add(lilyPadB);
-		NPCs.add(lilyPadC);
-		NPCs.add(lilyPadD);
-		NPCs.add(lilyPadE);*/
+		turtles.add(t1);
+		turtles.add(t2);
 		
 		prizes.add(lilyPadA);
 		prizes.add(lilyPadB);
@@ -102,11 +108,13 @@ public class FroggerModel {
 		prizes.add(lilyPadE);
 		prizes.add(fly);
 		
-		NPCs.add(log6T1);
+		//NPCs.add(log6T1);
 		NPCs.add(log6T2);
 		
+		NPCs.addAll(turtles);
 		entities.addAll(NPCs);
 		entities.addAll(prizes);
+		
 		
 	}
 

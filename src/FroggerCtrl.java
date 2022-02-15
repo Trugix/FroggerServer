@@ -71,6 +71,13 @@ public class FroggerCtrl
 		else
 			nframe++;
 		
+		for (Turtle t: model.turtles)
+		{
+			if(t.isSub())
+			{
+				t.immersion();
+			}
+		}
 		
 		for (NPC n : model.NPCs)
 		{
@@ -111,7 +118,7 @@ public class FroggerCtrl
 		checkTime(model.frog);
 		if (model.frog.p.getY() >= 1200)
 			checkPrize(model.frog);
-		//checkCollision(model.frog);
+		
 		updatePrize();
 		
 		frogView.setEntities(model.entities);
@@ -222,11 +229,6 @@ public class FroggerCtrl
 				if(p.isBonus())
 				{
 					resetBonus(p);
-					/*timerPrize=0;
-					updatePrize();
-					precedente.setSprite(ImageIO.read(new File("src/../sprites/tempD.png")));
-					precedente.setHitbox(null);
-					model.prizes.remove(precedente);*/
 				}
 				else
 				{
