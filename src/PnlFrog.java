@@ -167,8 +167,17 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.drawString(String.format("POINT: %05d", point),1,-1380);
         g2.scale(1,-1);
     }
-
-
+    
+    private BufferedImage spriteSkull = ImageIO.read(new File( "src/../sprites/skull.png"));
+    
+    public void drawSkull (boolean draw,int x,int y)
+    {
+        if(draw)
+        {
+            g2.drawImage(spriteSkull,null,x,y);
+        }
+    }
+    
     @Override
     public void keyTyped(KeyEvent e)
     {

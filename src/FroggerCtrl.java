@@ -121,18 +121,33 @@ public class FroggerCtrl
 		
 		updatePrize();
 		
+		updateSkull();
+		
 		frogView.setEntities(model.entities);
 		frogView.repaint();
 		
 	}
 	
+	private void updateSkull ()
+	{
+		for (Skull s:model.skulls)
+		{
+			if(s.getTimeToLive()>0)
+			{
+				model.entities.add(s);
+			}
+			else
+			{
+				model.entities.remove(s);
+			}
+			s.setTimeToLive(s.getTimeToLive()-1);
+		}
+	}
+	
 	private void checkCollision(Frog frog,boolean contact, NPC npc) throws IOException
 	{
 		if ((contact && npc.deathTouch) || (!contact && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
-		{
-			frog.morte();
-			resetTempo();
-		}
+			updateMorte (frog);
 		
 		/*if ((contact && frog.p.getY() >= 0 && frog.p.getY() <= 600) || (!contact && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
 		{
@@ -198,14 +213,18 @@ public class FroggerCtrl
 		}
 	}
 	
+	private void updateMorte (Frog frog) throws IOException
+	{
+		model.skulls.add(new Skull(frog.p.getX(),frog.p.getY(),0, model.spriteSkull,0,0));
+		frog.morte();
+		resetTempo();
+	}
 	
 	private void checkTime(Frog frog) throws IOException
 	{
 		if (model.tempo <= 0)
-		{
-			frog.morte();
-			resetTempo();
-		}
+			updateMorte (frog);
+		
 	}
 	
 	private void checkPrize(Frog frog) throws IOException
@@ -232,7 +251,7 @@ public class FroggerCtrl
 				}
 				else
 				{
-					p.setSprite(ImageIO.read(new File("src/../sprites/tempD.png")));
+					p.setSprite(ImageIO.read(new File("src/../sprites/frogAtRest.png")));
 					p.setHitbox(null);
 					model.prizes.remove(p);
 				}
@@ -247,10 +266,7 @@ public class FroggerCtrl
 		}
 		
 		if (!save)
-		{
-			frog.morte();
-			resetTempo();
-		}
+			updateMorte (frog);
 	}
 	
 	private void resetBonus(Prize bonus) throws IOException
@@ -280,6 +296,8 @@ public class FroggerCtrl
 				}
 		}
 	}
+	
+	
 	
 	
 	private int randTemp ()

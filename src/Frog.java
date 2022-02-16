@@ -30,7 +30,7 @@ public class Frog extends Entity {
 		return null;
 	}*/
 	
-	int dy;
+	final int dy=100;
 	int vite;
 	private int point=0;
 	private static final int STARTING_FROGX = 460;
@@ -39,7 +39,6 @@ public class Frog extends Entity {
 	public Frog(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy)
 	{
 		super(x, y, dx, sprite, dimx, dimy);
-		dy=dx;
 		vite=MAX_VITE;
 	}
 	
