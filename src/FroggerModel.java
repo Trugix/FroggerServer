@@ -40,9 +40,13 @@ public class FroggerModel
 	BufferedImage spriteTurtle3 = ImageIO.read(new File(PATH + "turtle3.png"));
 	
 	BufferedImage spriteFly = ImageIO.read(new File(PATH + "fly.png"));
+
 	BufferedImage spriteLilyPad = ImageIO.read(new File(PATH + "lily.png"));
+	BufferedImage spriteFrogLily = ImageIO.read(new File(PATH + "frogAtRest.png"));
 	
 	BufferedImage spriteSkull = ImageIO.read(new File(PATH + "skull.png"));
+
+	BufferedImage spriteVoid = ImageIO.read(new File(PATH + "void.png"));
 	
 	Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 70, spriteFrog, 75, 75);
 	

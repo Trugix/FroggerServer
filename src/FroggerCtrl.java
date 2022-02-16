@@ -274,7 +274,7 @@ public class FroggerCtrl
 		bonus.stepNext(frogView.destinations);
 		timerPrize = randTemp();
 		model.entities.add(precedente);
-		precedente.setSprite(ImageIO.read(new File("src/../sprites/tempD.png")));
+		precedente.setSprite(model.spriteFrogLily);
 		precedente.setHitbox(null);
 		
 		for (int i=0; i<model.prizes.size();i++)
