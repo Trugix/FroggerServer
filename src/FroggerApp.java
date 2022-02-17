@@ -29,6 +29,7 @@ public class FroggerApp{
 	 */
 	public FroggerApp() throws IOException {
 		initialize();
+		new Sound();
 	}
 
 	/**
