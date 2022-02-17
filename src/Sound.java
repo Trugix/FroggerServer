@@ -1,16 +1,17 @@
 import java.io.*;
 import java.util.HashMap;
+import java.util.concurrent.CountDownLatch;
 import javax.sound.sampled.*;
 import javax.swing.*;
 
 // Estendo JFrame perché deve essere attiva la classe
 public class Sound// extends JFrame
 {
-	private  Clip clipHop;
+	private Clip clipHop;
 	
-	private  HashMap <String, AudioInputStream> sounds = new HashMap<>();
+	private HashMap<String, AudioInputStream> sounds = new HashMap<>();
 	
-	private  boolean active=false;
+	private boolean active = false;
 	
 	public Sound()
 	{
@@ -27,11 +28,11 @@ public class Sound// extends JFrame
 			
 			clipHop = AudioSystem.getClip();
 			
-			sounds.put("hop",AudioSystem.getAudioInputStream(fileHop));
+			sounds.put("hop", AudioSystem.getAudioInputStream(fileHop));
 			clipHop.open(sounds.get("hop"));
 			
 			// Get a sound clip resource.
-		 
+			
 			// Open audio clip and load samples from the audio input stream.
 			//clip.open(test);
 			//clip.start();
@@ -73,11 +74,50 @@ public class Sound// extends JFrame
 		clip.start();
 	}*/
 	
-	public void soundHop ()
+	public void soundHop()
 	{
-		clipHop.start();
-		
-		clipHop.setFramePosition(0);
+		Thread t = new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				{
+					Clip t = null;
+					
+					
+					try
+					{
+						t = AudioSystem.getClip();
+					}
+					catch (LineUnavailableException e)
+					{
+						e.printStackTrace();
+					}
+					try
+					{
+						t.open(AudioSystem.getAudioInputStream(new File("src/../tracks/hop.wav")));
+					}
+					catch (LineUnavailableException e)
+					{
+						e.printStackTrace();
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+					catch (UnsupportedAudioFileException e)
+					{
+						e.printStackTrace();
+					}
+					t.setFramePosition(0);
+					t.start();
+					
+					/*clipHop.setFramePosition(0);
+					clipHop.start();*/
+				}
+			}
+		});
+		t.run();
 	}
 	
 }
