@@ -1,44 +1,17 @@
 import java.io.*;
-import java.util.HashMap;
 import javax.sound.sampled.*;
 
 
 public class Sound
 {
-	private Clip clipHop;
-	
-	private HashMap<String, AudioInputStream> sounds = new HashMap<>();
-	
 	
 	public Sound()
 	{
 	
-		
-		try //todo caricare tutti i vari suoni
-		{
-			
-			File fileTest = new File("src/../tracks/test.wav");
-			File fileHop = new File("src/../tracks/hop.wav");
-			File fileSquash = new File("src/../tracks/squash.wav");
-			
-			AudioInputStream test = AudioSystem.getAudioInputStream(fileTest);
-			
-			clipHop = AudioSystem.getClip();
-			
-			sounds.put("hop", AudioSystem.getAudioInputStream(fileHop));
-			clipHop.open(sounds.get("hop"));
-			
-		}
-		catch (UnsupportedAudioFileException | IOException | LineUnavailableException e)
-		{
-			e.printStackTrace();
-		}
-		
 	}
 	
 	
-	
-	public void soundMorteAuto ()
+	public static void soundMorteAuto ()
 	{
 		Clip clip = null;
 		
@@ -52,16 +25,17 @@ public class Sound
 			e.printStackTrace();
 		}
 		
-		clip.setFramePosition(0);
+		assert clip != null;
+			clip.setFramePosition(0);
 		clip.start();
 	}
 
-	/*public void soundMorteTempo ()
+	/*public static void soundMorteTempo ()
 	{
 		clip.start();
 	}*/
 	
-	public void soundMorteAcqua ()
+	public static void soundMorteAcqua ()
 	{
 		Clip clip = null;
 		
@@ -75,11 +49,12 @@ public class Sound
 			e.printStackTrace();
 		}
 		
-		clip.setFramePosition(0);
+		assert clip != null;
+			clip.setFramePosition(0);
 		clip.start();
 	}
 	
-	public void soundPoint ()
+	public static void soundPoint ()
 	{
 		Clip clip = null;
 		
@@ -93,12 +68,13 @@ public class Sound
 			e.printStackTrace();
 		}
 		
-		clip.setFramePosition(0);
+		assert clip != null;
+			clip.setFramePosition(0);
 		clip.start();
 	}
 	
 	
-	public void soundHop()
+	public static void soundHop()
 	{
 		Clip clip = null;
 		
@@ -112,6 +88,7 @@ public class Sound
 			e.printStackTrace();
 		}
 		
+		assert clip != null;
 		clip.setFramePosition(0);
 		clip.start();
 	}
