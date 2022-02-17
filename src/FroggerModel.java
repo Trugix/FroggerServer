@@ -1,5 +1,4 @@
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -87,7 +86,7 @@ public class FroggerModel
 	
 	Prize fly = new Prize(465, 1215, 0, spriteFly, 74, 75, true, 200);
 	
-	
+	Sound sound;
 	
 	public FroggerModel() throws IOException
 	{
@@ -149,6 +148,7 @@ public class FroggerModel
 		entities.addAll(NPCs);
 		entities.addAll(prizes);
 		
+		sound = new Sound();
 	}
 	
 	public void moveFrog(KeyEvent e) throws IOException
@@ -180,6 +180,7 @@ public class FroggerModel
 				frog.rotate("UP");
 				break;
 		}
+		sound.soundHop ();
 		frog.updateHitbox();
 	}
 }
