@@ -218,6 +218,17 @@ public class FroggerCtrl
 	private void updateMorte (Frog frog) throws IOException
 	{
 		model.skulls.add(new Skull(frog.p.getX(),frog.p.getY(),0, model.spriteSkull,0,0));
+
+		if(model.tempo==0) {
+				model.sound.soundMorteTempo();
+			}
+			else{
+				if (frog.p.getY() > 700 && frog.p.getY() < 1200) {
+					model.sound.soundMorteAcqua();
+				} else {
+					model.sound.soundMorteAuto();
+				}
+			}
 		frog.morte();
 		resetTempo();
 	}
