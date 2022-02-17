@@ -4,16 +4,17 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 
 // Estendo JFrame perché deve essere attiva la classe
-public class Sound extends JFrame
+public class Sound// extends JFrame
 {
-	private static Clip clip;
+	private  Clip clip;
 	
-	private static HashMap <String, AudioInputStream> sounds = new HashMap<>();
+	private  HashMap <String, AudioInputStream> sounds = new HashMap<>();
 	
+	private  boolean active=false;
 	
 	public Sound()
 	{
-		this.setVisible(false); // Per non far vedere la finestra JFrame
+		//this.setVisible(false); // Per non far vedere la finestra JFrame
 		
 		try //todo caricare tutti i vari suoni
 		{
@@ -40,46 +41,56 @@ public class Sound extends JFrame
 		
 	}
 	
-	/*public static void updateSound()
+	/*public void updateSound()
 	{
-		if(
+		if(!clip.isActive() && clip.isOpen())
+		{
+			clip.close();
+			active=false;
+		}
 	}*/
 	
 	
-	public static void soundMorteAuto ()
+	public void soundMorteAuto ()
 	{
 		clip.start();
 	}
 	
-	public static void soundMorteAcqua ()
+	public void soundMorteAcqua ()
 	{
 		clip.start();
 	}
 	
-	public static void soundPoint ()
+	public void soundPoint ()
 	{
 		clip.start();
 	}
 	
-	public static void soundBonus ()
+	public void soundBonus ()
 	{
 		clip.start();
 	}
 	
-	public static void soundHop ()
+	public void soundHop ()
 	{
-		
-		try
+		if(!clip.isActive() && !clip.isOpen())
 		{
-			clip.open(sounds.get("hop"));
+			try
+			{
+				clip.open(sounds.get("hop"));
+			}
+			catch (LineUnavailableException | IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			clip.start();
+			//active=true;
 		}
-		catch (LineUnavailableException | IOException e)
+		else
 		{
-			e.printStackTrace();
+				clip.close();
 		}
-		
-		clip.start();
-		//clip.close();
 	}
 	
 }

@@ -63,6 +63,8 @@ public class FroggerCtrl
 		boolean contact = false;
 		NPC npc=model.NPCs.get(0);
 		
+		//model.sound.updateSound();
+		
 		if (nframe == 15)
 		{
 			model.tempo -= 5;
