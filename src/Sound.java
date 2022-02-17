@@ -6,7 +6,7 @@ import javax.swing.*;
 // Estendo JFrame perché deve essere attiva la classe
 public class Sound// extends JFrame
 {
-	private  Clip clip;
+	private  Clip clipHop;
 	
 	private  HashMap <String, AudioInputStream> sounds = new HashMap<>();
 	
@@ -25,11 +25,13 @@ public class Sound// extends JFrame
 			
 			AudioInputStream test = AudioSystem.getAudioInputStream(fileTest);
 			
-			sounds.put("hop",AudioSystem.getAudioInputStream(fileHop));
+			clipHop = AudioSystem.getClip();
 			
+			sounds.put("hop",AudioSystem.getAudioInputStream(fileHop));
+			clipHop.open(sounds.get("hop"));
 			
 			// Get a sound clip resource.
-		    clip = AudioSystem.getClip();
+		 
 			// Open audio clip and load samples from the audio input stream.
 			//clip.open(test);
 			//clip.start();
@@ -51,7 +53,7 @@ public class Sound// extends JFrame
 	}*/
 	
 	
-	public void soundMorteAuto ()
+	/*public void soundMorteAuto ()
 	{
 		clip.start();
 	}
@@ -69,28 +71,13 @@ public class Sound// extends JFrame
 	public void soundBonus ()
 	{
 		clip.start();
-	}
+	}*/
 	
 	public void soundHop ()
 	{
-		if(!clip.isActive() && !clip.isOpen())
-		{
-			try
-			{
-				clip.open(sounds.get("hop"));
-			}
-			catch (LineUnavailableException | IOException e)
-			{
-				e.printStackTrace();
-			}
-			
-			clip.start();
-			//active=true;
-		}
-		else
-		{
-				clip.close();
-		}
+		clipHop.start();
+		
+		clipHop.setFramePosition(0);
 	}
 	
 }
