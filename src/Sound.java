@@ -59,7 +59,7 @@ public class Sound
 	/*public void soundMorteTempo ()
 	{
 		clip.start();
-	}
+	}*/
 	
 	public void soundMorteAcqua ()
 	{
@@ -97,23 +97,6 @@ public class Sound
 		clip.start();
 	}
 	
-	public void soundBonus ()
-	{
-		Clip clip = null;
-		
-		try
-		{
-			clip = AudioSystem.getClip();
-			clip.open(AudioSystem.getAudioInputStream(new File("src/../tracks/point.wav")));
-		}
-		catch (LineUnavailableException | IOException | UnsupportedAudioFileException e)
-		{
-			e.printStackTrace();
-		}
-		
-		clip.setFramePosition(0);
-		clip.start();
-	}
 	
 	public void soundHop()
 	{

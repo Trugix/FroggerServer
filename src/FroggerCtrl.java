@@ -220,7 +220,7 @@ public class FroggerCtrl
 		model.skulls.add(new Skull(frog.p.getX(),frog.p.getY(),0, model.spriteSkull,0,0));
 
 		if(model.tempo==0) {
-				model.sound.soundMorteTempo();
+			//	model.sound.soundMorteTempo();
 			}
 			else{
 				if (frog.p.getY() > 700 && frog.p.getY() < 1200) {
@@ -334,6 +334,7 @@ public class FroggerCtrl
 	private void updatePoint(Frog frog, int point)
 	{
 		frog.setPoint(frog.getPoint() + point + 100 * frog.vite + 5 * model.tempo);
+		model.sound.soundPoint();
 	}
 	
 	
