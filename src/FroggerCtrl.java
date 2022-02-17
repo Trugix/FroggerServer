@@ -150,7 +150,6 @@ public class FroggerCtrl
 	{
 		if ((contact && npc.deathTouch) || (!contact && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
 			updateMorte (frog);
-		
 		/*if ((contact && frog.p.getY() >= 0 && frog.p.getY() <= 600) || (!contact && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
 		{
 			frog.morte();

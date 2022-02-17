@@ -160,27 +160,30 @@ public class FroggerModel
 				if (frog.p.getX() < 0)
 					frog.p.setX(0);
 				frog.rotate("LEFT");
+				sound.soundHop();
 				break;
 			case KeyEvent.VK_RIGHT:
 				frog.p.setX(frog.p.getX() + frog.dx);
 				if (frog.p.getX() > 920)
 					frog.p.setX(920);
 				frog.rotate("RIGHT");
+				sound.soundHop();
 				break;
 			case KeyEvent.VK_DOWN:
 				frog.p.setY(frog.p.getY() - frog.dy);
 				if (frog.p.getY() < 10)
 					frog.p.setY(10);
 				frog.rotate("DOWN");
+				sound.soundHop();
 				break;
 			case KeyEvent.VK_UP:
 				frog.p.setY(frog.p.getY() + frog.dy);
 				if (frog.p.getY() > 1210)
 					frog.p.setY(1210);
 				frog.rotate("UP");
+				sound.soundHop();
 				break;
 		}
-		sound.soundHop();
 		frog.updateHitbox();
 	}
 }

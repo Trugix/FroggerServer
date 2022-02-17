@@ -7,11 +7,18 @@ import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.ArrayList;
 
 
 public class PnlFrog extends JPanel implements KeyListener{
-
+    
+    Socket socket = new Socket("localHost" ,1234);
+    ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+    
+    
+    
     FroggerCtrl ctrl;
     Graphics2D g2;
     
@@ -61,7 +68,7 @@ public class PnlFrog extends JPanel implements KeyListener{
         for (Entity e: entities)
         {
             g2.drawImage(e.sprite, e.p.getX(), e.p.getY(), null);
-                g2.drawRect(e.p.getX(),e.p.getY(),e.dimx,e.dimy); //solo per vedere l'hitbox
+              //  g2.draw(e.hitbox); //solo per vedere l'hitbox
         }
         g2.drawImage(entities.get(0).sprite, entities.get(0).p.x, entities.get(0).p.y, null);
 
