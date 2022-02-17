@@ -180,7 +180,7 @@ public class FroggerModel
 				frog.rotate("UP");
 				break;
 		}
-		sound.soundHop ();
+		sound.soundHop();
 		frog.updateHitbox();
 	}
 }

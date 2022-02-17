@@ -58,6 +58,11 @@ public class Sound// extends JFrame
 	{
 		clip.start();
 	}
+
+	/*public void soundMorteTempo ()
+	{
+		clip.start();
+	}
 	
 	public void soundMorteAcqua ()
 	{
