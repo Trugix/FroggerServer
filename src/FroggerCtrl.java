@@ -1,11 +1,11 @@
 import javax.imageio.ImageIO;
 import javax.swing.Timer;
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 
 public class FroggerCtrl
@@ -14,9 +14,11 @@ public class FroggerCtrl
 	PnlFrog frogView;
 	FroggerModel model;
 	private int nframe = 0;
-	Random random = new Random();
+	private final Random random = new Random();
 	private int timerPrize = randTemp();
 	private boolean first = true;
+	private NPC npc;
+	private boolean contact;
 	
 	private Prize precedente;
 	
@@ -41,7 +43,6 @@ public class FroggerCtrl
 							{
 								if (model.prizes.get(j).hitbox.intersects(model.prizes.get(i).hitbox) && model.prizes.get(j).p.getX()!=model.prizes.get(i).p.getX())
 									precedente=model.prizes.get(i);
-								
 							}
 							swapPrize (model.prizes.get(j));
 						}
@@ -60,10 +61,8 @@ public class FroggerCtrl
 	
 	private void nextFrame() throws IOException
 	{
-		boolean contact = false;
-		NPC npc=model.NPCs.get(0);
-		
-		//model.sound.updateSound();
+		contact = false;
+		npc=model.NPCs.get(0);
 		
 		if (nframe == 15)
 		{
@@ -81,33 +80,26 @@ public class FroggerCtrl
 			}
 		}
 		
-		for (NPC n : model.NPCs)
+		int size = model.NPCs.size();
+		ExecutorService service= Executors.newFixedThreadPool(4);
+		
+		service.submit(() -> doSomething (0,size/4));
+		service.submit(() -> doSomething (size/4,size/2));
+		service.submit(() -> doSomething (size/2,size*3/4));
+		service.submit(() -> doSomething (size*3/4,size));
+		
+		service.shutdown();
+		try
 		{
-			n.stepNext();
-			if (n.dx > 0)
-			{
-				if (n.p.getX() - n.getDimx() > 1020)
-				{
-					n.p.setX(-n.getDimx() - 20);
-				}
-			}
-			else
-			{
-				if (n.p.getX() + n.getDimx() < -20)
-				{
-					n.p.setX(1020);
-				}
-			}
-			
-			if (model.frog.hitbox.intersects(n.hitbox))
-			{
-				contact = true;
-				npc=n;
-			}
+			service.awaitTermination(3, TimeUnit.MILLISECONDS);
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
 		}
 		
-		checkCollision(model.frog,contact,npc);
-		if (!npc.deathTouch && contact)
+		checkCollision(model.frog);
+		if (!npc.deathTouch && this.contact)
 		{
 			model.frog.stepNext(npc.dx);
 		}
@@ -130,6 +122,36 @@ public class FroggerCtrl
 		
 	}
 	
+	private void doSomething (int start, int end)
+	{
+		for (int i = start; i < end; i++)
+		{
+			model.NPCs.get(i).stepNext();
+			if (model.NPCs.get(i).dx > 0)
+			{
+				if (model.NPCs.get(i).p.getX() - model.NPCs.get(i).getDimx() > 1020)
+				{
+					model.NPCs.get(i).p.setX(-model.NPCs.get(i).getDimx() - 20);
+				}
+			}
+			else
+			{
+				if (model.NPCs.get(i).p.getX() + model.NPCs.get(i).getDimx() < -20)
+				{
+					model.NPCs.get(i).p.setX(1020);
+				}
+			}
+			
+			if (model.frog.hitbox.intersects(model.NPCs.get(i).hitbox))
+			{
+				this.contact = true;
+				this.npc = model.NPCs.get(i);
+			}
+		}
+	}
+	
+	
+	
 	private void updateSkull ()
 	{
 		for (Skull s:model.skulls)
@@ -146,15 +168,10 @@ public class FroggerCtrl
 		}
 	}
 	
-	private void checkCollision(Frog frog,boolean contact, NPC npc) throws IOException
+	private void checkCollision(Frog frog) throws IOException
 	{
-		if ((contact && npc.deathTouch) || (!contact && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
+		if ((this.contact && this.npc.deathTouch) || (!this.contact && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
 			updateMorte (frog);
-		/*if ((contact && frog.p.getY() >= 0 && frog.p.getY() <= 600) || (!contact && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
-		{
-			frog.morte();
-			resetTempo();
-		}*/
 	}
 	
 	
@@ -179,7 +196,7 @@ public class FroggerCtrl
 				{
 					if (p.isBonus())
 					{
-						p.setSprite(ImageIO.read(new File("src/../sprites/void.png")));
+						p.setSprite(model.spriteVoid);
 					}
 				}
 			}
@@ -223,9 +240,9 @@ public class FroggerCtrl
 			}
 			else{
 				if (frog.p.getY() > 700 && frog.p.getY() < 1200) {
-					model.sound.soundMorteAcqua();
+					Sound.soundMorteAcqua();
 				} else {
-					model.sound.soundMorteAuto();
+					Sound.soundMorteAuto();
 				}
 			}
 		frog.morte();
@@ -297,7 +314,7 @@ public class FroggerCtrl
 				model.entities.add(precedente);
 				model.prizes.remove(bonus);
 				model.entities.remove(bonus);
-				//todo fermare il gioco perchè si ha vinto
+				//todo fermare il gioco perché si ha vinto
 			}
 			else
 				if (bonus.hitbox.intersects(model.prizes.get(i).hitbox) && bonus.p.getX()!=model.prizes.get(i).p.getX())
@@ -333,7 +350,7 @@ public class FroggerCtrl
 	private void updatePoint(Frog frog, int point)
 	{
 		frog.setPoint(frog.getPoint() + point + 100 * frog.vite + 5 * model.tempo);
-		model.sound.soundPoint();
+		Sound.soundPoint();
 	}
 	
 	

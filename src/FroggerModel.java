@@ -86,7 +86,6 @@ public class FroggerModel
 	
 	Prize fly = new Prize(465, 1215, 0, spriteFly, 74, 75, true, 200);
 	
-	Sound sound;
 	
 	public FroggerModel() throws IOException
 	{
@@ -148,7 +147,6 @@ public class FroggerModel
 		entities.addAll(NPCs);
 		entities.addAll(prizes);
 		
-		sound = new Sound();
 	}
 	
 	public void moveFrog(KeyEvent e) throws IOException
@@ -160,28 +158,28 @@ public class FroggerModel
 				if (frog.p.getX() < 0)
 					frog.p.setX(0);
 				frog.rotate("LEFT");
-				sound.soundHop();
+				Sound.soundHop();
 				break;
 			case KeyEvent.VK_RIGHT:
 				frog.p.setX(frog.p.getX() + frog.dx);
 				if (frog.p.getX() > 920)
 					frog.p.setX(920);
 				frog.rotate("RIGHT");
-				sound.soundHop();
+				Sound.soundHop();
 				break;
 			case KeyEvent.VK_DOWN:
 				frog.p.setY(frog.p.getY() - frog.dy);
 				if (frog.p.getY() < 10)
 					frog.p.setY(10);
 				frog.rotate("DOWN");
-				sound.soundHop();
+				Sound.soundHop();
 				break;
 			case KeyEvent.VK_UP:
 				frog.p.setY(frog.p.getY() + frog.dy);
 				if (frog.p.getY() > 1210)
 					frog.p.setY(1210);
 				frog.rotate("UP");
-				sound.soundHop();
+				Sound.soundHop();
 				break;
 		}
 		frog.updateHitbox();
