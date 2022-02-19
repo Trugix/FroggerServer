@@ -5,12 +5,6 @@ import javax.sound.sampled.*;
 public class Sound
 {
 	
-	public Sound()
-	{
-	
-	}
-	
-	
 	public static void soundMorteAuto ()
 	{
 		Clip clip = null;

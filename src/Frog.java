@@ -8,28 +8,6 @@ public class Frog extends Entity {
 	
 	private static final int MAX_VITE = 6;
 	
-	
-	/*public enum rotazione{
-		UP,
-		RIGHT,
-		DOWN,
-		LEFT;
-	};
-	
-	public rotazione next(rotazione r) {
-		switch (r) {
-			case UP:
-				return rotazione.LEFT;
-			case LEFT:
-				return rotazione.DOWN;
-			case DOWN:
-				return rotazione.RIGHT;
-			case RIGHT:
-				return rotazione.UP;
-		}
-		return null;
-	}*/
-	
 	final int dy=100;
 	int vite;
 	private int point=0;

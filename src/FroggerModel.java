@@ -21,70 +21,70 @@ public class FroggerModel
 	
 	public int tempo = 500;
 	
-	BufferedImage spriteFrog = ImageIO.read(new File(PATH + "frogUp.png"));
+	public BufferedImage spriteFrog = ImageIO.read(new File(PATH + "frogUp.png"));
 	
-	BufferedImage spriteCarro = ImageIO.read(new File(PATH + "carro1.png"));
-	BufferedImage spriteAutoSport = ImageIO.read(new File(PATH + "autoSport.png"));
-	BufferedImage spriteBulldozer = ImageIO.read(new File(PATH + "bulldozer.png"));
-	BufferedImage spriteFormula1 = ImageIO.read(new File(PATH + "carFormula1.png"));
-	BufferedImage spriteFormula2 = ImageIO.read(new File(PATH + "carFormula2.png"));
-	BufferedImage spritePolice = ImageIO.read(new File(PATH + "carPolice.png"));
+	public BufferedImage spriteCarro = ImageIO.read(new File(PATH + "carro1.png"));
+	public BufferedImage spriteAutoSport = ImageIO.read(new File(PATH + "autoSport.png"));
+	public BufferedImage spriteBulldozer = ImageIO.read(new File(PATH + "bulldozer.png"));
+	public BufferedImage spriteFormula1 = ImageIO.read(new File(PATH + "carFormula1.png"));
+	public BufferedImage spriteFormula2 = ImageIO.read(new File(PATH + "carFormula2.png"));
+	public BufferedImage spritePolice = ImageIO.read(new File(PATH + "carPolice.png"));
 	
-	BufferedImage spriteLog6 = ImageIO.read(new File(PATH + "log6.png"));
-	BufferedImage spriteLog3 = ImageIO.read(new File(PATH + "log3.png"));
-	BufferedImage spriteLog4 = ImageIO.read(new File(PATH + "log4.png"));
+	public BufferedImage spriteLog6 = ImageIO.read(new File(PATH + "log6.png"));
+	public BufferedImage spriteLog3 = ImageIO.read(new File(PATH + "log3.png"));
+	public BufferedImage spriteLog4 = ImageIO.read(new File(PATH + "log4.png"));
 	
-	BufferedImage spriteTurtle1 = ImageIO.read(new File(PATH + "turtle1.png"));
-	BufferedImage spriteTurtle2 = ImageIO.read(new File(PATH + "turtle2.png"));
-	BufferedImage spriteTurtle3 = ImageIO.read(new File(PATH + "turtle3.png"));
+	public BufferedImage spriteTurtle1 = ImageIO.read(new File(PATH + "turtle1.png"));
+	public BufferedImage spriteTurtle2 = ImageIO.read(new File(PATH + "turtle2.png"));
+	public BufferedImage spriteTurtle3 = ImageIO.read(new File(PATH + "turtle3.png"));
 	
-	BufferedImage spriteFly = ImageIO.read(new File(PATH + "fly.png"));
-
-	BufferedImage spriteLilyPad = ImageIO.read(new File(PATH + "lily.png"));
-	BufferedImage spriteFrogLily = ImageIO.read(new File(PATH + "frogAtRest.png"));
+	public BufferedImage spriteFly = ImageIO.read(new File(PATH + "fly.png"));
 	
-	BufferedImage spriteSkull = ImageIO.read(new File(PATH + "skull.png"));
-
-	BufferedImage spriteVoid = ImageIO.read(new File(PATH + "void.png"));
+	public BufferedImage spriteLilyPad = ImageIO.read(new File(PATH + "lily.png"));
+	public BufferedImage spriteFrogLily = ImageIO.read(new File(PATH + "frogAtRest.png"));
 	
-	Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 70, spriteFrog, 75, 75);
+	public BufferedImage spriteSkull = ImageIO.read(new File(PATH + "skull.png"));
 	
-	NPC carroA = new NPC(500, 510, -7, spriteCarro, 200, 85, true);
-	NPC carroB = new NPC(981, 510, -7, spriteCarro, 200, 85, true);
-	NPC autoSportA = new NPC(235, 410, 10, spriteAutoSport, 100, 85, true);
-	NPC autoSportB = new NPC(884, 410, 10, spriteAutoSport, 100, 85, true);
-	NPC bulldozerA = new NPC(15, 310, -5, spriteBulldozer, 130, 85, true);
-	NPC bulldozerB = new NPC(354, 310, -5, spriteBulldozer, 130, 85, true);
-	NPC bulldozerC = new NPC(846, 310, -5, spriteBulldozer, 130, 85, true);
-	NPC carFormula1 = new NPC(123, 210, 12, spriteFormula1, 100, 85, true);
-	NPC carFormula2 = new NPC(724, 210, 12, spriteFormula2, 100, 85, true);
-	NPC carPoliceA = new NPC(684, 110, -10, spritePolice, 110, 85, true);
-	NPC carPoliceB = new NPC(215, 110, -10, spritePolice, 110, 85, true);
+	public BufferedImage spriteVoid = ImageIO.read(new File(PATH + "void.png"));
 	
-	NPC log6A = new NPC(1000, 1110, 11, spriteLog6, 595, 85, false);
-	NPC log6B = new NPC(100, 1110, 11, spriteLog6, 595, 85, false);
-	NPC log4A = new NPC(987, 810, 9, spriteLog4, 395, 85, false);
-	NPC log4B = new NPC(-144, 810, 9, spriteLog4, 395, 85, false);
-	NPC log4C = new NPC(394, 810, 9, spriteLog4, 395, 85, false);
-	NPC log3A = new NPC(-217, 910, 5, spriteLog3, 295, 85, false);
-	NPC log3B = new NPC(397, 910, 5, spriteLog3, 295, 85, false);
-	NPC log3C = new NPC(943, 910, 5, spriteLog3, 295, 85, false);
+	public Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 70, spriteFrog, 75, 75);
 	
-	Turtle turtleA = new Turtle(698, 710, -6, spriteTurtle1, 110, 85, false, false);
-	Turtle turtleB = new Turtle(254, 710, -6, spriteTurtle1, 110, 85, false, true);
-	Turtle turtleC = new Turtle(1104, 710, -6, spriteTurtle1, 110, 85, false, true);
-	Turtle turtleD = new Turtle(57, 1010, -5, spriteTurtle1, 110, 85, false, true);
-	Turtle turtleE = new Turtle(348, 1010, -5, spriteTurtle1, 110, 85, false, true);
-	Turtle turtleF = new Turtle(698, 1010, -5, spriteTurtle1, 110, 85, false, false);
-	Turtle turtleG = new Turtle(1004, 1010, -5, spriteTurtle1, 110, 85, false, true);
+	private NPC carroA = new NPC(500, 510, -7, spriteCarro, 200, 85, true);
+	private NPC carroB = new NPC(981, 510, -7, spriteCarro, 200, 85, true);
+	private NPC autoSportA = new NPC(235, 410, 10, spriteAutoSport, 100, 85, true);
+	private NPC autoSportB = new NPC(884, 410, 10, spriteAutoSport, 100, 85, true);
+	private NPC bulldozerA = new NPC(15, 310, -5, spriteBulldozer, 130, 85, true);
+	private NPC bulldozerB = new NPC(354, 310, -5, spriteBulldozer, 130, 85, true);
+	private NPC bulldozerC = new NPC(846, 310, -5, spriteBulldozer, 130, 85, true);
+	private NPC carFormula1 = new NPC(123, 210, 12, spriteFormula1, 100, 85, true);
+	private NPC carFormula2 = new NPC(724, 210, 12, spriteFormula2, 100, 85, true);
+	private NPC carPoliceA = new NPC(684, 110, -10, spritePolice, 110, 85, true);
+	private NPC carPoliceB = new NPC(215, 110, -10, spritePolice, 110, 85, true);
 	
-	Prize lilyPadA = new Prize(30, 1210, 0, spriteLilyPad, 100, 100, false, 50);
-	Prize lilyPadB = new Prize(240, 1210, 0, spriteLilyPad, 100, 100, false, 50);
-	Prize lilyPadC = new Prize(450, 1210, 0, spriteLilyPad, 100, 100, false, 50);
-	Prize lilyPadD = new Prize(660, 1210, 0, spriteLilyPad, 100, 100, false, 50);
-	Prize lilyPadE = new Prize(870, 1210, 0, spriteLilyPad, 100, 100, false, 50);
+	private NPC log6A = new NPC(1000, 1110, 11, spriteLog6, 595, 85, false);
+	private NPC log6B = new NPC(100, 1110, 11, spriteLog6, 595, 85, false);
+	private NPC log4A = new NPC(987, 810, 9, spriteLog4, 395, 85, false);
+	private NPC log4B = new NPC(-144, 810, 9, spriteLog4, 395, 85, false);
+	private NPC log4C = new NPC(394, 810, 9, spriteLog4, 395, 85, false);
+	private NPC log3A = new NPC(-217, 910, 5, spriteLog3, 295, 85, false);
+	private NPC log3B = new NPC(397, 910, 5, spriteLog3, 295, 85, false);
+	private NPC log3C = new NPC(943, 910, 5, spriteLog3, 295, 85, false);
 	
-	Prize fly = new Prize(465, 1215, 0, spriteFly, 74, 75, true, 200);
+	private Turtle turtleA = new Turtle(698, 710, -6, spriteTurtle1, 110, 85, false, false);
+	private Turtle turtleB = new Turtle(254, 710, -6, spriteTurtle1, 110, 85, false, true);
+	private Turtle turtleC = new Turtle(1104, 710, -6, spriteTurtle1, 110, 85, false, true);
+	private Turtle turtleD = new Turtle(57, 1010, -5, spriteTurtle1, 110, 85, false, true);
+	private Turtle turtleE = new Turtle(348, 1010, -5, spriteTurtle1, 110, 85, false, true);
+	private Turtle turtleF = new Turtle(698, 1010, -5, spriteTurtle1, 110, 85, false, false);
+	private Turtle turtleG = new Turtle(1004, 1010, -5, spriteTurtle1, 110, 85, false, true);
+	
+	private Prize lilyPadA = new Prize(30, 1210, 0, spriteLilyPad, 100, 100, false, 50);
+	private Prize lilyPadB = new Prize(240, 1210, 0, spriteLilyPad, 100, 100, false, 50);
+	private Prize lilyPadC = new Prize(450, 1210, 0, spriteLilyPad, 100, 100, false, 50);
+	private Prize lilyPadD = new Prize(660, 1210, 0, spriteLilyPad, 100, 100, false, 50);
+	private Prize lilyPadE = new Prize(870, 1210, 0, spriteLilyPad, 100, 100, false, 50);
+	
+	private Prize fly = new Prize(465, 1215, 0, spriteFly, 74, 75, true, 200);
 	
 	
 	public FroggerModel() throws IOException

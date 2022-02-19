@@ -2,7 +2,7 @@ import java.awt.image.BufferedImage;
 
 public class Skull extends Entity
 {
-	private int timeToLive =15;
+	private int timeToLive = 15;
 	
 	public Skull(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy)
 	{
