@@ -64,7 +64,7 @@ public class PnlFrog extends JPanel implements KeyListener{
         for (Entity e: entities)
         {
             g2.drawImage(e.sprite, e.p.getX(), e.p.getY(), null);
-              //  g2.draw(e.hitbox); //solo per vedere l'hitbox
+            g2.draw(e.hitbox); //solo per vedere l'hitbox
         }
         g2.drawImage(entities.get(0).sprite, entities.get(0).p.x, entities.get(0).p.y, null);
 
