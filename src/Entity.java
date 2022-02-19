@@ -1,5 +1,4 @@
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
@@ -15,7 +14,7 @@ public class Entity
 		this.dimx = dimx;
 	}
 	
-	public class Position
+	protected class Position
 	{
 		protected int x;
 		protected int y;
@@ -23,7 +22,7 @@ public class Entity
 		public Position(int x, int y)
 		{
 			this.setX(x);
-			this.y = y;
+			this.setY(y);
 		}
 		
 		public int getX()

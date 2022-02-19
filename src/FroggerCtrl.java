@@ -252,7 +252,7 @@ public class FroggerCtrl
 
 	private void checkTime(Frog frog)
 	{
-		if(model.tempo==105) {
+		if(model.tempo==110) {
 			Sound.soundTicToc();
 		}
 		if (model.tempo <= 0)
