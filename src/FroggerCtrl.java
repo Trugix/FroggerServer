@@ -13,7 +13,6 @@ public class FroggerCtrl
 	
 	PnlFrog frogView;
 	FroggerModel model;
-	private int nframe = 0;
 	private final Random random = new Random();
 	private int timerPrize = randTemp();
 	private boolean first = true;
@@ -63,15 +62,7 @@ public class FroggerCtrl
 	{
 		contact = false;
 		npc=model.NPCs.get(0);
-		
-		if (nframe == 15)
-		{
-			model.tempo -= 5;
-			nframe = 0;
-		}
-		else
-			nframe++;
-		
+		model.tempo--;
 		for (Turtle t: model.turtles)
 		{
 			if(t.isSub())
@@ -235,22 +226,20 @@ public class FroggerCtrl
 	{
 		model.skulls.add(new Skull(frog.p.getX(),frog.p.getY(),0, model.spriteSkull,0,0));
 
-		if(model.tempo==0) {
-			//	model.sound.soundMorteTempo();
-			}
-			else{
-				if (frog.p.getY() > 700 && frog.p.getY() < 1200) {
-					Sound.soundMorteAcqua();
-				} else {
+		if (frog.p.getY() > 700 && frog.p.getY() < 1200) {
+				Sound.soundMorteAcqua();
+		} else {
 					Sound.soundMorteAuto();
 				}
-			}
 		frog.morte();
 		resetTempo();
 	}
 	
 	private void checkTime(Frog frog) throws IOException
 	{
+		if(model.tempo==105) {
+			Sound.soundTicToc();
+		}
 		if (model.tempo <= 0)
 			updateMorte (frog);
 		

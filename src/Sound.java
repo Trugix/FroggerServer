@@ -53,6 +53,25 @@ public class Sound
 			clip.setFramePosition(0);
 		clip.start();
 	}
+
+	public static void soundTicToc ()
+	{
+		Clip clip = null;
+
+		try
+		{
+			clip = AudioSystem.getClip();
+			clip.open(AudioSystem.getAudioInputStream(new File("src/../tracks/time.wav")));
+		}
+		catch (LineUnavailableException | IOException | UnsupportedAudioFileException e)
+		{
+			e.printStackTrace();
+		}
+
+		assert clip != null;
+		clip.setFramePosition(0);
+		clip.loop(3);
+	}
 	
 	public static void soundPoint ()
 	{
