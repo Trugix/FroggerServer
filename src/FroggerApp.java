@@ -86,6 +86,7 @@ public class FroggerApp
 			e.printStackTrace();
 		}
 		
+		assert control != null;
 		frame.add(control.frogView, BorderLayout.CENTER);
 		control.frogView.setVisible(true);
 		frame.setVisible(true);
