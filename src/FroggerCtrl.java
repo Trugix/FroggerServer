@@ -250,6 +250,7 @@ public class FroggerCtrl
 		}
 		try
 		{
+			nFrame=0;
 			frog.morte();
 		}
 		catch (IOException e)
