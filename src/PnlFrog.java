@@ -141,7 +141,7 @@ public class PnlFrog extends JPanel implements KeyListener{
     private void printHud (Graphics2D g2)
     {
         
-        printVite(g2,ctrl.model.frog.vite);
+        printVite(g2,ctrl.model.frog.getVite());
         printTempo(g2);
         printPoint (g2,ctrl.model.frog.getPoint());
     }

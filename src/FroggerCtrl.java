@@ -103,7 +103,7 @@ public class FroggerCtrl
 			model.frog.stepNext(npc.dx);
 		}
 		
-		if (model.frog.vite <= 0)
+		if (model.frog.getVite() <= 0)
 		{
 			//todo fare finire il gioco
 		}
@@ -380,7 +380,7 @@ public class FroggerCtrl
 	 */
 	private void updatePoint(Frog frog, int point)
 	{
-		frog.setPoint(frog.getPoint() + point + 100 * frog.vite + 5 * model.tempo);
+		frog.setPoint(frog.getPoint() + point + 100 * frog.getPoint() + 5 * model.tempo);
 		Sound.soundPoint();
 	}
 	
