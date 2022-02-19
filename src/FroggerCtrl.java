@@ -251,7 +251,8 @@ public class FroggerCtrl
 		}
 		resetTempo();
 	}
-	
+
+
 	private void checkTime(Frog frog)
 	{
 		if(model.tempo==105) {
