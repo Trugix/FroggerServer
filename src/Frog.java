@@ -51,7 +51,7 @@ public class Frog extends Entity {
 	
 	public void updateHitbox ()
 	{
-		this.hitbox = new Rectangle(this.p.x, this.p.y, this.dimx, this.dimy);
+		this.hitbox = new Rectangle(this.p.x+10, this.p.y+5, this.dimx-20, this.dimy-10);
 	}
 	
 	public void morte() throws IOException
@@ -75,6 +75,7 @@ public class Frog extends Entity {
 			p.setX(920);
 		if (p.getX() < 0)
 			p.setX(0);
-		hitbox = (new Rectangle(this.p.x, this.p.y, this.dimx,this.dimy));
+		//hitbox = (new Rectangle(this.p.x, this.p.y, this.dimx,this.dimy));
+		updateHitbox();
 	}
 }

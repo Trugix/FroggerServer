@@ -11,7 +11,7 @@ public class FroggerModel
 	private static final int STARTING_FROGX = 460;
 	private static final int STARTING_FROGY = 10;
 	
-	public static final String PATH = "src/../sprites/";
+	public static final String PATH_SPRITE = "src/../sprites/";
 	
 	public ArrayList<Entity> entities = new ArrayList<>();
 	public ArrayList<NPC> NPCs = new ArrayList<>();
@@ -21,31 +21,31 @@ public class FroggerModel
 	
 	public int tempo = 500;
 	
-	public final BufferedImage spriteFrog = ImageIO.read(new File(PATH + "frogUp.png"));
+	public final BufferedImage spriteFrog = ImageIO.read(new File(PATH_SPRITE + "frogUp.png"));
 	
-	public final BufferedImage spriteCarro = ImageIO.read(new File(PATH + "carro1.png"));
-	public final BufferedImage spriteAutoSport = ImageIO.read(new File(PATH + "autoSport.png"));
-	public final BufferedImage spriteBulldozer = ImageIO.read(new File(PATH + "bulldozer.png"));
-	public final BufferedImage spriteFormula1 = ImageIO.read(new File(PATH + "carFormula1.png"));
-	public final BufferedImage spriteFormula2 = ImageIO.read(new File(PATH + "carFormula2.png"));
-	public final BufferedImage spritePolice = ImageIO.read(new File(PATH + "carPolice.png"));
+	public final BufferedImage spriteCarro = ImageIO.read(new File(PATH_SPRITE + "carro1.png"));
+	public final BufferedImage spriteAutoSport = ImageIO.read(new File(PATH_SPRITE + "autoSport.png"));
+	public final BufferedImage spriteBulldozer = ImageIO.read(new File(PATH_SPRITE + "bulldozer.png"));
+	public final BufferedImage spriteFormula1 = ImageIO.read(new File(PATH_SPRITE + "carFormula1.png"));
+	public final BufferedImage spriteFormula2 = ImageIO.read(new File(PATH_SPRITE + "carFormula2.png"));
+	public final BufferedImage spritePolice = ImageIO.read(new File(PATH_SPRITE + "carPolice.png"));
 	
-	public final BufferedImage spriteLog6 = ImageIO.read(new File(PATH + "log6.png"));
-	public final BufferedImage spriteLog3 = ImageIO.read(new File(PATH + "log3.png"));
-	public final BufferedImage spriteLog4 = ImageIO.read(new File(PATH + "log4.png"));
+	public final BufferedImage spriteLog6 = ImageIO.read(new File(PATH_SPRITE + "log6.png"));
+	public final BufferedImage spriteLog3 = ImageIO.read(new File(PATH_SPRITE + "log3.png"));
+	public final BufferedImage spriteLog4 = ImageIO.read(new File(PATH_SPRITE + "log4.png"));
 	
-	public final BufferedImage spriteTurtle1 = ImageIO.read(new File(PATH + "turtle1.png"));
-	public final BufferedImage spriteTurtle2 = ImageIO.read(new File(PATH + "turtle2.png"));
-	public final BufferedImage spriteTurtle3 = ImageIO.read(new File(PATH + "turtle3.png"));
+	public final BufferedImage spriteTurtle1 = ImageIO.read(new File(PATH_SPRITE + "turtle1.png"));
+	public final BufferedImage spriteTurtle2 = ImageIO.read(new File(PATH_SPRITE + "turtle2.png"));
+	public final BufferedImage spriteTurtle3 = ImageIO.read(new File(PATH_SPRITE + "turtle3.png"));
 	
-	public final BufferedImage spriteFly = ImageIO.read(new File(PATH + "fly.png"));
+	public final BufferedImage spriteFly = ImageIO.read(new File(PATH_SPRITE + "fly.png"));
 	
-	public final BufferedImage spriteLilyPad = ImageIO.read(new File(PATH + "lily.png"));
-	public final BufferedImage spriteFrogLily = ImageIO.read(new File(PATH + "frogAtRest.png"));
+	public final BufferedImage spriteLilyPad = ImageIO.read(new File(PATH_SPRITE + "lily.png"));
+	public final BufferedImage spriteFrogLily = ImageIO.read(new File(PATH_SPRITE + "frogAtRest.png"));
 	
-	public final BufferedImage spriteSkull = ImageIO.read(new File(PATH + "skull.png"));
+	public final BufferedImage spriteSkull = ImageIO.read(new File(PATH_SPRITE + "skull.png"));
 	
-	public final BufferedImage spriteVoid = ImageIO.read(new File(PATH + "void.png"));
+	public final BufferedImage spriteVoid = ImageIO.read(new File(PATH_SPRITE + "void.png"));
 	
 	public Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 70, spriteFrog, 75, 75);
 	
@@ -84,7 +84,7 @@ public class FroggerModel
 	private final Prize lilyPadD = new Prize(660, 1210, 0, spriteLilyPad, 100, 100, false, 50);
 	private final Prize lilyPadE = new Prize(870, 1210, 0, spriteLilyPad, 100, 100, false, 50);
 	
-	private final Prize fly = new Prize(465, 1215, 0, spriteFly, 74, 75, true, 200);
+	private final Prize fly = new Prize(465, 1215, 0, spriteFly, 100, 100, true, 200);
 	
 	
 	public FroggerModel() throws IOException

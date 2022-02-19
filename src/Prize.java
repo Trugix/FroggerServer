@@ -1,5 +1,6 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,6 +17,7 @@ public class Prize extends Entity
 		super(x, y, dx, sprite, dimx, dimy);
 		this.bonus=bonus;
 		this.point = point;
+		this.hitbox = new Rectangle(x+dimx/6+15,y+dimy/6,dimx/3,dimy/3);
 	}
 	
 	
@@ -29,7 +31,7 @@ public class Prize extends Entity
 		return point;
 	}
 	
-	public void stepNext(ArrayList <Position> destination) throws IOException
+	public void stepNext(ArrayList <Position> destination)
 	{
 		if(this.bonus)
 		{
@@ -39,12 +41,26 @@ public class Prize extends Entity
 				Position p = destination.get(random.nextInt(destination.size()));
 				this.p.setX(p.getX());
 				this.p.setY(p.getY());
-				this.hitbox = new Rectangle(this.p.getX(), this.p.getY(), dimx / 2, dimy / 2);
-				setSprite(ImageIO.read(new File("src/../sprites/fly.png")));
+				this.hitbox = new Rectangle(this.p.getX()+dimx/6+5, this.p.getY(), dimx / 3, dimy / 3);
+				try
+				{
+					setSprite(ImageIO.read(new File("src/../sprites/fly.png")));
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 			}
 			else
 			{
-				setSprite(ImageIO.read(new File("src/../sprites/void.png")));
+				try
+				{
+					setSprite(ImageIO.read(new File("src/../sprites/void.png")));
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 				this.hitbox = null;
 			}
 		}
