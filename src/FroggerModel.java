@@ -21,7 +21,9 @@ public class FroggerModel
 	
 	public int tempo = 500;
 	
-	public final BufferedImage spriteFrog = ImageIO.read(new File(PATH_SPRITE + "frogUp.png"));
+	public BufferedImage[] spritesFrog = {ImageIO.read(new File(PATH_SPRITE + "frogUp.png")), ImageIO.read(new File(PATH_SPRITE + "frogRight.png")),
+			ImageIO.read(new File(PATH_SPRITE + "frogDown.png")), ImageIO.read(new File(PATH_SPRITE + "frogLeft.png"))};
+
 	
 	public final BufferedImage spriteCarro = ImageIO.read(new File(PATH_SPRITE + "carro1.png"));
 	public final BufferedImage spriteAutoSport = ImageIO.read(new File(PATH_SPRITE + "autoSport.png"));
@@ -47,7 +49,7 @@ public class FroggerModel
 	
 	public final BufferedImage spriteVoid = ImageIO.read(new File(PATH_SPRITE + "void.png"));
 	
-	public Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 70, spriteFrog, 75, 75);
+	public Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 70, spritesFrog, 75, 75);
 	
 	private final NPC carroA = new NPC(500, 510, -7, spriteCarro, 200, 85, true);
 	private final NPC carroB = new NPC(981, 510, -7, spriteCarro, 200, 85, true);
@@ -119,7 +121,7 @@ public class FroggerModel
 		turtles.add(turtleE);
 		NPCs.add(turtleF);
 		turtles.add(turtleG);
-		
+
 		turtleB.addSprites(spriteTurtle2);
 		turtleB.addSprites(spriteTurtle3);
 		turtleC.addSprites(spriteTurtle2);
@@ -143,41 +145,44 @@ public class FroggerModel
 		NPCs.addAll(turtles);
 		entities.addAll(NPCs);
 		entities.addAll(prizes);
-		
 	}
 	
 	public void moveFrog(KeyEvent e) throws IOException
 	{
-		switch (e.getKeyCode())
-		{       //todo capire why è al contrario
-			case KeyEvent.VK_LEFT:    //è perché l'algoritmo routa attorno all'angolo top left
-				frog.p.setX(frog.p.getX() - frog.dx);
+		frog.setMoving(true);
+		switch (e.getKeyCode()) {       //todo capire why è al contrario
+			case KeyEvent.VK_LEFT -> {    //è perché l'algoritmo routa attorno all'angolo top left
+				//frog.p.setX(frog.p.getX() - frog.dx);
+				frog.setDirection(3);
 				if (frog.p.getX() < 0)
 					frog.p.setX(0);
 				frog.rotate("LEFT");
 				Sound.soundHop();
-				break;
-			case KeyEvent.VK_RIGHT:
-				frog.p.setX(frog.p.getX() + frog.dx);
+			}
+			case KeyEvent.VK_RIGHT -> {
+			//	frog.p.setX(frog.p.getX() + frog.dx);
+					frog.setDirection(1);
 				if (frog.p.getX() > 920)
 					frog.p.setX(920);
 				frog.rotate("RIGHT");
 				Sound.soundHop();
-				break;
-			case KeyEvent.VK_DOWN:
-				frog.p.setY(frog.p.getY() - frog.dy);
+			}
+			case KeyEvent.VK_DOWN -> {
+				//frog.p.setY(frog.p.getY() - frog.dy);
+				frog.setDirection(2);
 				if (frog.p.getY() < 10)
 					frog.p.setY(10);
 				frog.rotate("DOWN");
 				Sound.soundHop();
-				break;
-			case KeyEvent.VK_UP:
-				frog.p.setY(frog.p.getY() + frog.dy);
+			}
+			case KeyEvent.VK_UP -> {
+				//frog.p.setY(frog.p.getY() + frog.dy);
+				frog.setDirection(0);
 				if (frog.p.getY() > 1210)
 					frog.p.setY(1210);
 				frog.rotate("UP");
 				Sound.soundHop();
-				break;
+			}
 		}
 		frog.updateHitbox();
 	}

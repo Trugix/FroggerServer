@@ -64,10 +64,10 @@ public class PnlFrog extends JPanel implements KeyListener{
         for (Entity e: entities)
         {
             g2.drawImage(e.sprite, e.p.getX(), e.p.getY(), null);
-            //g2.draw(e.hitbox); //solo per vedere l'hitbox
+           // g2.draw(e.hitbox); //solo per vedere l'hitbox
         }
         g2.drawImage(entities.get(0).sprite, entities.get(0).p.x, entities.get(0).p.y, null);
-        
+
         printHud(g2);
         g2.setColor(Color.WHITE);
         g2.fillRect(1000,0,2000,1500);
@@ -180,7 +180,8 @@ public class PnlFrog extends JPanel implements KeyListener{
     {
         try
         {
-            ctrl.model.moveFrog(e);
+            if(!ctrl.model.frog.isMoving())
+                 ctrl.model.moveFrog(e);
         }
         catch (IOException ex)
         {

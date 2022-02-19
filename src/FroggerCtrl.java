@@ -10,7 +10,8 @@ public class FroggerCtrl
 {
 	
 	PnlFrog frogView;
-	FroggerModel model;
+	public FroggerModel model;
+	private int nFrame=0;
 	private final Random random = new Random();
 	private int timerPrize = randTemp();
 	private boolean first = true;
@@ -25,17 +26,15 @@ public class FroggerCtrl
 		this.frogView = new PnlFrog(model.entities, this);
 		Timer t = new Timer(33, (e) ->
 		{
-			nextFrame();
-			if (this.first)
-			{
-				initialization();
-			}
+				nextFrame();
+				if (this.first)
+				{
+					initialization();
+				}
 		});
-		
 		t.start();
-		
 	}
-	
+
 	private void initialization()
 	{
 		this.first = false;
@@ -45,7 +44,7 @@ public class FroggerCtrl
 			if (prize1.isBonus())
 			{
 				prize1.stepNext(frogView.destinations);
-				
+
 				for (int i = 0; i < model.prizes.size(); i++)
 				{
 					Prize prize2 = model.prizes.get(i);
@@ -60,14 +59,29 @@ public class FroggerCtrl
 	
 	private void nextFrame()
 	{
-		contact = false;
-		npcContact = model.NPCs.get(0);
 		model.tempo--;
+
+		contact = false;
+
+		npcContact = model.NPCs.get(0);
+
+		if(model.frog.isMoving())
+		{
+			nFrame++;
+			model.frog.nextSlide();
+			if (nFrame>=5) {
+				nFrame = 0;
+				model.frog.setMoving(false);
+			}
+		}
+
 		for (Turtle t : model.turtles)
 		{
 			t.immersion();
 		}
-		
+
+
+
 		int size = model.NPCs.size();
 		ExecutorService service = Executors.newFixedThreadPool(4);
 		
@@ -77,7 +91,7 @@ public class FroggerCtrl
 		service.submit(() -> moveNpc(size * 3 / 4, size));
 		
 		service.shutdown();
-		
+
 		try
 		{
 			service.awaitTermination(3, TimeUnit.MILLISECONDS);
@@ -87,7 +101,7 @@ public class FroggerCtrl
 		{
 			e.printStackTrace();
 		}
-		
+
 		if (!npcContact.deathTouch && this.contact)
 		{
 			model.frog.stepNext(npcContact.dx);
@@ -102,7 +116,7 @@ public class FroggerCtrl
 		if (model.frog.p.getY() >= 1200)
 			checkPrize(model.frog);
 		
-		
+
 		updatePrize();
 		
 		updateSkull();
@@ -244,8 +258,8 @@ public class FroggerCtrl
 		}
 		resetTempo();
 	}
-	
-	
+
+
 	private void checkTime(Frog frog)
 	{
 		if (model.tempo == 110)
@@ -308,9 +322,9 @@ public class FroggerCtrl
 	
 	private void resetBonus(Prize bonus)
 	{
-		
+
 		bonus.stepNext(frogView.destinations);
-		
+
 		timerPrize = randTemp();
 		model.entities.add(precedente);
 		precedente.setSprite(model.spriteFrogLily);

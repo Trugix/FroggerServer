@@ -1,7 +1,5 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 public class Frog extends Entity {
@@ -11,12 +9,39 @@ public class Frog extends Entity {
 	final int dy=100;
 	private int vite;
 	private int point=0;
+
+	public int getDirection() {
+		return direction;
+	}
+
+	public void setDirection(int direction) {
+		this.direction = direction;
+	}
+
+	private int direction = 0;
+
+	private boolean isMoving=false;
+
+	private final BufferedImage[] sprites;
+
+	public boolean isMoving() {
+		return isMoving;
+	}
+
+	public void setMoving(boolean moving) {
+		isMoving = moving;
+	}
+
+
+
 	private static final int STARTING_FROGX = 460;
 	private static final int STARTING_FROGY = 10;
+
 	
-	public Frog(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy)
+	public Frog(int x, int y, int dx, BufferedImage[] sprites, int dimx, int dimy)
 	{
-		super(x, y, dx, sprite, dimx, dimy);
+		super(x, y, dx, sprites[0], dimx, dimy);
+		this.sprites = sprites;
 		vite=MAX_VITE;
 	}
 	
@@ -35,17 +60,14 @@ public class Frog extends Entity {
 		this.point = point;
 	}
 	
-	public void rotate(String targetDir) throws IOException
+	public void rotate(String targetDir)
 	{
-		String dir = switch (targetDir)
-				{
-					case "UP" -> "src/../sprites/frogUp.png";
-					case "LEFT" -> "src/../sprites/frogLeft.png";
-					case "DOWN" -> "src/../sprites/frogDown.png";
-					case "RIGHT" -> "src/../sprites/frogRight.png";
-					default -> "";
-				};
-		this.sprite = ImageIO.read(new File(dir));
+		switch (targetDir) {
+			case "UP" -> this.sprite = sprites[0];
+			case "LEFT" -> this.sprite = sprites[3];
+			case "DOWN" -> this.sprite = sprites[2];
+			case "RIGHT" -> this.sprite = sprites[1];
+		}
 	}
 	
 	
@@ -57,6 +79,7 @@ public class Frog extends Entity {
 	public void morte() throws IOException
 	{
 		resetPosition ();
+		isMoving=false;
 		this.vite--;
 	}
 	
@@ -77,5 +100,36 @@ public class Frog extends Entity {
 			p.setX(0);
 		//hitbox = (new Rectangle(this.p.x, this.p.y, this.dimx,this.dimy));
 		updateHitbox();
+	}
+
+	public void nextSlide()
+	{
+		if (isMoving)
+		{
+			switch (direction)
+			{
+				case 0:
+					p.y+=20;
+					if (p.getY() > 1210)
+						p.setY(1210);
+					break;
+				case 1:
+					p.x+=14;
+					if (p.getX() > 920)
+						p.setX(920);
+					break;
+				case 2:
+					p.y-=20;
+					if (p.getY() < 10)
+						p.setY(10);
+					break;
+				case 3:
+					p.x-=14;
+					if (p.getX() < 0)
+						p.setX(0);
+					break;
+			}
+		}
+		hitbox = (new Rectangle(this.p.x, this.p.y, this.dimx,this.dimy));
 	}
 }
