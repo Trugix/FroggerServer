@@ -2,10 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.ServerSocket;
-import java.net.Socket;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -31,7 +28,7 @@ public class FroggerApp
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) throws IOException
+	public static void main(String[] args)
 	{
 		/*Socket socket = serverPort.accept();
 		Client client1 = new Client(socket);
@@ -58,7 +55,7 @@ public class FroggerApp
 	/**
 	 * Create the application.
 	 */
-	public FroggerApp() throws IOException
+	public FroggerApp()
 	{
 		initialize();
 	}
@@ -66,7 +63,7 @@ public class FroggerApp
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() throws IOException
+	private void initialize()
 	{
 		frame = new JFrame();
 		frame.setBounds(500, 0, 656, 1000);
@@ -76,9 +73,18 @@ public class FroggerApp
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBackground(Color.WHITE);
 		
-		FroggerModel model = new FroggerModel();
-		FroggerCtrl control = new FroggerCtrl(model);
+		FroggerModel model;
+		FroggerCtrl control = null;
 		
+		try
+		{
+			model = new FroggerModel();
+			control = new FroggerCtrl(model);
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 		
 		frame.add(control.frogView, BorderLayout.CENTER);
 		control.frogView.setVisible(true);

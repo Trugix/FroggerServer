@@ -8,7 +8,7 @@ public class Turtle extends NPC
 	
 	private boolean sub;
 	private boolean goDown = true;
-	Random random = new Random();
+	private Random random = new Random();
 	private int MAX_TIMER = random.nextInt(200)+150;
 	private int timer=MAX_TIMER;
 	private ArrayList <BufferedImage> sprites = new ArrayList<>();

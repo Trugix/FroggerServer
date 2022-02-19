@@ -1,23 +1,32 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.geom.Rectangle2D;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 
 
 public class PnlFrog extends JPanel implements KeyListener{
     
-    Socket socket = new Socket("localHost" ,1234);
-    ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+    /*Socket socket = new Socket("localHost" ,1234);
+    ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());*/
     
+    // Colori go brrrr
+    private static final Color COLORE_STRADA = new Color(40,40,40);
+    private static final Color COLORE_ACQUA = new Color(25,25,180);
+    private static final Color COLORE_CHECHKPOINT = new Color(119,121,63);
+    private static final Color COLORE_ARRIVO = new Color(30,220,30);
+    private static final Color COLORE_RIGHE = new Color(200,200,200);
     
+    private static final int NUMERO_CASELLE = 5;
+    private static final int NUMERO_CASELLE_RIPOSO = 1;
+    
+    private static boolean  first = true;
+    
+    ArrayList<Entity> entities;
     
     FroggerCtrl ctrl;
     Graphics2D g2;
@@ -30,9 +39,7 @@ public class PnlFrog extends JPanel implements KeyListener{
     public void setEntities(ArrayList<Entity> entities) {
         this.entities = entities;
     }
-
-    ArrayList<Entity> entities;
-
+    
     public PnlFrog(ArrayList<Entity> entities, FroggerCtrl ctrl) throws IOException
     {
         this.entities = entities;
@@ -40,17 +47,6 @@ public class PnlFrog extends JPanel implements KeyListener{
         this.addKeyListener(this);
         this.setFocusable(true);
     }
-    
-
-
-    // Colori go brrrr
-    private static final Color COLORE_STRADA = new Color(40,40,40);
-    private static final Color COLORE_ACQUA = new Color(25,25,180);
-    private static final Color COLORE_CHECHKPOINT = new Color(119,121,63);
-    private static final Color COLORE_ARRIVO = new Color(30,220,30);
-    private static final Color COLORE_RIGHE = new Color(200,200,200);
-
-    private static boolean  first = true;
     
     @Override
     protected void paintComponent(Graphics g) {
@@ -87,16 +83,16 @@ public class PnlFrog extends JPanel implements KeyListener{
         g2.fillRect(0, 0, 1000, 100);
 
         g2.setColor(COLORE_STRADA);   //Strade, colore grigio
-        paintRiga(g2,100,5);
+        paintRiga(g2,100,NUMERO_CASELLE);
         
         g2.setColor(COLORE_RIGHE);   //Righe tra le corsie
-        paintLinee(g2,100,5);
+        paintLinee(g2,100,NUMERO_CASELLE);
         
         g2.setColor(COLORE_CHECHKPOINT);   //Riga di riposo, colore marrone
-        paintRiga(g2,600,1);
+        paintRiga(g2,600,NUMERO_CASELLE_RIPOSO);
 
         g2.setColor(COLORE_ACQUA);   //Acqua, colore blu
-        paintRiga(g2,700,5);
+        paintRiga(g2,700,NUMERO_CASELLE);
 
         g2.setColor(COLORE_ARRIVO);  //Contorno destinazione, colore verde
         g2.fillRect(0, 1200, 1000, 160);
@@ -145,7 +141,7 @@ public class PnlFrog extends JPanel implements KeyListener{
     private void printHud (Graphics2D g2)
     {
         
-        printVite(g2,ctrl.model.frog.vite);
+        printVite(g2,ctrl.model.frog.getVite());
         printTempo(g2);
         printPoint (g2,ctrl.model.frog.getPoint());
     }
@@ -162,7 +158,7 @@ public class PnlFrog extends JPanel implements KeyListener{
         int t=ctrl.model.tempo; //Fattore temporale iniziale
         g2.fillRect(830-t,1450,t,40); //Barra della vita
         g2.scale(1,-1);
-        g2.setFont(new Font("calibri",1,60));
+        g2.setFont(new Font("calibri",Font.BOLD,60));
         g2.drawString("TIME",850,-1450); // Scritta TIME circa formatta //todo migliorare le scritte
         g2.scale(1,-1);
     }
@@ -170,26 +166,13 @@ public class PnlFrog extends JPanel implements KeyListener{
     private void printPoint (Graphics2D g2, int point)
     {
         g2.scale(1,-1);
-        g2.setFont(new Font("calibri",1,60));
+        g2.setFont(new Font("calibri",Font.BOLD,60));
         g2.drawString(String.format("POINT: %05d", point),1,-1380);
         g2.scale(1,-1);
     }
     
-    private BufferedImage spriteSkull = ImageIO.read(new File( "src/../sprites/skull.png"));
-    
-    public void drawSkull (boolean draw,int x,int y)
-    {
-        if(draw)
-        {
-            g2.drawImage(spriteSkull,null,x,y);
-        }
-    }
-    
     @Override
-    public void keyTyped(KeyEvent e)
-    {
-        //    System.out.println("2");
-        //        shoot(e);
+    public void keyTyped(KeyEvent e) {
     }
 
     @Override

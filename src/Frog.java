@@ -8,30 +8,8 @@ public class Frog extends Entity {
 	
 	private static final int MAX_VITE = 6;
 	
-	
-	/*public enum rotazione{
-		UP,
-		RIGHT,
-		DOWN,
-		LEFT;
-	};
-	
-	public rotazione next(rotazione r) {
-		switch (r) {
-			case UP:
-				return rotazione.LEFT;
-			case LEFT:
-				return rotazione.DOWN;
-			case DOWN:
-				return rotazione.RIGHT;
-			case RIGHT:
-				return rotazione.UP;
-		}
-		return null;
-	}*/
-	
 	final int dy=100;
-	int vite;
+	private int vite;
 	private int point=0;
 	private static final int STARTING_FROGX = 460;
 	private static final int STARTING_FROGY = 10;
@@ -40,6 +18,11 @@ public class Frog extends Entity {
 	{
 		super(x, y, dx, sprite, dimx, dimy);
 		vite=MAX_VITE;
+	}
+	
+	public int getVite()
+	{
+		return vite;
 	}
 	
 	public int getPoint()
