@@ -6,17 +6,15 @@ import java.util.Random;
 public class Turtle extends NPC
 {
 	
-	private boolean sub;
 	private boolean goDown = true;
 	private Random random = new Random();
-	private int MAX_TIMER = random.nextInt(200)+150;
+	private final int MAX_TIMER = random.nextInt(200)+150;
 	private int timer=MAX_TIMER;
 	private ArrayList <BufferedImage> sprites = new ArrayList<>();
 	
-	public Turtle(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy, boolean deathTouch, boolean sub)
+	public Turtle(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy, boolean deathTouch)
 	{
 		super(x, y, dx, sprite, dimx, dimy, deathTouch);
-		this.sub=sub;
 		addSprites(sprite);
 	}
 	
@@ -26,14 +24,8 @@ public class Turtle extends NPC
 	}
 	
 	
-	public boolean isSub()
-	{
-		return sub;
-	}
-	
 	/**
 	 * faccio immergere le tartarughe
-	 * @throws IOException
 	 */
 	public void immersion()
 	{

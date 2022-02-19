@@ -70,13 +70,13 @@ public class FroggerModel
 	private NPC log3B = new NPC(397, 910, 5, spriteLog3, 295, 85, false);
 	private NPC log3C = new NPC(943, 910, 5, spriteLog3, 295, 85, false);
 	
-	private Turtle turtleA = new Turtle(698, 710, -6, spriteTurtle1, 110, 85, false, false);
-	private Turtle turtleB = new Turtle(254, 710, -6, spriteTurtle1, 110, 85, false, true);
-	private Turtle turtleC = new Turtle(1104, 710, -6, spriteTurtle1, 110, 85, false, true);
-	private Turtle turtleD = new Turtle(57, 1010, -5, spriteTurtle1, 110, 85, false, true);
-	private Turtle turtleE = new Turtle(348, 1010, -5, spriteTurtle1, 110, 85, false, true);
-	private Turtle turtleF = new Turtle(698, 1010, -5, spriteTurtle1, 110, 85, false, false);
-	private Turtle turtleG = new Turtle(1004, 1010, -5, spriteTurtle1, 110, 85, false, true);
+	private NPC turtleA = new Turtle(698, 710, -6, spriteTurtle1, 110, 85, false);
+	private Turtle turtleB = new Turtle(254, 710, -6, spriteTurtle1, 110, 85, false);
+	private Turtle turtleC = new Turtle(1104, 710, -6, spriteTurtle1, 110, 85, false);
+	private Turtle turtleD = new Turtle(57, 1010, -5, spriteTurtle1, 110, 85, false);
+	private Turtle turtleE = new Turtle(348, 1010, -5, spriteTurtle1, 110, 85, false);
+	private NPC turtleF = new Turtle(698, 1010, -5, spriteTurtle1, 110, 85, false);
+	private Turtle turtleG = new Turtle(1004, 1010, -5, spriteTurtle1, 110, 85, false);
 	
 	private Prize lilyPadA = new Prize(30, 1210, 0, spriteLilyPad, 100, 100, false, 50);
 	private Prize lilyPadB = new Prize(240, 1210, 0, spriteLilyPad, 100, 100, false, 50);
@@ -112,15 +112,14 @@ public class FroggerModel
 		NPCs.add(log3B);
 		NPCs.add(log3C);
 		
-		turtles.add(turtleA);
+		NPCs.add(turtleA);
 		turtles.add(turtleB);
 		turtles.add(turtleD);
 		turtles.add(turtleC);
 		turtles.add(turtleE);
-		turtles.add(turtleF);
+		NPCs.add(turtleF);
 		turtles.add(turtleG);
-		turtleA.addSprites(spriteTurtle2);
-		turtleA.addSprites(spriteTurtle3);
+		
 		turtleB.addSprites(spriteTurtle2);
 		turtleB.addSprites(spriteTurtle3);
 		turtleC.addSprites(spriteTurtle2);
@@ -129,8 +128,6 @@ public class FroggerModel
 		turtleD.addSprites(spriteTurtle3);
 		turtleE.addSprites(spriteTurtle2);
 		turtleE.addSprites(spriteTurtle3);
-		turtleF.addSprites(spriteTurtle2);
-		turtleF.addSprites(spriteTurtle3);
 		turtleG.addSprites(spriteTurtle2);
 		turtleG.addSprites(spriteTurtle3);
 		

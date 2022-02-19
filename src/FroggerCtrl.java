@@ -63,10 +63,7 @@ public class FroggerCtrl
 		model.tempo--;
 		for (Turtle t : model.turtles)
 		{
-			if (t.isSub())
-			{
 				t.immersion();
-			}
 		}
 		
 		int size = model.NPCs.size();

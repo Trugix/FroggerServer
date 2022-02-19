@@ -64,7 +64,7 @@ public class Sound
 
 		assert clip != null;
 		clip.setFramePosition(0);
-		clip.loop(3);
+		clip.loop(2);
 	}
 	
 	public static void soundPoint ()
