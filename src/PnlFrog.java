@@ -3,6 +3,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class PnlFrog extends JPanel implements KeyListener{
     
     private static final int NUMERO_CASELLE = 5;
     private static final int NUMERO_CASELLE_RIPOSO = 1;
-    
+
     private static boolean  first = true;
     
     ArrayList<Entity> entities;
@@ -32,19 +33,30 @@ public class PnlFrog extends JPanel implements KeyListener{
     Graphics2D g2;
     
     ArrayList <Entity.Position> destinations = new ArrayList<>();
-    
-    
+
+    private Menu menu = new Menu();
+
+    public static enum STATE{
+        MENU,
+        GAME,
+        GAME_OVER
+    }
+
+    public static STATE state = STATE.MENU;
+
+
     BufferedImage lilFrog = ImageIO.read(new File("src/../sprites/frogSmall.png"));
 
     public void setEntities(ArrayList<Entity> entities) {
         this.entities = entities;
     }
-    
+
     public PnlFrog(ArrayList<Entity> entities, FroggerCtrl ctrl) throws IOException
     {
         this.entities = entities;
         this.ctrl=ctrl;
         this.addKeyListener(this);
+        this.addMouseListener(new MouseInput());
         this.setFocusable(true);
     }
     
@@ -58,19 +70,23 @@ public class PnlFrog extends JPanel implements KeyListener{
         
         g2.setColor(Color.BLACK);    //Sfondo nero neutro, il primo layer
         g2.fillRect(0, 0, 1000, 1500);
-        
-        paintBackground(g2);  //Sfondo giocabile, secondo layer
 
-        for (Entity e: entities)
-        {
-            g2.drawImage(e.sprite, e.p.getX(), e.p.getY(), null);
-           // g2.draw(e.hitbox); //solo per vedere l'hitbox
+        if(state == STATE.GAME){
+            paintBackground(g2);  //Sfondo giocabile, secondo layer
+
+            for (Entity e: entities)
+            {
+                g2.drawImage(e.sprite, e.p.getX(), e.p.getY(), null);
+                // g2.draw(e.hitbox); //solo per vedere l'hitbox
+            }
+            g2.drawImage(entities.get(0).sprite, entities.get(0).p.x, entities.get(0).p.y, null);
+
+            printHud(g2);
+            g2.setColor(Color.WHITE);
+            g2.fillRect(1000,0,2000,1500);
+        } else if(state == STATE.MENU){
+            menu.render(g);
         }
-        g2.drawImage(entities.get(0).sprite, entities.get(0).p.x, entities.get(0).p.y, null);
-
-        printHud(g2);
-        g2.setColor(Color.WHITE);
-        g2.fillRect(1000,0,2000,1500);
     }
 
     /**

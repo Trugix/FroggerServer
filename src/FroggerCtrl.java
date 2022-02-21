@@ -32,7 +32,8 @@ public class FroggerCtrl
 					initialization();
 				}
 		});
-		t.start();
+		if(PnlFrog.state == PnlFrog.STATE.GAME)
+			t.start();
 	}
 
 	private void initialization()
