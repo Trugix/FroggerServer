@@ -3,7 +3,7 @@ import java.awt.event.MouseListener;
 
 public class Menu{
 
-    public static Rectangle playButton = new Rectangle(300, -1100, 400, 100);
+    /*public static Rectangle playButton = new Rectangle(300, -1100, 400, 100);
     public static Rectangle scoreButton = new Rectangle(300, -900, 400, 100);
     public static Rectangle quitButton = new Rectangle(300, -700, 400, 100);
 
@@ -31,5 +31,5 @@ public class Menu{
         g2.drawString("SCOREBOARD", 360, -830);
         g2.draw(scoreButton);
         g2.draw(quitButton);
-    }
+    }*/
 }
