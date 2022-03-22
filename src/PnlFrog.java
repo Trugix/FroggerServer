@@ -3,6 +3,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class PnlFrog extends JPanel implements KeyListener
+public class PnlFrog extends JPanel implements KeyListener, MouseListener
 {
     
     /*Socket socket = new Socket("localHost" ,1234);
@@ -37,6 +38,38 @@ public class PnlFrog extends JPanel implements KeyListener
 	
 	private Menu menu = new Menu();
 	
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		
+		System.out.println(" "+e.getX()+" "+ e.getY());
+		
+		
+		
+		System.out.println(PnlFrog.state);
+	}
+	
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	
+	}
+	
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	
+	}
+	
+	@Override
+	public void mouseExited(MouseEvent e) {
+	
+	}
+	
 	public static enum STATE
 	{
 		MENU,
@@ -60,6 +93,7 @@ public class PnlFrog extends JPanel implements KeyListener
 		this.ctrl = ctrl;
 		this.addKeyListener(this);
 		//  this.addMouseListener(new MouseInput());
+		this.addMouseListener(this);
 		this.setFocusable(true);
 	}
 	
@@ -104,14 +138,14 @@ public class PnlFrog extends JPanel implements KeyListener
 			
 			Font ftn = new Font("arial", Font.BOLD, 100);
 			Font ftn1 = new Font("arial", Font.BOLD, 60);
-			g.setFont(ftn);
+			g2.setFont(ftn);
 			
-			g.setColor(Color.magenta);
-			g.drawString("FROGGER", 250, -1200);
-			g.setColor(Color.yellow);
-			g.drawString("FROGGER", 255, -1205);
-			g.setColor(Color.GREEN);
-			g.drawString("FROGGER", 260, -1210);
+			g2.setColor(Color.magenta);
+			g2.drawString("FROGGER", 250, -1200);
+			g2.setColor(Color.yellow);
+			g2.drawString("FROGGER", 255, -1205);
+			g2.setColor(Color.GREEN);
+			g2.drawString("FROGGER", 260, -1210);
 			
 			g2.setColor(Color.yellow);
 			g2.setFont(ftn1);
@@ -121,7 +155,6 @@ public class PnlFrog extends JPanel implements KeyListener
 			g2.drawString("SCOREBOARD", 360, -830);
 			g2.draw(scoreButton);
 			g2.draw(quitButton);
-			
 			
 		}
 	}
