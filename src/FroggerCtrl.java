@@ -20,11 +20,13 @@ public class FroggerCtrl
 	
 	private Prize precedente;
 	
+	private Timer t;
+	
 	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException
 	{
 		this.model = model;
 		this.frogView = new PnlFrog(model.entities, this);
-		Timer t = new Timer(33, (e) ->
+		 t = new Timer(33, (e) ->
 		{
 				nextFrame();
 				if (this.first)
@@ -36,6 +38,15 @@ public class FroggerCtrl
 			t.start();
 	}
 
+	public void start ()
+	{
+		t.start();
+		if (this.first)
+		{
+			initialization();
+		}
+	}
+	
 	private void initialization()
 	{
 		this.first = false;

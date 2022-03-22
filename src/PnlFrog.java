@@ -27,6 +27,14 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 	private static final int NUMERO_CASELLE = 5;
 	private static final int NUMERO_CASELLE_RIPOSO = 1;
 	
+	private Rectangle playButton = new Rectangle(300, -1100, 400, 100);
+	private Rectangle scoreButton = new Rectangle(300, -900, 400, 100);
+	private Rectangle quitButton = new Rectangle(300, -700, 400, 100);
+	
+	private Rectangle playButtonF = new Rectangle(300, 1100, 400, 100);
+	private Rectangle scoreButtonF = new Rectangle(300, 900, 400, 100);
+	private Rectangle quitButtonF = new Rectangle(300, 700, 400, 100);
+	
 	private static boolean first = true;
 	
 	ArrayList<Entity> entities;
@@ -36,9 +44,6 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 	
 	ArrayList<Entity.Position> destinations = new ArrayList<>();
 	
-	private Menu menu = new Menu();
-	
-	
 	@Override
 	public void mouseClicked(MouseEvent e) {
 	
@@ -47,12 +52,20 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
+		if (state == STATE.MENU)
+			if(e.getX() >= 169 && e.getX() <= 498 &&  e.getY() >= 224 && e.getY() <= 320)
+			{
+				System.out.println("cdsf");
+				state= STATE.GAME;
+				ctrl.start();
+			}
+		
 		
 		System.out.println(" "+e.getX()+" "+ e.getY());
 		
-		
-		
 		System.out.println(PnlFrog.state);
+		
+		
 	}
 	
 	@Override
@@ -70,7 +83,7 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 	
 	}
 	
-	public static enum STATE
+	public enum STATE
 	{
 		MENU,
 		GAME,
@@ -92,8 +105,7 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 		this.entities = entities;
 		this.ctrl = ctrl;
 		this.addKeyListener(this);
-		//  this.addMouseListener(new MouseInput());
-		this.addMouseListener(this);
+		this.addMouseListener(this); //todo provare a spostare i listener in una classe diversa
 		this.setFocusable(true);
 	}
 	
@@ -126,12 +138,6 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 		}
 		else if (state == STATE.MENU)
 		{
-			// menu.render(g);
-			
-			Rectangle playButton = new Rectangle(300, -1100, 400, 100);
-			Rectangle scoreButton = new Rectangle(300, -900, 400, 100);
-			Rectangle quitButton = new Rectangle(300, -700, 400, 100);
-			
 			
 			Graphics2D g2 = (Graphics2D) g;
 			g2.scale(1, -1);
@@ -150,11 +156,15 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 			g2.setColor(Color.yellow);
 			g2.setFont(ftn1);
 			
+			
+			
 			g2.drawString("1 PLAYER", 360, -1030);
 			g2.draw(playButton);
 			g2.drawString("SCOREBOARD", 360, -830);
 			g2.draw(scoreButton);
 			g2.draw(quitButton);
+			
+			g2.scale(1,-1);
 			
 		}
 	}
