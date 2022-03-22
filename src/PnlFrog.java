@@ -57,6 +57,7 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 			{
 				System.out.println("cdsf");
 				state= STATE.GAME;
+				paintComponent(g2);
 				ctrl.start();
 			}
 		
