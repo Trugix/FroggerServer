@@ -26,6 +26,8 @@ public class FroggerCtrl implements KeyListener, MouseListener
 
 	//private Client client = new Client();
 
+	Server server;
+
 	private Timer t= new Timer(33, (e) ->
 	{
 		
@@ -36,12 +38,15 @@ public class FroggerCtrl implements KeyListener, MouseListener
 		}
 	});
 	
-	public FroggerCtrl(FroggerModel model/*,PnlFrog frogView*/) throws IOException
+	public FroggerCtrl(FroggerModel model) throws IOException
 	{
 		this.model = model;
 		this.frogView = new PnlFrog(model.entities, this);
 		frogView.addKeyListener(this);
 		frogView.addMouseListener(this);
+
+		this.server = new Server(this);
+
 		if(PnlFrog.state == PnlFrog.STATE.GAME)
 			t.start();
 	}
@@ -416,7 +421,7 @@ public class FroggerCtrl implements KeyListener, MouseListener
 		try
 		{
 			if (!model.frog.isMoving())
-				model.moveFrog(e);
+				model.moveFrog(e.getKeyCode());
 		}
 		catch (IOException ex)
 		{

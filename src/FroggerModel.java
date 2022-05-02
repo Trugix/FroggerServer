@@ -146,13 +146,12 @@ public class FroggerModel
 		entities.addAll(NPCs);
 		entities.addAll(prizes);
 	}
-	
-	public void moveFrog(KeyEvent e) throws IOException
+
+	public void moveFrog(int direzione) throws IOException
 	{
 		frog.setMoving(true);
-		switch (e.getKeyCode()) {       //todo capire why è al contrario
-			case KeyEvent.VK_LEFT -> {    //è perché l'algoritmo routa attorno all'angolo top left
-				//frog.p.setX(frog.p.getX() - frog.dx);
+		switch (direzione) {
+			case KeyEvent.VK_LEFT -> {
 				frog.setDirection(3);
 				if (frog.p.getX() < 0)
 					frog.p.setX(0);
@@ -160,15 +159,13 @@ public class FroggerModel
 				Sound.soundHop();
 			}
 			case KeyEvent.VK_RIGHT -> {
-			//	frog.p.setX(frog.p.getX() + frog.dx);
-					frog.setDirection(1);
+				frog.setDirection(1);
 				if (frog.p.getX() > 920)
 					frog.p.setX(920);
 				frog.rotate("RIGHT");
 				Sound.soundHop();
 			}
 			case KeyEvent.VK_DOWN -> {
-				//frog.p.setY(frog.p.getY() - frog.dy);
 				frog.setDirection(2);
 				if (frog.p.getY() < 10)
 					frog.p.setY(10);
@@ -176,13 +173,13 @@ public class FroggerModel
 				Sound.soundHop();
 			}
 			case KeyEvent.VK_UP -> {
-				//frog.p.setY(frog.p.getY() + frog.dy);
 				frog.setDirection(0);
 				if (frog.p.getY() > 1210)
 					frog.p.setY(1210);
 				frog.rotate("UP");
 				Sound.soundHop();
 			}
+			default -> {}
 		}
 		frog.updateHitbox();
 	}
