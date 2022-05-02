@@ -2,7 +2,7 @@ import java.io.*;
 import javax.sound.sampled.*;
 
 
-public class Sound
+public class Sound implements Serializable
 {
 	
 	public static void soundMorteAuto ()

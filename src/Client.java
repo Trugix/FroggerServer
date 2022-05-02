@@ -10,14 +10,21 @@ import java.net.Socket;
 public class Client implements KeyListener, MouseListener
 {
     private Socket sock;
-    private BufferedReader input;
+    private ObjectInputStream input;
     private ObjectOutputStream output;
     private JFrame frame;
     private PnlFrog panel;
-    public Client() throws IOException {
+
+    private static Client client;
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        client = new Client();
+    }
+
+    public Client() throws IOException, ClassNotFoundException {
         sock = new Socket("127.0.0.1", 9001);
-        input = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+        input = new ObjectInputStream(sock.getInputStream());
         output = new ObjectOutputStream(sock.getOutputStream());
+        checkIncoming.run();
         createGUI();
     }
 
@@ -26,18 +33,28 @@ public class Client implements KeyListener, MouseListener
         frame.setBounds(500, 0, 656, 1000);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-
-        JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(Color.WHITE);
-    }
-    public void setPanel(PnlFrog newPanel)
-    {
-        this.panel = newPanel;
-        newPanel.addKeyListener(this);
-        newPanel.addMouseListener(this);
-        panel.repaint();
+        frame.add(panel, BorderLayout.CENTER);
+        frame.setVisible(true);
     }
 
+    Runnable checkIncoming = new Runnable() {
+        @Override
+        public void run() {
+            while (true)
+            {
+                try {
+                    panel = (PnlFrog) input.readObject();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                panel.repaint();
+            }
+        }
+    };
+
+    private Thread receiverThread = new Thread(checkIncoming);
     @Override
     public void keyTyped(KeyEvent e) {
 

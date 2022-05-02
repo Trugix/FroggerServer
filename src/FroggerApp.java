@@ -8,36 +8,13 @@ import javax.swing.JPanel;
 
 public class FroggerApp
 {
-	
 	private JFrame frame;
-	
-	private static ServerSocket serverPort;
-	
-	static
-	{
-		try
-		{
-			serverPort = new ServerSocket(1234);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args)
 	{
-		/*Socket socket = serverPort.accept();
-		Client client1 = new Client(socket);
-		client1.draw();
-		 InputStream input = socket.getInputStream();
-		InputStreamReader reader = new InputStreamReader(input);
-		
-		reader.read();*/
-		
 		EventQueue.invokeLater(() ->
 		{
 			try

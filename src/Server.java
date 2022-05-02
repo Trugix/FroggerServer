@@ -32,6 +32,7 @@ public class Server {
         this.sock = new ServerSocket(9001);
         s = null;
         this.ctrl = ctrl;
+        start();
     }
 
     public void start() throws IOException {

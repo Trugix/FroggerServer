@@ -1,8 +1,9 @@
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
-public class Entity
+public class Entity implements Serializable
 {
 	public int getDimx()
 	{
@@ -14,7 +15,7 @@ public class Entity
 		this.dimx = dimx;
 	}
 	
-	protected class Position
+	protected class Position implements Serializable
 	{
 		protected int x;
 		protected int y;

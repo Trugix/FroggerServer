@@ -4,13 +4,14 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 
-public class FroggerCtrl implements KeyListener, MouseListener
+public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 {
 	
 	PnlFrog frogView;
@@ -26,12 +27,16 @@ public class FroggerCtrl implements KeyListener, MouseListener
 
 	//private Client client = new Client();
 
-	Server server;
+	//Server server;
 
 	private Timer t= new Timer(33, (e) ->
 	{
-		
-		nextFrame();
+
+		try {
+			nextFrame();
+		} catch (IOException ex) {
+			throw new RuntimeException(ex);
+		}
 		if (this.first)
 		{
 			initialization();
@@ -45,7 +50,7 @@ public class FroggerCtrl implements KeyListener, MouseListener
 		frogView.addKeyListener(this);
 		frogView.addMouseListener(this);
 
-		this.server = new Server(this);
+	//	this.server = new Server(this);
 
 		if(PnlFrog.state == PnlFrog.STATE.GAME)
 			t.start();
@@ -78,8 +83,7 @@ public class FroggerCtrl implements KeyListener, MouseListener
 	}
 	
 	
-	private void nextFrame()
-	{
+	private void nextFrame() throws IOException {
 		model.tempo--;
 
 		contact = false;
@@ -94,6 +98,8 @@ public class FroggerCtrl implements KeyListener, MouseListener
 				nFrame = 0;
 				model.frog.setMoving(false);
 			}
+		}else {
+			model.frog.rotate(model.frog.getDirection());
 		}
 
 		for (Turtle t : model.turtles)
@@ -130,7 +136,8 @@ public class FroggerCtrl implements KeyListener, MouseListener
 		
 		if (model.frog.getVite() <= 0)
 		{
-			//todo fare finire il gioco
+			frogView.state = PnlFrog.STATE.GAME_OVER;
+			t.stop();
 		}
 		
 		checkTime(model.frog);
@@ -144,7 +151,7 @@ public class FroggerCtrl implements KeyListener, MouseListener
 		
 		frogView.setEntities(model.entities);
 		frogView.repaint();
-	//	aggiornaPanelClient();
+		//server.sender();
 		
 	}
 	
@@ -445,8 +452,7 @@ public class FroggerCtrl implements KeyListener, MouseListener
 		if (frogView.state == PnlFrog.STATE.MENU)
 			if(e.getX() >= 169 && e.getX() <= 498 &&  e.getY() >= 224 && e.getY() <= 320)
 			{
-				System.out.println("cdsf");
-				frogView.state= PnlFrog.STATE.GAME;
+				frogView.state = PnlFrog.STATE.GAME;
 				frogView.paintComponent(frogView.g2);
 				start();
 			}

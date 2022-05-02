@@ -22,7 +22,9 @@ public class Frog extends Entity {
 
 	private boolean isMoving=false;
 
-	private final BufferedImage[] sprites;
+	private final BufferedImage[] spritesStill;
+
+	private final BufferedImage[] spritesMove;
 
 	public boolean isMoving() {
 		return isMoving;
@@ -38,10 +40,11 @@ public class Frog extends Entity {
 	private static final int STARTING_FROGY = 10;
 
 	
-	public Frog(int x, int y, int dx, BufferedImage[] sprites, int dimx, int dimy)
+	public Frog(int x, int y, int dx, BufferedImage[] sprites, BufferedImage[] spritesMov, int dimx, int dimy)
 	{
 		super(x, y, dx, sprites[0], dimx, dimy);
-		this.sprites = sprites;
+		this.spritesStill = sprites;
+		this.spritesMove = spritesMov;
 		vite=MAX_VITE;
 	}
 	
@@ -60,14 +63,9 @@ public class Frog extends Entity {
 		this.point = point;
 	}
 	
-	public void rotate(String targetDir)
+	public void rotate(int targetDir)
 	{
-		switch (targetDir) {
-			case "UP" -> this.sprite = sprites[0];
-			case "LEFT" -> this.sprite = sprites[3];
-			case "DOWN" -> this.sprite = sprites[2];
-			case "RIGHT" -> this.sprite = sprites[1];
-		}
+			this.sprite = spritesStill[targetDir];
 	}
 	
 	
@@ -88,7 +86,7 @@ public class Frog extends Entity {
 		this.p.setX(STARTING_FROGX);
 		this.p.setY(STARTING_FROGY);
 		updateHitbox();
-		rotate("UP");
+		rotate(0);
 	}
 	
 	public void stepNext(int tempDx)
@@ -109,21 +107,25 @@ public class Frog extends Entity {
 			switch (direction)
 			{
 				case 0:
+					sprite = spritesMove[0];
 					p.y+=20;
 					if (p.getY() > 1210)
 						p.setY(1210);
 					break;
 				case 1:
+					sprite = spritesMove[1];
 					p.x+=14;
 					if (p.getX() > 920)
 						p.setX(920);
 					break;
 				case 2:
+					sprite = spritesMove[2];
 					p.y-=20;
 					if (p.getY() < 10)
 						p.setY(10);
 					break;
 				case 3:
+					sprite = spritesMove[3];
 					p.x-=14;
 					if (p.getX() < 0)
 						p.setX(0);

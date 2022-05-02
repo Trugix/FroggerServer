@@ -4,10 +4,11 @@ import javax.swing.JPanel;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class PnlFrog extends JPanel
+public class PnlFrog extends JPanel implements Serializable
 {
 	// Colori go brrrr
 	private static final Color COLORE_STRADA = new Color(40, 40, 40);
@@ -95,6 +96,7 @@ public class PnlFrog extends JPanel
 			
 			Font ftn = new Font("arial", Font.BOLD, 100);
 			Font ftn1 = new Font("arial", Font.BOLD, 60);
+			Font ftn2 = new Font("arial", Font.BOLD, 50);
 			g2.setFont(ftn);
 			
 			g2.setColor(Color.magenta);
@@ -111,12 +113,32 @@ public class PnlFrog extends JPanel
 			
 			g2.drawString("1 PLAYER", 360, -1030);
 			g2.draw(playButton);
-			g2.drawString("SCOREBOARD", 360, -830);
+			g2.setFont(ftn2);
+			g2.drawString("SCOREBOARD", 320, -830);
 			g2.draw(scoreButton);
 			g2.draw(quitButton);
 			
 			g2.scale(1,-1);
 			
+		}else if (state == STATE.GAME_OVER)
+		{
+			Graphics2D g2 = (Graphics2D) g;
+			g2.scale(1, -1);
+
+			Font ftn = new Font("arial", Font.BOLD, 100);
+			Font ftn1 = new Font("arial", Font.BOLD, 60);
+			g2.setFont(ftn);
+
+			g2.setColor(Color.magenta);
+			g2.drawString("GAME OVER", 180, -755);
+			g2.setColor(Color.yellow);
+			g2.drawString("GAME OVER", 185, -760);
+			g2.setColor(Color.GREEN);
+			g2.drawString("GAME OVER", 190, -765);
+			g2.setFont(ftn1);
+			g2.drawString("Il tuo punteggio è: "+ ctrl.model.frog.getPoint(), 170, -500);
+			g2.scale(1,-1);
+
 		}
 	}
 	
