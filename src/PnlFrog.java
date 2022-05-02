@@ -11,12 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class PnlFrog extends JPanel implements KeyListener, MouseListener
+public class PnlFrog extends JPanel
 {
-    
-    /*Socket socket = new Socket("localHost" ,1234);
-    ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());*/
-	
 	// Colori go brrrr
 	private static final Color COLORE_STRADA = new Color(40, 40, 40);
 	private static final Color COLORE_ACQUA = new Color(25, 25, 180);
@@ -44,46 +40,7 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 	
 	ArrayList<Entity.Position> destinations = new ArrayList<>();
 	
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	
-	}
-	
-	@Override
-	public void mousePressed(MouseEvent e)
-	{
-		if (state == STATE.MENU)
-			if(e.getX() >= 169 && e.getX() <= 498 &&  e.getY() >= 224 && e.getY() <= 320)
-			{
-				System.out.println("cdsf");
-				state= STATE.GAME;
-				paintComponent(g2);
-				ctrl.start();
-			}
-		
-		
-		System.out.println(" "+e.getX()+" "+ e.getY());
-		
-		System.out.println(PnlFrog.state);
-		
-		
-	}
-	
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	
-	}
-	
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	
-	}
-	
-	@Override
-	public void mouseExited(MouseEvent e) {
-	
-	}
-	
+
 	public enum STATE
 	{
 		MENU,
@@ -92,8 +49,7 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 	}
 	
 	public static STATE state = STATE.MENU;
-	
-	
+
 	BufferedImage lilFrog = ImageIO.read(new File("src/../sprites/frogSmall.png"));
 	
 	public void setEntities(ArrayList<Entity> entities)
@@ -105,8 +61,6 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 	{
 		this.entities = entities;
 		this.ctrl = ctrl;
-		this.addKeyListener(this);
-		this.addMouseListener(this); //todo provare a spostare i listener in una classe diversa
 		this.setFocusable(true);
 	}
 	
@@ -269,30 +223,4 @@ public class PnlFrog extends JPanel implements KeyListener, MouseListener
 		g2.drawString(String.format("POINT: %05d", point), 1, -1380);
 		g2.scale(1, -1);
 	}
-	
-	@Override
-	public void keyTyped(KeyEvent e)
-	{
-	}
-	
-	@Override
-	public void keyPressed(KeyEvent e)
-	{
-		try
-		{
-			if (!ctrl.model.frog.isMoving())
-				ctrl.model.moveFrog(e);
-		}
-		catch (IOException ex)
-		{
-			ex.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void keyReleased(KeyEvent e)
-	{
-	
-	}
-	
 }

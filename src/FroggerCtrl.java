@@ -1,4 +1,8 @@
 import javax.swing.Timer;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -6,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 
-public class FroggerCtrl
+public class FroggerCtrl implements KeyListener, MouseListener
 {
 	
 	PnlFrog frogView;
@@ -19,7 +23,9 @@ public class FroggerCtrl
 	private boolean contact;
 	
 	private Prize precedente;
-	
+
+	//private Client client = new Client();
+
 	private Timer t= new Timer(33, (e) ->
 	{
 		
@@ -34,7 +40,8 @@ public class FroggerCtrl
 	{
 		this.model = model;
 		this.frogView = new PnlFrog(model.entities, this);
-		
+		frogView.addKeyListener(this);
+		frogView.addMouseListener(this);
 		if(PnlFrog.state == PnlFrog.STATE.GAME)
 			t.start();
 	}
@@ -132,6 +139,7 @@ public class FroggerCtrl
 		
 		frogView.setEntities(model.entities);
 		frogView.repaint();
+	//	aggiornaPanelClient();
 		
 	}
 	
@@ -393,4 +401,71 @@ public class FroggerCtrl
 		model.tempo = 500; //todo mettere costanti ovunque
 	}
 	
+	private void aggiornaPanelClient()
+	{
+		//client.setPanel(frogView);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		try
+		{
+			if (!model.frog.isMoving())
+				model.moveFrog(e);
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		if (frogView.state == PnlFrog.STATE.MENU)
+			if(e.getX() >= 169 && e.getX() <= 498 &&  e.getY() >= 224 && e.getY() <= 320)
+			{
+				System.out.println("cdsf");
+				frogView.state= PnlFrog.STATE.GAME;
+				frogView.paintComponent(frogView.g2);
+				start();
+			}
+
+
+		System.out.println(" "+e.getX()+" "+ e.getY());
+
+		System.out.println(PnlFrog.state);
+
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+
+	}
 }
