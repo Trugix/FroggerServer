@@ -35,6 +35,7 @@ public class PnlFrog extends JPanel implements Serializable
 	FroggerCtrl ctrl;
 	Graphics2D g2;
 	
+	FroggerModel modelToDraw;
 	ArrayList<Entity.Position> destinations = new ArrayList<>();
 	
 
@@ -54,10 +55,19 @@ public class PnlFrog extends JPanel implements Serializable
 		this.entities = entities;
 	}
 	
-	public PnlFrog(ArrayList<Entity> entities, FroggerCtrl ctrl) throws IOException
+	public PnlFrog(FroggerCtrl ctrl) throws IOException
 	{
-		this.entities = entities;
+
 		this.ctrl = ctrl;
+		this.modelToDraw=ctrl.modelToDraw;
+		this.entities = modelToDraw.entities;
+		this.setFocusable(true);
+	}
+
+	public PnlFrog(FroggerModel model) throws IOException
+	{
+		this.modelToDraw=model;
+		this.entities=modelToDraw.entities;
 		this.setFocusable(true);
 	}
 	
@@ -136,7 +146,7 @@ public class PnlFrog extends JPanel implements Serializable
 			g2.setColor(Color.GREEN);
 			g2.drawString("GAME OVER", 190, -765);
 			g2.setFont(ftn1);
-			g2.drawString("Il tuo punteggio è: "+ ctrl.model.frog.getPoint(), 170, -500);
+			g2.drawString("Il tuo punteggio è: "+ modelToDraw.frog.getPoint(), 170, -500);
 			g2.scale(1,-1);
 
 		}
@@ -212,9 +222,9 @@ public class PnlFrog extends JPanel implements Serializable
 	private void printHud(Graphics2D g2)
 	{
 		
-		printVite(g2, ctrl.model.frog.getVite());
+		printVite(g2, modelToDraw.frog.getVite());
 		printTempo(g2);
-		printPoint(g2, ctrl.model.frog.getPoint());
+		printPoint(g2, modelToDraw.frog.getPoint());
 	}
 	
 	private void printVite(Graphics2D g2, int vite)
@@ -226,7 +236,7 @@ public class PnlFrog extends JPanel implements Serializable
 	private void printTempo(Graphics2D g2)
 	{
 		g2.setColor(COLORE_ARRIVO);
-		int t = ctrl.model.tempo; //Fattore temporale iniziale
+		int t = modelToDraw.tempo; //Fattore temporale iniziale
 		g2.fillRect(830 - t, 1450, t, 40); //Barra della vita
 		g2.scale(1, -1);
 		g2.setFont(new Font("calibri", Font.BOLD, 60));

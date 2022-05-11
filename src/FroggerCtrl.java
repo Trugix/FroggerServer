@@ -15,7 +15,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 {
 	
 	PnlFrog frogView;
-	public FroggerModel model;
+	public FroggerModel modelToDraw;
 	private int nFrame=0;
 	private final Random random = new Random();
 	private int timerPrize = randTemp();
@@ -45,8 +45,8 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	
 	public FroggerCtrl(FroggerModel model) throws IOException
 	{
-		this.model = model;
-		this.frogView = new PnlFrog(model.entities, this);
+		this.modelToDraw = model;
+		this.frogView = new PnlFrog(this);
 		frogView.addKeyListener(this);
 		frogView.addMouseListener(this);
 
@@ -64,16 +64,16 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	private void initialization()
 	{
 		this.first = false;
-		for (int j = 0; j < model.prizes.size(); j++)
+		for (int j = 0; j < modelToDraw.prizes.size(); j++)
 		{
-			Prize prize1 = model.prizes.get(j);
+			Prize prize1 = modelToDraw.prizes.get(j);
 			if (prize1.isBonus())
 			{
 				prize1.stepNext(frogView.destinations);
 
-				for (int i = 0; i < model.prizes.size(); i++)
+				for (int i = 0; i < modelToDraw.prizes.size(); i++)
 				{
-					Prize prize2 = model.prizes.get(i);
+					Prize prize2 = modelToDraw.prizes.get(i);
 					if (prize1.hitbox.intersects(prize2.hitbox) && prize1.p.getX() != prize2.p.getX())
 						precedente = prize2;
 				}
@@ -84,32 +84,32 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	
 	
 	private void nextFrame() throws IOException {
-		model.tempo--;
+		modelToDraw.tempo--;
 
 		contact = false;
 
-		npcContact = model.NPCs.get(0);
+		npcContact = modelToDraw.NPCs.get(0);
 
-		if(model.frog.isMoving())
+		if(modelToDraw.frog.isMoving())
 		{
 			nFrame++;
-			model.frog.nextSlide();
+			modelToDraw.frog.nextSlide();
 			if (nFrame>=5) {
 				nFrame = 0;
-				model.frog.setMoving(false);
+				modelToDraw.frog.setMoving(false);
 			}
 		}else {
-			model.frog.rotate(model.frog.getDirection());
+			modelToDraw.frog.rotate(modelToDraw.frog.getDirection());
 		}
 
-		for (Turtle t : model.turtles)
+		for (Turtle t : modelToDraw.turtles)
 		{
 			t.immersion();
 		}
 
 
 
-		int size = model.NPCs.size();
+		int size = modelToDraw.NPCs.size();
 		ExecutorService service = Executors.newFixedThreadPool(4);
 		
 		service.submit(() -> moveNpc(0, size / 4));
@@ -122,7 +122,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		try
 		{
 			service.awaitTermination(3, TimeUnit.MILLISECONDS);
-			checkCollision(model.frog);
+			checkCollision(modelToDraw.frog);
 		}
 		catch (InterruptedException e)
 		{
@@ -131,25 +131,25 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 
 		if (!npcContact.deathTouch && this.contact)
 		{
-			model.frog.stepNext(npcContact.dx);
+			modelToDraw.frog.stepNext(npcContact.dx);
 		}
 		
-		if (model.frog.getVite() <= 0)
+		if (modelToDraw.frog.getVite() <= 0)
 		{
 			frogView.state = PnlFrog.STATE.GAME_OVER;
 			t.stop();
 		}
 		
-		checkTime(model.frog);
-		if (model.frog.p.getY() >= 1200)
-			checkPrize(model.frog);
+		checkTime(modelToDraw.frog);
+		if (modelToDraw.frog.p.getY() >= 1200)
+			checkPrize(modelToDraw.frog);
 		
 
 		updatePrize();
 		
 		updateSkull();
 		
-		frogView.setEntities(model.entities);
+		frogView.setEntities(modelToDraw.entities);
 		frogView.repaint();
 		//server.sender();
 		
@@ -159,7 +159,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	{
 		for (int i = start; i < end; i++)
 		{
-			NPC npc = model.NPCs.get(i);
+			NPC npc = modelToDraw.NPCs.get(i);
 			npc.stepNext();
 			if (npc.dx > 0)
 			{
@@ -176,7 +176,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 				}
 			}
 			
-			if (model.frog.hitbox.intersects(npc.hitbox))
+			if (modelToDraw.frog.hitbox.intersects(npc.hitbox))
 			{
 				this.contact = true;
 				this.npcContact = npc;
@@ -187,15 +187,15 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	
 	private void updateSkull()
 	{
-		for (Skull s : model.skulls)
+		for (Skull s : modelToDraw.skulls)
 		{
 			if (s.getTimeToLive() > 0)
 			{
-				model.entities.add(s);
+				modelToDraw.entities.add(s);
 			}
 			else
 			{
-				model.entities.remove(s);
+				modelToDraw.entities.remove(s);
 			}
 			s.setTimeToLive(s.getTimeToLive() - 1);
 		}
@@ -217,21 +217,21 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		{
 			if (timerPrize % 6 >= 3)
 			{
-				for (Prize p : model.prizes)
+				for (Prize p : modelToDraw.prizes)
 				{
 					if (p.isBonus())
 					{
-						p.setSprite(model.spriteFly);
+						p.setSprite(modelToDraw.spriteFly);
 					}
 				}
 			}
 			else
 			{
-				for (Prize p : model.prizes)
+				for (Prize p : modelToDraw.prizes)
 				{
 					if (p.isBonus())
 					{
-						p.setSprite(model.spriteVoid);
+						p.setSprite(modelToDraw.spriteVoid);
 					}
 				}
 			}
@@ -239,12 +239,12 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 			{
 				timerPrize = randTemp();
 				
-				for (int i = 0; i < model.prizes.size(); i++)
+				for (int i = 0; i < modelToDraw.prizes.size(); i++)
 				{
-					if (model.prizes.get(i).isBonus())
+					if (modelToDraw.prizes.get(i).isBonus())
 					{
-						model.prizes.get(i).stepNext(frogView.destinations);
-						swapPrize(model.prizes.get(i));
+						modelToDraw.prizes.get(i).stepNext(frogView.destinations);
+						swapPrize(modelToDraw.prizes.get(i));
 					}
 				}
 			}
@@ -253,22 +253,22 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	
 	private void swapPrize(Prize bonus)
 	{
-		model.prizes.add(precedente);
-		model.entities.add(precedente);
-		for (int i = 0; i < model.prizes.size(); i++)
+		modelToDraw.prizes.add(precedente);
+		modelToDraw.entities.add(precedente);
+		for (int i = 0; i < modelToDraw.prizes.size(); i++)
 		{
-			if (bonus.hitbox.intersects(model.prizes.get(i).hitbox) && bonus.p.getX() != model.prizes.get(i).p.getX())
+			if (bonus.hitbox.intersects(modelToDraw.prizes.get(i).hitbox) && bonus.p.getX() != modelToDraw.prizes.get(i).p.getX())
 			{
-				precedente = model.prizes.get(i);
-				model.prizes.remove(precedente);
-				model.entities.remove(precedente);
+				precedente = modelToDraw.prizes.get(i);
+				modelToDraw.prizes.remove(precedente);
+				modelToDraw.entities.remove(precedente);
 			}
 		}
 	}
 	
 	private void updateMorte(Frog frog)
 	{
-		model.skulls.add(new Skull(frog.p.getX(), frog.p.getY(), 0, model.spriteSkull, 0, 0));
+		modelToDraw.skulls.add(new Skull(frog.p.getX(), frog.p.getY(), 0, modelToDraw.spriteSkull, 0, 0));
 		if (frog.p.getY() > 700 && frog.p.getY() < 1200)
 		{
 			Sound.soundMorteAcqua();
@@ -292,11 +292,11 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 
 	private void checkTime(Frog frog)
 	{
-		if (model.tempo == 110)
+		if (modelToDraw.tempo == 110)
 		{
 			Sound.soundTicToc();
 		}
-		if (model.tempo <= 0)
+		if (modelToDraw.tempo <= 0)
 			updateMorte(frog);
 		
 	}
@@ -306,7 +306,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		
 		boolean save = false;
 		
-		for (Prize p : model.prizes)
+		for (Prize p : modelToDraw.prizes)
 		{
 			if (frog.hitbox.intersects(p.hitbox))
 			{
@@ -325,9 +325,9 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 				}
 				else
 				{
-					p.setSprite(model.spriteFrogLily);
+					p.setSprite(modelToDraw.spriteFrogLily);
 					p.setHitbox(null);
-					model.prizes.remove(p);
+					modelToDraw.prizes.remove(p);
 				}
 				
 				try
@@ -356,25 +356,25 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		bonus.stepNext(frogView.destinations);
 
 		timerPrize = randTemp();
-		model.entities.add(precedente);
-		precedente.setSprite(model.spriteFrogLily);
+		modelToDraw.entities.add(precedente);
+		precedente.setSprite(modelToDraw.spriteFrogLily);
 		precedente.setHitbox(null);
 		
-		for (int i = 0; i < model.prizes.size(); i++)
+		for (int i = 0; i < modelToDraw.prizes.size(); i++)
 		{
-			if (model.prizes.size() == 1)
+			if (modelToDraw.prizes.size() == 1)
 			{
-				model.prizes.add(precedente);
-				model.entities.add(precedente);
-				model.prizes.remove(bonus);
-				model.entities.remove(bonus);
+				modelToDraw.prizes.add(precedente);
+				modelToDraw.entities.add(precedente);
+				modelToDraw.prizes.remove(bonus);
+				modelToDraw.entities.remove(bonus);
 				//todo fermare il gioco perché si ha vinto
 			}
-			else if (bonus.hitbox.intersects(model.prizes.get(i).hitbox) && bonus.p.getX() != model.prizes.get(i).p.getX())
+			else if (bonus.hitbox.intersects(modelToDraw.prizes.get(i).hitbox) && bonus.p.getX() != modelToDraw.prizes.get(i).p.getX())
 			{
-				precedente = model.prizes.get(i);
-				model.prizes.remove(precedente);
-				model.entities.remove(precedente);
+				precedente = modelToDraw.prizes.get(i);
+				modelToDraw.prizes.remove(precedente);
+				modelToDraw.entities.remove(precedente);
 			}
 		}
 	}
@@ -400,7 +400,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	 */
 	private void updatePoint(Frog frog, int point)
 	{
-		frog.setPoint(frog.getPoint() + point + 100 * frog.getVite() + 5 * model.tempo);
+		frog.setPoint(frog.getPoint() + point + 100 * frog.getVite() + 5 * modelToDraw.tempo);
 		Sound.soundPoint();
 	}
 	
@@ -410,7 +410,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	 */
 	private void resetTempo()
 	{
-		model.tempo = 500; //todo mettere costanti ovunque
+		modelToDraw.tempo = 500; //todo mettere costanti ovunque
 	}
 	
 	private void aggiornaPanelClient()
@@ -427,8 +427,8 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	public void keyPressed(KeyEvent e) {
 		try
 		{
-			if (!model.frog.isMoving())
-				model.moveFrog(e.getKeyCode());
+			if (!modelToDraw.frog.isMoving())
+				modelToDraw.moveFrog(e.getKeyCode());
 		}
 		catch (IOException ex)
 		{
