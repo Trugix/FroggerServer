@@ -400,7 +400,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	 */
 	private void updatePoint(Frog frog, int point)
 	{
-		frog.setPoint(frog.getPoint() + point + 100 * frog.getVite() + 5 * model.tempo);
+		model.setPoints(model.getPoints() + point + 100 * frog.getVite() + 5 * model.tempo);
 		Sound.soundPoint();
 	}
 	
@@ -561,5 +561,10 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 				return model.spriteVoid;
 
 		}
+	}
+
+	public Transfer modelToTransfer (FroggerModel model)
+	{
+		return new Transfer(model.entities, model.tempo, model.getPoints());
 	}
 }

@@ -146,7 +146,7 @@ public class PnlFrog extends JPanel implements Serializable
 			g2.setColor(Color.GREEN);
 			g2.drawString("GAME OVER", 190, -765);
 			g2.setFont(ftn1);
-			g2.drawString("Il tuo punteggio è: "+ modelToDraw.frog.getPoint(), 170, -500);
+			g2.drawString("Il tuo punteggio è: "+ modelToDraw.getPoints(), 170, -500);
 			g2.scale(1,-1);
 
 		}
@@ -224,7 +224,7 @@ public class PnlFrog extends JPanel implements Serializable
 
 		printVite(g2, modelToDraw.frog.getVite());
 		printTempo(g2);
-		printPoint(g2, modelToDraw.frog.getPoint());
+		printPoint(g2, modelToDraw.getPoints());
 	}
 
 	private void printVite(Graphics2D g2, int vite)

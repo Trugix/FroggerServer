@@ -22,6 +22,8 @@ public class FroggerModel implements Serializable
 
 	public int tempo = 500;
 
+	int points = 0;
+
 	public BufferedImage[] spritesFrog = {ImageIO.read(new File(PATH_SPRITE + "frogUp.png")), ImageIO.read(new File(PATH_SPRITE + "frogRight.png")),
 			ImageIO.read(new File(PATH_SPRITE + "frogDown.png")), ImageIO.read(new File(PATH_SPRITE + "frogLeft.png"))};
 
@@ -173,4 +175,19 @@ public class FroggerModel implements Serializable
 		}
 		frog.updateHitbox();
 	}
+
+	public void transferToModel(Transfer transfer)
+	{
+		this.points =transfer.punteggio;
+		this.entities=transfer.entities;
+		this.tempo=transfer.time;
+	}
+	public int getPoints() {
+		return this.points;
+	}
+	public void setPoints(int points)
+	{
+		this.points=points;
+	}
+
 }

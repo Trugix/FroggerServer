@@ -8,7 +8,6 @@ public class Frog extends Entity {
 
 	final int dy=100;
 	private int vite;
-	private int point=0;
 
 	public int getDirection() {
 		return direction;
@@ -43,16 +42,6 @@ public class Frog extends Entity {
 	public int getVite()
 	{
 		return vite;
-	}
-
-	public int getPoint()
-	{
-		return point;
-	}
-
-	public void setPoint(int point)
-	{
-		this.point = point;
 	}
 
 	public void rotate(int targetDir)
