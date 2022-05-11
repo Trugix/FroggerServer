@@ -26,9 +26,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	
 	private Prize precedente;
 
-	//private Client client = new Client();
-
-	//Server server;
+	private Server server;
 
 	private Timer t= new Timer(33, (e) ->
 	{
@@ -51,7 +49,8 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		frogView.addKeyListener(this);
 		frogView.addMouseListener(this);
 
-	//	this.server = new Server(this);
+		//server = new Server();
+		//server.connessione();
 
 		if(PnlFrog.state == PnlFrog.STATE.GAME)
 			t.start();
