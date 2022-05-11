@@ -412,11 +412,6 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	{
 		model.tempo = 500; //todo mettere costanti ovunque
 	}
-	
-	private void aggiornaPanelClient()
-	{
-		//client.setPanel(frogView);
-	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
