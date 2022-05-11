@@ -11,7 +11,7 @@ public class Server {
     private int porta = 1234;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    private FroggerModel model;
+    private FroggerModel ClientModel;
     private PnlFrog clientView;
     private boolean first = true;
     private JFrame clientFrame;
@@ -22,10 +22,10 @@ public class Server {
         public void run() {
             while(true) {
                 try {
-                    model=(FroggerModel) in.readObject();
+                    ClientModel =(FroggerModel) in.readObject();
                     if (first)
                     {
-                        clientView = new PnlFrog(model);
+                        clientView = new PnlFrog(ClientModel);
                         first = false;
                     }
                     clientView.repaint();
@@ -76,6 +76,8 @@ public class Server {
         mainPanel.setBackground(Color.WHITE);
 
         clientFrame.add(clientView);
+
+        clientFrame.setVisible(true);
     }
 
     public void send(FroggerModel model) throws IOException {
