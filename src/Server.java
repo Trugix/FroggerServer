@@ -15,8 +15,22 @@ public class Server {
     private PnlFrog clientView;
     private boolean first = true;
     private JFrame clientFrame;
-
-
+    
+    private FroggerCtrl ctrl;
+    
+    public Server(FroggerCtrl ctrl)
+    {
+        this.ctrl = ctrl;
+        try
+        {
+            this.clientView = new PnlFrog(ctrl);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+    
     Thread ricezione = new Thread(new Runnable() {
         @Override
         public void run() {
@@ -43,7 +57,7 @@ public class Server {
     {
         try
         {
-            System.out.println("\nDati per la connessione:\nIP: "+ InetAddress.getLocalHost().getHostAddress()+"\tPORTA: 6789\n");
+            System.out.println("\nDati per la connessione:\nIP: "+ InetAddress.getLocalHost().getHostAddress()+"\tPORTA: 1234\n");
             System.out.println("[0] - Inizializzo il server...");
             server = new ServerSocket(porta);
             System.out.println("[1] - Server pronto, in ascolto sulla porta "+porta);
@@ -71,10 +85,11 @@ public class Server {
         clientFrame.setBounds(500, 0, 656, 1000);
         clientFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         clientFrame.setLayout(new BorderLayout());
+        clientFrame.setTitle("ClientView");
 
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(Color.WHITE);
-
+        
         clientFrame.add(clientView);
 
         clientFrame.setVisible(true);
