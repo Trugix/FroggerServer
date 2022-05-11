@@ -59,7 +59,7 @@ public class PnlFrog extends JPanel implements Serializable
 	{
 
 		this.ctrl = ctrl;
-		this.modelToDraw=ctrl.modelToDraw;
+		this.modelToDraw=ctrl.model;
 		this.entities = modelToDraw.entities;
 		this.setFocusable(true);
 	}
