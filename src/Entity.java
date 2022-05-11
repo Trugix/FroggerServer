@@ -9,77 +9,77 @@ public class Entity implements Serializable
 	{
 		return dimx;
 	}
-	
+
 	public void setDimx(int dimx)
 	{
 		this.dimx = dimx;
 	}
-	
+
 	protected class Position implements Serializable
 	{
 		protected int x;
 		protected int y;
-		
+
 		public Position(int x, int y)
 		{
 			this.setX(x);
 			this.setY(y);
 		}
-		
+
 		public int getX()
 		{
 			return x;
 		}
-		
+
 		public void setX(int x)
 		{
 			this.x = x;
 		}
-		
+
 		public int getY()
 		{
 			return y;
 		}
-		
+
 		public void setY(int y)
 		{
 			this.y = y;
 		}
 	}
-	
+
 	protected Position p;
-	protected BufferedImage sprite;
+	protected String spriteID;
 	protected int dx;
 	protected int dimx;
 	protected int dimy;
 	protected Rectangle2D hitbox;
-	
+
 	public Entity () {}
-	
-	public Entity(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy)
+
+	public Entity(int x, int y, int dx, String spriteID, int dimx, int dimy)
 	{
 		this.p = new Position(x, y);
 		this.dx = dx;
 		this.setDimx(dimx);
 		this.dimy = dimy;
-		this.sprite = sprite;
+		this.spriteID = spriteID;
 		this.hitbox = new Rectangle(x, y, dimx, dimy);
 	}
-	
+
 	public void setHitbox(Rectangle2D hitbox)
 	{
 		this.hitbox = hitbox;
 	}
-	
-	public void setSprite(BufferedImage sprite)
+
+	public void setSprite(String spriteID)
 	{
-		this.sprite = sprite;
+		this.spriteID = spriteID;
 	}
-	
+
 	public void stepNext()
 	{
 		p.setX(p.getX() + dx);
 		hitbox = (new Rectangle(this.p.x, this.p.y, this.dimx,this.dimy));
 	}
-	
+
 }

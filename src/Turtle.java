@@ -5,25 +5,18 @@ import java.util.Random;
 
 public class Turtle extends NPC
 {
-	
+
 	private boolean goDown = true;
 	private Random random = new Random();
 	private final int MAX_TIMER = random.nextInt(200)+150;
 	private int timer=MAX_TIMER;
-	private ArrayList <BufferedImage> sprites = new ArrayList<>();
-	
-	public Turtle(int x, int y, int dx, BufferedImage sprite, int dimx, int dimy, boolean deathTouch)
+
+	public Turtle(int x, int y, int dx, String spriteID, int dimx, int dimy, boolean deathTouch)
 	{
-		super(x, y, dx, sprite, dimx, dimy, deathTouch);
-		addSprites(sprite);
+		super(x, y, dx, spriteID, dimx, dimy, deathTouch);
 	}
-	
-	public void addSprites (BufferedImage r)
-	{
-		sprites.add(r);
-	}
-	
-	
+
+
 	/**
 	 * faccio immergere le tartarughe
 	 */
@@ -34,14 +27,14 @@ public class Turtle extends NPC
 		{
 			if(goDown)
 			{
-				this.sprite = sprites.get(2);
+				this.spriteID = "turtle3";
 				deathTouch = true;
 				goDown=false;
 				timer=MAX_TIMER;
 			}
 			else
 			{
-				this.sprite = sprites.get(0);
+				this.spriteID = "turtle1";
 				deathTouch = false;
 				goDown=true;
 				timer=MAX_TIMER;
@@ -49,9 +42,9 @@ public class Turtle extends NPC
 		}
 		if(timer == 50)
 		{
-			this.sprite = sprites.get(1);
+			this.spriteID = "turtle2";
 			deathTouch = false;
 		}
-		
+
 	}
 }
