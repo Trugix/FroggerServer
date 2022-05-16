@@ -46,12 +46,12 @@ public class Server
 					{
 						clientView = new PnlFrog(clientModel);
 						first = false;
-						clientView.ctrl=ctrl;
+						//clientView.ctrl=ctrl;
 						clientView.state = PnlFrog.STATE.GAME;
 						newWindow();
 					}
 					clientView.setEntities(clientModel.entities);
-					if (clientModel.frog.getVite()==0)
+					if (clientModel.frog.getVite()<=0)
 						clientView.state = PnlFrog.STATE.GAME_OVER;
 					if(ctrl.frogView.state== PnlFrog.STATE.GAME_OVER && clientView.state== PnlFrog.STATE.GAME_OVER)
 					{

@@ -128,6 +128,13 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		if (model.frog.getVite() <= 0)
 		{
 			frogView.state = PnlFrog.STATE.GAME_OVER;
+			if(frogView.state== PnlFrog.STATE.GAME_OVER && server.getClientView().state== PnlFrog.STATE.GAME_OVER)
+			{
+				frogView.state= PnlFrog.STATE.GAME_OVER_MULTI;
+				server.getClientView().state = PnlFrog.STATE.GAME_OVER_MULTI;
+				frogView.repaint();
+				server.getClientView().repaint();
+			}
 			t.stop();
 		}
 		
@@ -149,8 +156,6 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		
 		
 		frogView.repaint();
-		
-		
 		
 	}
 	
