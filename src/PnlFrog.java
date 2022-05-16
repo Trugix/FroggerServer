@@ -121,7 +121,7 @@ public class PnlFrog extends JPanel implements Serializable
 
 
 
-			g2.drawString("1 PLAYER", 360, -1030);
+			g2.drawString("1 PLAYER", 360, -1030);//todo
 			g2.draw(playButton);
 			g2.setFont(ftn2);
 			g2.drawString("SCOREBOARD", 320, -830);

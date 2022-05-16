@@ -49,8 +49,8 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		frogView.addKeyListener(this);
 		frogView.addMouseListener(this);
 
-		//server = new Server();
-		//server.connessione();
+		server = new Server(this);
+		server.connessione();
 
 		if(PnlFrog.state == PnlFrog.STATE.GAME)
 			t.start();
@@ -151,7 +151,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		
 		frogView.setEntities(model.entities);
 		frogView.repaint();
-		//server.send();
+		server.send();
 		
 	}
 	

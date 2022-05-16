@@ -92,7 +92,11 @@ public class FroggerModel implements Serializable
 
 	private final Prize fly = new Prize(465, 1215, 0, "fly", 100, 100, true, 200);
 
-
+	public FroggerModel(int i) throws IOException
+	{
+	
+	}
+	
 	public FroggerModel() throws IOException
 	{
 		entities.add(frog);
