@@ -41,7 +41,8 @@ public class PnlFrog extends JPanel implements Serializable
 		MENU,
 		LOADING,
 		GAME,
-		GAME_OVER
+		GAME_OVER,
+		GAME_OVER_MULTI
 	}
 
 	public STATE state = STATE.MENU;
@@ -121,10 +122,10 @@ public class PnlFrog extends JPanel implements Serializable
 			case LOADING:
 				g2.scale(1, -1);
 				
-				g2.setFont(ftn);
+				g2.setFont(ftn2);
 				
 				g2.setColor(Color.YELLOW);
-				g2.drawString("WAITING FOR CONNECTION...", 180, -755);
+				g2.drawString("WAITING FOR CONNECTION...", 175, -755);
 				
 				g2.scale(1,-1);
 			break;
@@ -156,6 +157,24 @@ public class PnlFrog extends JPanel implements Serializable
 				g2.setFont(ftn1);
 				g2.drawString("Il tuo punteggio è: "+ modelToDraw.getPoints(), 170, -500);
 				g2.scale(1,-1);
+			break;
+			case GAME_OVER_MULTI:
+				g2.scale(1, -1);
+				
+				g2.setFont(ftn);
+				
+				g2.setColor(Color.magenta);
+				g2.drawString("GAME OVER", 180, -755);
+				g2.setColor(Color.yellow);
+				g2.drawString("GAME OVER", 185, -760);
+				g2.setColor(Color.GREEN);
+				g2.drawString("GAME OVER", 190, -765);
+				g2.setFont(ftn1);
+				g2.drawString("Il tuo punteggio è: "+ modelToDraw.getPoints(), 170, -500);
+				g2.drawString("Il punteggio avversario è: "+ modelToDraw.getPunteggioAvversario(), 170, -400);
+				g2.scale(1,-1);
+				
+				
 			break;
 		}
 	}

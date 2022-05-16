@@ -20,17 +20,14 @@ public class Server
 	
 	private FroggerCtrl ctrl;
 	
+	public PnlFrog getClientView()
+	{
+		return clientView;
+	}
+	
 	public Server(FroggerCtrl ctrl) throws IOException
 	{
 		this.ctrl = ctrl;
-		/*try
-		{
-			this.clientView = new PnlFrog(ctrl);
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException(e);
-		}*/
 	}
 	
 	Thread ricezione = new Thread(new Runnable()
@@ -44,6 +41,7 @@ public class Server
 				{
 					statoClient = (Transfer) in.readObject();
 					clientModel.transferToModel(statoClient);
+					ctrl.model.setPunteggioAvversario(statoClient.punteggio);
 					if (first)
 					{
 						clientView = new PnlFrog(clientModel);
@@ -55,6 +53,13 @@ public class Server
 					clientView.setEntities(clientModel.entities);
 					if (clientModel.frog.getVite()==0)
 						clientView.state = PnlFrog.STATE.GAME_OVER;
+					if(ctrl.frogView.state== PnlFrog.STATE.GAME_OVER && clientView.state== PnlFrog.STATE.GAME_OVER)
+					{
+						ctrl.frogView.state= PnlFrog.STATE.GAME_OVER_MULTI;
+						clientView.state = PnlFrog.STATE.GAME_OVER_MULTI;
+						ctrl.frogView.repaint();
+					}
+					
 					clientView.repaint();
 				}
 				catch (Exception e)

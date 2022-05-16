@@ -7,9 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 
 public class FroggerCtrl implements KeyListener, MouseListener, Serializable
@@ -143,10 +141,16 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		updateSkull();
 		
 		frogView.setEntities(model.entities);
-		frogView.repaint();
 		
 		if (multiplayer)
 			server.send();
+		
+		
+		
+		
+		frogView.repaint();
+		
+		
 		
 	}
 	
@@ -451,17 +455,16 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 			}
 			if(frogView.getMultiButton().contains(e.getX()/frogView.s,e.getY()/(frogView.s)-1500))
 			{
-				System.out.println(" "+e.getX()+" "+ e.getY());
-				multiplayer = true;
 				frogView.state = PnlFrog.STATE.LOADING;
-				frogView.repaint();
+				frogView.repaint(); //todo da togliere o sistemare
+				multiplayer = true;
 				server.connessione();
 				t.start();
 			}
 			if (frogView.getQuitButton().contains(e.getX()/frogView.s,e.getY()/(frogView.s)-1500))
 				System.exit(0);
 	}
-
+	
 	@Override
 	public void mouseReleased(MouseEvent e) {
 

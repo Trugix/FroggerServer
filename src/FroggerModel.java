@@ -22,6 +22,8 @@ public class FroggerModel implements Serializable
 	
 	public int tempo = 500;
 	
+	private int punteggioAvversario;
+	
 	public int getPoints() {
 		return points;
 	}
@@ -164,6 +166,16 @@ public class FroggerModel implements Serializable
 		NPCs.addAll(turtles);
 		entities.addAll(NPCs);
 		entities.addAll(prizes);
+	}
+	
+	public int getPunteggioAvversario()
+	{
+		return punteggioAvversario;
+	}
+	
+	public void setPunteggioAvversario(int punteggioAvversario)
+	{
+		this.punteggioAvversario = punteggioAvversario;
 	}
 	
 	public void moveFrog(int direzione) throws IOException
