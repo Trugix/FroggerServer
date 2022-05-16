@@ -21,7 +21,7 @@ public class FroggerApp
 			{
 				FroggerApp window = new FroggerApp();
 				window.frame.setVisible(true);
-
+				window.frame.setTitle("Frogger");
 			}
 			catch (Exception e)
 			{

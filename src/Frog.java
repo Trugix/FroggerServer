@@ -61,8 +61,12 @@ public class Frog extends Entity {
 				break;
 		}
 	}
-
-
+	
+	public void setVite(int vite)
+	{
+		this.vite = vite;
+	}
+	
 	public void updateHitbox ()
 	{
 		this.hitbox = new Rectangle(this.p.x+10, this.p.y+5, this.dimx-20, this.dimy-10);

@@ -27,6 +27,8 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	private Prize precedente;
 
 	private Server server;
+	
+	private static boolean multiplayer = false;
 
 	private Timer t= new Timer(33, (e) ->
 	{
@@ -45,20 +47,11 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	public FroggerCtrl(FroggerModel model) throws IOException
 	{
 		this.model = model;
-		this.frogView = new PnlFrog(this);
+		this.frogView = new PnlFrog(model);
 		frogView.addKeyListener(this);
 		frogView.addMouseListener(this);
 
 		server = new Server(this);
-		server.connessione();
-
-		if(PnlFrog.state == PnlFrog.STATE.GAME)
-			t.start();
-	}
-
-	public void start ()
-	{
-		t.start();
 	}
 	
 	private void initialization()
@@ -151,7 +144,9 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		
 		frogView.setEntities(model.entities);
 		frogView.repaint();
-		server.send();
+		
+		if (multiplayer)
+			server.send();
 		
 	}
 	
@@ -213,7 +208,11 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	private void updatePrize()
 	{
 		timerPrize--;
-		if (timerPrize <= 40) //todo definire quanti bonus ci sono
+		if(model.prizes.size()==0)
+		{
+			frogView.state= PnlFrog.STATE.GAME_OVER;
+		}
+		if (timerPrize <= 40)
 		{
 			if (timerPrize % 6 >= 3)
 			{
@@ -368,7 +367,6 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 				model.entities.add(precedente);
 				model.prizes.remove(bonus);
 				model.entities.remove(bonus);
-				//todo fermare il gioco perché si ha vinto
 			}
 			else if (bonus.hitbox.intersects(model.prizes.get(i).hitbox) && bonus.p.getX() != model.prizes.get(i).p.getX())
 			{
@@ -445,19 +443,23 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	public void mousePressed(MouseEvent e)
 	{
 		if (frogView.state == PnlFrog.STATE.MENU)
-			if(e.getX() >= 169 && e.getX() <= 498 &&  e.getY() >= 224 && e.getY() <= 320)
+			if(frogView.getPlayButton().contains(e.getX()/frogView.s,e.getY()/(frogView.s)-1500))
 			{
 				frogView.state = PnlFrog.STATE.GAME;
-				frogView.paintComponent(frogView.g2);
-				start();
+				frogView.repaint();
+				t.start();
 			}
-
-
-		System.out.println(" "+e.getX()+" "+ e.getY());
-
-		System.out.println(PnlFrog.state);
-
-
+			if(frogView.getMultiButton().contains(e.getX()/frogView.s,e.getY()/(frogView.s)-1500))
+			{
+				System.out.println(" "+e.getX()+" "+ e.getY());
+				multiplayer = true;
+				frogView.state = PnlFrog.STATE.LOADING;
+				frogView.repaint();
+				server.connessione();
+				t.start();
+			}
+			if (frogView.getQuitButton().contains(e.getX()/frogView.s,e.getY()/(frogView.s)-1500))
+				System.exit(0);
 	}
 
 	@Override
@@ -475,91 +477,97 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 
 	}
 
-	public BufferedImage associaSprite (String spriteID)
+	public static BufferedImage associaSprite (String spriteID)
 	{
 		switch (spriteID)
 		{
 			case "frogUp":
-				return model.spritesFrog[0];
+				return FroggerModel.spritesFrog[0];
 
 			case "frogRight":
-				return model.spritesFrog[1];
+				return FroggerModel.spritesFrog[1];
 
 			case "frogDown":
-				return model.spritesFrog[2];
+				return FroggerModel.spritesFrog[2];
 
 			case "frogLeft":
-				return model.spritesFrog[3];
+				return FroggerModel.spritesFrog[3];
 
 			case "frogMovUp":
-				return model.spritesFrogMov[0];
+				return FroggerModel.spritesFrogMov[0];
 
 			case "frogMovRight":
-				return model.spritesFrogMov[1];
+				return FroggerModel.spritesFrogMov[1];
 
 			case "frogMovDown":
-				return model.spritesFrogMov[2];
+				return FroggerModel.spritesFrogMov[2];
 
 			case "frogMovLeft":
-				return model.spritesFrogMov[3];
+				return FroggerModel.spritesFrogMov[3];
 
 			case "truck":
-				return model.spriteCarro;
+				return FroggerModel.spriteCarro;
 
 			case "bulldozer":
-				return model.spriteBulldozer;
+				return FroggerModel.spriteBulldozer;
 
 			case "autoSport":
-				return model.spriteAutoSport;
+				return FroggerModel.spriteAutoSport;
 
 			case "police":
-				return model.spritePolice;
+				return FroggerModel.spritePolice;
 
 			case "formula1":
-				return model.spriteFormula1;
+				return FroggerModel.spriteFormula1;
 
 			case "formula2":
-				return model.spriteFormula2;
+				return FroggerModel.spriteFormula2;
 
 			case "log3":
-				return model.spriteLog3;
+				return FroggerModel.spriteLog3;
 
 			case "log4":
-				return model.spriteLog4;
+				return FroggerModel.spriteLog4;
 
 			case "log6":
-				return model.spriteLog6;
+				return FroggerModel.spriteLog6;
 
 			case "turtle1":
-				return model.spritesTurtle[0];
+				return FroggerModel.spritesTurtle[0];
 
 			case "turtle2":
-				return model.spritesTurtle[1];
+				return FroggerModel.spritesTurtle[1];
 
 			case "turtle3":
-				return model.spritesTurtle[2];
+				return FroggerModel.spritesTurtle[2];
 
 			case "fly":
-				return model.spriteFly;
+				return FroggerModel.spriteFly;
 
 			case "lilyPad":
-				return model.spriteLilyPad;
+				return FroggerModel.spriteLilyPad;
 
 			case "lilyPadFrog":
-				return model.spriteFrogLily;
+				return FroggerModel.spriteFrogLily;
 
 			case "skull":
-				return model.spriteSkull;
+				return FroggerModel.spriteSkull;
 
 			case "void":
 			default:
-				return model.spriteVoid;
+				return FroggerModel.spriteVoid;
 
 		}
 	}
 
 	public Transfer modelToTransfer (FroggerModel model)
 	{
-		return new Transfer(model.entities, model.tempo, model.getPoints());
+		return new Transfer(model.entities, model.tempo, model.getPoints(),model.frog.getVite());
 	}
+	
+	public void startGame ()
+	{
+		frogView.state = PnlFrog.STATE.GAME;
+	}
+	
 }

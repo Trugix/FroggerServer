@@ -53,15 +53,12 @@ public class Server
 						newWindow();
 					}
 					clientView.setEntities(clientModel.entities);
+					if (clientModel.frog.getVite()==0)
+						clientView.state = PnlFrog.STATE.GAME_OVER;
 					clientView.repaint();
 				}
-				/*catch (NullPointerException e)
-				{
-					//In caso il server non riceve nulla si aspetta che arrivi qualcosa senza gestire alcuna eccezione
-				}*/
 				catch (Exception e)
 				{
-					// TODO Auto-generated catch block
 					System.out.println("CONNESSIONE INTERROTTA");
 					System.out.println(e);
 					System.exit(0);
@@ -80,6 +77,7 @@ public class Server
 			server = new ServerSocket(porta);
 			System.out.println("[1] - Server pronto, in ascolto sulla porta " + porta);
 			socketClient = server.accept();
+			ctrl.startGame();
 			System.out.println("[2] - Connessione riuscita con il client");
 			server.close();
 			InputStream inputStream = socketClient.getInputStream();
@@ -87,7 +85,6 @@ public class Server
 			out = new ObjectOutputStream(outputStream);
 			in = new ObjectInputStream(inputStream);
 			ricezione.start();
-			//newWindow();
 		}
 		catch (IOException e)
 		{
