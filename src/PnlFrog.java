@@ -170,8 +170,13 @@ public class PnlFrog extends JPanel implements Serializable
 				g2.setColor(Color.GREEN);
 				g2.drawString("GAME OVER", 190, -765);
 				g2.setFont(ftn1);
-				g2.drawString("Il tuo punteggio è: "+ modelToDraw.getPoints(), 170, -500);
-				g2.drawString("Il punteggio avversario è: "+ modelToDraw.getPunteggioAvversario(), 170, -400);
+				g2.drawString("Il tuo punteggio è: " + modelToDraw.getPoints(), 170, -500);
+				if (modelToDraw.getPoints()>modelToDraw.getPunteggioAvversario())
+					g2.drawString("Hai vinto", 170, -400);
+				else if (modelToDraw.getPoints()<modelToDraw.getPunteggioAvversario())
+					g2.drawString("Hai perso", 170, -400);
+				else
+					g2.drawString("Parità", 170, -400);
 				g2.scale(1,-1);
 				
 				
