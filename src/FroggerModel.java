@@ -12,6 +12,7 @@ public class FroggerModel implements Serializable   //modello del gioco
 	//posizione iniziale della rana
 	private static final int STARTING_FROGX = 460;
 	private static final int STARTING_FROGY = 10;
+
 	
 	private static final String PATH_SPRITE = "src/../sprites/"; //cartella degli sprite
 	
@@ -235,38 +236,26 @@ public class FroggerModel implements Serializable   //modello del gioco
 	 */
 	public void moveFrog(int direzione)
 	{
-		frog.setMoving(true);
+		frog.setMoving(true); //dice a controller che la rana dovrà muoversi
 		switch (direzione)
 		{
 			case KeyEvent.VK_LEFT ->
 			{
-				frog.setDirection(3);
-				if (frog.p.getX() < 0)  //per evitare che la rana esca dallo schermo
-					frog.p.setX(0);
 				frog.rotate(3);
 				Sound.soundStart("hop");
 			}
 			case KeyEvent.VK_RIGHT ->
 			{
-				frog.setDirection(1);
-				if (frog.p.getX() > 920) //per evitare che la rana esca dallo schermo
-					frog.p.setX(920);
 				frog.rotate(1);
 				Sound.soundStart("hop");
 			}
 			case KeyEvent.VK_DOWN ->
 			{
-				frog.setDirection(2);
-				if (frog.p.getY() < 10) //per evitare che la rana esca dallo schermo
-					frog.p.setY(10);
 				frog.rotate(2);
 				Sound.soundStart("hop");
 			}
 			case KeyEvent.VK_UP ->
 			{
-				frog.setDirection(0);
-				if (frog.p.getY() > 1210) //per evitare che la rana esca dallo schermo
-					frog.p.setY(1210);
 				frog.rotate(0);
 				Sound.soundStart("hop");
 			}

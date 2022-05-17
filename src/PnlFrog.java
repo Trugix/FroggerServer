@@ -20,6 +20,10 @@ public class PnlFrog extends JPanel //pannello grafico
 	private static final int NUMERO_CASELLE = 5;
 	private static final int NUMERO_CASELLE_RIPOSO = 1;
 	
+	private static final Font ftn = new Font("arial", Font.BOLD, 100);
+	private static final Font ftn1 = new Font("arial", Font.BOLD, 60);
+	private static final Font ftn2 = new Font("arial", Font.BOLD, 50);
+	
 	//pulsanti del menu
 	private static final Rectangle playButton = new Rectangle(300, -1100, 400, 100);
 	private static final Rectangle multiButton = new Rectangle(300, -900, 400, 100);
@@ -88,7 +92,7 @@ public class PnlFrog extends JPanel //pannello grafico
 	public PnlFrog(FroggerModel model)
 	{
 		this.modelToDraw = model;
-		this.entities = modelToDraw.entities;
+		this.entities = modelToDraw.getEntities();
 		this.setFocusable(true);
 	}
 	
@@ -109,9 +113,7 @@ public class PnlFrog extends JPanel //pannello grafico
 		g21.setColor(Color.BLACK);    //Sfondo nero neutro, il primo layer
 		g21.fillRect(0, 0, 1000, 1500);
 		
-		Font ftn = new Font("arial", Font.BOLD, 100);
-		Font ftn1 = new Font("arial", Font.BOLD, 60);
-		Font ftn2 = new Font("arial", Font.BOLD, 50);
+		
 		Graphics2D g2 = (Graphics2D) g;
 		switch (state)
 		{
@@ -174,6 +176,19 @@ public class PnlFrog extends JPanel //pannello grafico
 				g2.scale(1, -1);
 			}
 		}
+	}
+	
+	private void paintGameOver(Graphics2D g2){
+		g2.scale(1, -1);
+		g2.setFont(ftn);
+		g2.setColor(Color.magenta);
+		g2.drawString("GAME OVER", 180, -755);
+		g2.setColor(Color.yellow);
+		g2.drawString("GAME OVER", 185, -760);
+		g2.setColor(Color.GREEN);
+		g2.drawString("GAME OVER", 190, -765);
+		g2.setFont(ftn1);
+		g2.drawString("Il tuo punteggio è: " + modelToDraw.getPoints(), 170, -500);
 	}
 	
 	/**

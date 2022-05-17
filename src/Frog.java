@@ -13,6 +13,10 @@ public class Frog extends Entity implements Serializable   //rana giocabile
 	//coordinate di start della rana
 	private static final int STARTING_FROGX = 460;
 	private static final int STARTING_FROGY = 10;
+	private static final int Y_LOWER_BOUND = 10;
+	private static final int Y_HIGHER_BOUND = 1210;
+	private static final int X_LEFT_BOUND = 0;
+	private static final int X_RIGHT_BOUND = 920;
 	
 	private int vite;   // numero di vite attuali
 	
@@ -61,10 +65,26 @@ public class Frog extends Entity implements Serializable   //rana giocabile
 	{
 		switch (targetDir)
 		{
-			case 0 -> this.spriteID = "frogUp";
-			case 1 -> this.spriteID = "frogRight";
-			case 2 -> this.spriteID = "frogDown";
-			case 3 -> this.spriteID = "frogLeft";
+			case 0 ->
+			{
+				this.setSpriteID("frogUp");
+				setDirection(targetDir);
+			}
+			case 1 ->
+			{
+				this.setSpriteID("frogRight");
+				setDirection(targetDir);
+			}
+			case 2 ->
+			{
+				this.setSpriteID("frogDown");
+				setDirection(targetDir);
+			}
+			case 3 ->
+			{
+				this.setSpriteID("frogLeft");
+				setDirection(targetDir);
+			}
 		}
 	}
 	
@@ -75,7 +95,7 @@ public class Frog extends Entity implements Serializable   //rana giocabile
 	
 	public void updateHitbox()
 	{
-		this.hitbox = new Rectangle(this.p.x + 10, this.p.y + 5, this.dimx - 20, this.dimy - 10);
+		this.setHitbox(new Rectangle(this.p.x, this.p.y, this.getDimx(), this.getDimy()));
 	}
 	
 	/**
@@ -102,10 +122,10 @@ public class Frog extends Entity implements Serializable   //rana giocabile
 	public void stepNext(int tempDx)
 	{
 		p.setX(p.getX() + tempDx);
-		if (p.getX() > 920) //per evitare che la rana se ne vada dalla schermo
-			p.setX(920);
-		if (p.getX() < 0) //per evitare che la rana se ne vada dalla schermo
-			p.setX(0);
+		if (p.getX() > X_RIGHT_BOUND) //per evitare che la rana se ne vada dalla schermo
+			p.setX(X_RIGHT_BOUND);
+		if (p.getX() < X_LEFT_BOUND) //per evitare che la rana se ne vada dalla schermo
+			p.setX(X_LEFT_BOUND);
 		updateHitbox();
 	}
 	
@@ -119,32 +139,36 @@ public class Frog extends Entity implements Serializable   //rana giocabile
 		{
 			switch (direction)
 			{
-				case 0:
-					spriteID = "frogMovUp";
+				case 0 ->
+				{
+					setSpriteID("frogMovUp");
 					p.y += DY;
-					if (p.getY() > 1210)
-						p.setY(1210);
-					break;
-				case 1:
-					spriteID = "frogMovRight";
+					if (p.getY() > Y_HIGHER_BOUND)
+						p.setY(Y_HIGHER_BOUND);
+				}
+				case 1 ->
+				{
+					setSpriteID("frogMovRight");
 					p.x += DX;
-					if (p.getX() > 920)
-						p.setX(920);
-					break;
-				case 2:
-					spriteID = "frogMovDown";
+					if (p.getX() > X_RIGHT_BOUND)
+						p.setX(X_RIGHT_BOUND);
+				}
+				case 2 ->
+				{
+					setSpriteID("frogMovDown");
 					p.y -= DY;
-					if (p.getY() < 10)
-						p.setY(10);
-					break;
-				case 3:
-					spriteID = "frogMovLeft";
+					if (p.getY() < Y_LOWER_BOUND)
+						p.setY(Y_LOWER_BOUND);
+				}
+				case 3 ->
+				{
+					setSpriteID("frogMovLeft");
 					p.x -= DX;
-					if (p.getX() < 0)
-						p.setX(0);
-					break;
+					if (p.getX() < X_LEFT_BOUND)
+						p.setX(X_LEFT_BOUND);
+				}
 			}
 		}
-		hitbox = (new Rectangle(this.p.x, this.p.y, this.dimx, this.dimy));
+		updateHitbox();
 	}
 }

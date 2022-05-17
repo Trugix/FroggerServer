@@ -3,10 +3,10 @@ import java.util.ArrayList;
 
 public class Transfer implements Serializable   //classe di servizio per inviare dati tra server e client
 {
-	ArrayList<Entity> entities; //tutte le entità sullo schermo
-	int time;   //tempo rimasto
-	int punteggio;  //punteggio attuale
-	int vite;   //vite attuali
+	private ArrayList<Entity> entities; //tutte le entità sullo schermo
+	private int time;   //tempo rimasto
+	private int punteggio;  //punteggio attuale
+	private int vite;   //vite attuali
 	
 	public ArrayList<Entity> getEntities()
 	{
@@ -35,5 +35,6 @@ public class Transfer implements Serializable   //classe di servizio per inviare
 		this.punteggio = punteggio;
 		this.vite = vite;
 	}
+	
 }
 

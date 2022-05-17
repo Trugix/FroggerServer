@@ -205,7 +205,7 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 			npc.stepNext(); //sposto ogni npc
 			if (npc.getDx() > 0)
 			{
-				if (npc.p.getX() - npc.getDimx() > 1020)
+				if (npc.p.getX() - npc.getDimx() > WATER_HIGHER_BOUND)
 				{
 					npc.p.setX(-npc.getDimx() - 20);
 				}
@@ -251,7 +251,7 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 	 */
 	private void checkCollision(Frog frog)
 	{
-		if ((this.contact && this.npcContact.deathTouch) || (!this.contact && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
+		if ((this.contact && this.npcContact.isDeathTouch()) || (!this.contact && frog.p.getY() >= WATER_LOWER_BOUND && frog.p.getY() <= WATER_HIGHER_BOUND))
 		{
 			updateMorte(frog);
 		}
@@ -352,7 +352,7 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 	 */
 	private void checkTime(Frog frog)
 	{
-		if (model.tempo == 110)
+		if (model.getTempo() == SOUND_TIME_THRESHOLD)
 		{
 			Sound.soundStart("tempo"); //riproduco il suono quando il tempo sta finendo
 		}
@@ -370,7 +370,7 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 		
 		boolean save = false;
 		
-		for (Prize p : model.prizes)
+		for (Prize p : model.getPrizes())
 		{
 			if (frog.getHitbox().intersects(p.getHitbox()))   //controlla che la rana stia toccando un obbiettivo
 			{
@@ -391,7 +391,7 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 				{
 					p.setSprite("lilyPadFrog"); //cambio lo sprite
 					p.setHitbox(null);
-					model.prizes.remove(p);
+					model.getPrizes().remove(p);
 				}
 				
 				
@@ -424,31 +424,39 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 		precedente.setSprite("lilyPadFrog");
 		precedente.setHitbox(null);
 		
-		for (int i = 0; i < model.prizes.size(); i++)
+		for (int i = 0; i < model.getPrizes().size(); i++)
 		{
 			if (model.getPrizes().size() == 1) //caso in cui ci sia solo un posto
 			{
-				model.prizes.add(precedente);
-				model.entities.add(precedente);
-				model.prizes.remove(bonus);
-				model.entities.remove(bonus);
+				model.getPrizes().add(precedente);
+				model.getEntities().add(precedente);
+				model.getPrizes().remove(bonus);
+				model.getEntities().remove(bonus);
 			}
 			else if (bonus.getHitbox().intersects(model.getPrizes().get(i).getHitbox()) && bonus.p.getX() != model.getPrizes().get(i).p.getX()) //caso generale, controllo quale lilypad la mosca sta toccando
 			{
-				precedente = model.prizes.get(i);
-				model.prizes.remove(precedente);
-				model.entities.remove(precedente);
+				precedente = model.getPrizes().get(i);
+				model.getPrizes().remove(precedente);
+				model.getEntities().remove(precedente);
 			}
 		}
 	}
 	
+	/**
+	 * genera un tempo randomico per la durata delle mosche
+	 */
 	
 	private int randTemp()
 	{
-		return random.nextInt(150) + 100;
+		return random.nextInt(PRIZE_TIME_VARIATION) + PRIZE_TIME_LOWER_BOUND;
 	}
 	
-	
+	/**
+	 * calcola la distanza fra due punti
+	 * @param p1 primo punto
+	 * @param p2 secondo punto
+	 * @return torno la distanza
+	 */
 	private double distance(Entity.Position p1, Entity.Position p2)
 	{
 		return Math.sqrt(Math.pow((p1.getX() - p2.getX()), 2) + Math.pow((p1.getY() - p2.getY()), 2));
@@ -473,42 +481,36 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 	 */
 	private void resetTempo()
 	{
-		model.tempo = 500; //todo mettere costanti ovunque
+		model.setTempo(MAX_TIME); //todo mettere costanti ovunque
 	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-
-	}
-
+	
+	/**
+	 * controlla se viene premuto un tasto sulla tastiera e inoltra il codice dell'evento a moveFrog, se la rana non si sta già muovendo
+	 * @param e the event to be processed
+	 */
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-			if (!model.frog.isMoving())
+			if (!model.getFrog().isMoving())
 				model.moveFrog(e.getKeyCode());
 	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-
-	}
-
+	
+	
+	/**
+	 * metodo che controlla per il menù che tasto viene premuto e setta quindi la rispettiva modalità di gioco
+	 * @param e l'evento da processare
+	 */
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		if (frogView.state == PnlFrog.STATE.MENU)
-			if(frogView.getPlayButton().contains(e.getX()/frogView.scale,e.getY()/(frogView.scale)-1500))
+		if (frogView.getState() == PnlFrog.STATE.MENU)
+			if(frogView.getPlayButton().contains(e.getX()/frogView.getScale(),e.getY()/(frogView.getScale())-1500)) //single player
 			{
 				frogView.setState(PnlFrog.STATE.GAME);
 				frogView.repaint();
 				timer.start();
 			}
-			if(frogView.getMultiButton().contains(e.getX()/frogView.scale,e.getY()/(frogView.scale)-1500))
+			if(frogView.getMultiButton().contains(e.getX()/frogView.getScale(),e.getY()/(frogView.getScale())-1500))//2 giocatori
 			{
 				frogView.setState(PnlFrog.STATE.LOADING);
 				frogView.repaint(); //todo da togliere o sistemare
@@ -516,25 +518,16 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 				server.connessione();
 				timer.start();
 			}
-			if (frogView.getQuitButton().contains(e.getX()/frogView.scale,e.getY()/(frogView.scale)-1500))
+			if (frogView.getQuitButton().contains(e.getX()/frogView.getScale(),e.getY()/(frogView.getScale())-1500)) //buttone quit
 				System.exit(0);
 	}
 	
-	@Override
-	public void mouseReleased(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-
-	}
-
+	
+	/**
+	 * metodo che colla ogni Id delle entità alla rispettiva sprite
+	 * @param spriteID id dello sprite
+	 * @return  sprite vero e proprio
+	 */
 	public static BufferedImage associaSprite (String spriteID)
 	{
 		return switch (spriteID)
@@ -567,15 +560,33 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 				default -> FroggerModel.spriteVoid;
 			};
 	}
-
+	
+	/**
+	 * returna una nuova instanza di Transfer costruita del model attuale
+	 * @param model model da inviare
+	 */
 	public Transfer modelToTransfer (FroggerModel model)
 	{
 		return new Transfer(model.getEntities(), model.getTempo(), model.getPoints(),model.getFrog().getVite());
 	}
 	
+	//todo togliere?
 	public void startGame ()
 	{
 		frogView.setState(PnlFrog.STATE.GAME);
 	}
 	
+	//metodi di interfacce non usati
+	@Override
+	public void keyTyped(KeyEvent e) {}
+	@Override
+	public void keyReleased(KeyEvent e) {}
+	@Override
+	public void mouseClicked(MouseEvent e) {}
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+	@Override
+	public void mouseExited(MouseEvent e) {}
 }

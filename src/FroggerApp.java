@@ -42,7 +42,7 @@ public class FroggerApp //main
 	private void initialize()
 	{
 		frame = new JFrame();
-		frame.setBounds(500, 0, 656, 1000);
+		frame.setBounds(100, 0, 656, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
 		
