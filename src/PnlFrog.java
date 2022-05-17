@@ -140,6 +140,7 @@ public class PnlFrog extends JPanel //pannello grafico
 			}
 			case LOADING ->
 			{   //schermata di loading
+				paintArrivo(g2,1200);
 				g2.scale(1, -1);
 				g2.setFont(ftn2);
 				g2.setColor(Color.YELLOW);

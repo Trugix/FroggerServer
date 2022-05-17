@@ -1,4 +1,5 @@
 import javax.swing.Timer;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -158,7 +159,7 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 			model.getFrog().stepNext(npcContact.getDx());
 		}
 		
-		if (model.getFrog().getVite() <= 0) //controllo che le vite siano finite
+		if (model.getFrog().getVite() <= 0 || frogView.getDestinations().isEmpty()) //controllo che le vite siano finite o che le destinazioni siano vuote
 		{
 			frogView.setState(PnlFrog.STATE.GAME_OVER);
 			if (multiplayer)
@@ -166,9 +167,9 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 				if (server.getClientView().getState() == PnlFrog.STATE.GAME_OVER)
 				{
 					frogView.setState(PnlFrog.STATE.GAME_OVER_MULTI);
-					server.getClientView().setState(PnlFrog.STATE.GAME_OVER_MULTI);  //in caso siamo in multiplayer aggiorno la schermata finale con il punteggio avversario
 					frogView.repaint();
 					server.getClientView().repaint();
+					server.send();
 				}
 			}
 			timer.stop();   //fermo il timer
@@ -376,6 +377,7 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 			{
 				
 				updatePoint(frog, p.getPoint()); //aggiorno il punteggio
+				model.setDestinazioni(model.getDestinazioni()+1);
 				
 				for (int i = 0; i < frogView.getDestinations().size(); i++)
 				{
@@ -481,7 +483,7 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 	 */
 	private void resetTempo()
 	{
-		model.setTempo(MAX_TIME); //todo mettere costanti ovunque
+		model.setTempo(MAX_TIME);
 	}
 	
 	/**
@@ -514,10 +516,14 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 			if (frogView.getMultiButton().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500))//2 giocatori
 			{
 				frogView.setState(PnlFrog.STATE.LOADING);
-				frogView.repaint(); //todo da togliere o sistemare
+				frogView.repaint();
 				multiplayer = true;
-				server.connessione();
-				timer.start();
+				EventQueue.invokeLater(() ->{
+					server.connessione();
+					timer.start();
+				});
+				//EventQueue.invokeLater( ()-> server.connessione());
+				//EventQueue.invokeLater( () ->timer.start());
 			}
 			if (frogView.getQuitButton().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500)) //buttone quit
 				System.exit(0);
@@ -569,10 +575,9 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 	 */
 	public Transfer modelToTransfer (FroggerModel model)
 	{
-		return new Transfer(model.getEntities(), model.getTempo(), model.getPoints(),model.getFrog().getVite());
+		return new Transfer(model.getEntities(), model.getTempo(), model.getPoints(),model.getFrog().getVite(),model.getDestinazioni());
 	}
 	
-	//todo togliere?
 	public void startGame ()
 	{
 		frogView.setState(PnlFrog.STATE.GAME);

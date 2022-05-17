@@ -38,27 +38,25 @@ public class Server
 				{
 					Transfer statoClient = (Transfer) in.readObject();   //cast dell'input come Transfer
 					clientModel.transferToModel(statoClient);   //chiamata che passa i dati di transfer al model usato per disegnare la schermata del 2ndo giocatore
-					
+					clientModel.setPunteggioAvversario(ctrl.getModel().getPoints());
 					if (first)  //nella prima iterazione crea il nuovo panel e la nuova finestra, inizializzandola allo stato GAME
 					{
-						first = false;
 						clientView = new PnlFrog(clientModel);
 						clientView.setState( PnlFrog.STATE.GAME);
+						first=false;
 						newWindow();
 					}
 					clientView.setEntities(clientModel.getEntities());
-					if (clientModel.getFrog().getVite()<=0) //se l'avversario finisce le vite il suo panel passa a GAME_OVER e il suo punteggio viene salvato
+					if (clientModel.getFrog().getVite()<=0 || clientModel.getDestinazioni()==5) //se l'avversario finisce le vite o vince il suo panel passa a GAME_OVER e il suo punteggio viene salvato
 					{
 						clientView.setState(PnlFrog.STATE.GAME_OVER);
 						ctrl.getModel().setPunteggioAvversario(statoClient.getPunteggio()); //aggiorna la variabile usata per calcolare chi ha vinto alla fine del gioco
 					}
-					if(ctrl.getFrogView().getState()== PnlFrog.STATE.GAME_OVER && clientView.getState()== PnlFrog.STATE.GAME_OVER) //se entrambi i giocatori sono a GAME_OVER allora si passa
-					{                                                                                               //alla schermata finale
+					if(ctrl.getFrogView().getState()== PnlFrog.STATE.GAME_OVER && clientView.getState()== PnlFrog.STATE.GAME_OVER ) //se entrambi i giocatori sono a GAME_OVER allora si passa
+					{                                                                                                               //alla schermata finale
 						ctrl.getFrogView().setState(PnlFrog.STATE.GAME_OVER_MULTI);
-						clientView.setState(PnlFrog.STATE.GAME_OVER_MULTI);
 						ctrl.getFrogView().repaint();
 					}
-					
 					clientView.repaint();
 				}
 				catch (Exception e)

@@ -25,6 +25,8 @@ public class FroggerModel implements Serializable   //modello del gioco
 	
 	private int tempo = 500; //tempo di partenza
 	
+	private int destinazioni =0;
+	
 	private int punteggioAvversario;    //punteggio dell'avversario
 	
 	public int getPoints()
@@ -89,6 +91,16 @@ public class FroggerModel implements Serializable   //modello del gioco
 		{
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public int getDestinazioni()
+	{
+		return destinazioni;
+	}
+	
+	public void setDestinazioni(int destinazioni)
+	{
+		this.destinazioni = destinazioni;
 	}
 	
 	public ArrayList<Entity> getEntities()
@@ -276,5 +288,6 @@ public class FroggerModel implements Serializable   //modello del gioco
 		this.entities = transfer.getEntities();
 		this.tempo = transfer.getTime();
 		this.frog.setVite(transfer.getVite());
+		this.destinazioni = transfer.getDestinazioni();
 	}
 }
