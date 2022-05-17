@@ -24,22 +24,22 @@ public class Turtle extends NPC //classe npc particolare che si immerge
 		{
 			if(goDown)
 			{
-				this.spriteID = "turtle3";  //se stava scendendo allo scadere del timer la faccio immergere
-				deathTouch = true;
+				this.setSpriteID("turtle3");   //se stava scendendo allo scadere del timer la faccio immergere
+				this.setDeathTouch(true);
 				goDown=false;
 			}
 			else
 			{
-				this.spriteID = "turtle1"; //se non stava scendendo allo scadere del timer la faccio emergere
-				deathTouch = false;
+				this.setSpriteID("turtle1");  //se non stava scendendo allo scadere del timer la faccio emergere
+				this.setDeathTouch(false);
 				goDown=true;
 			}
 			timer=MAX_TIMER;    //reset timer
 		}
 		if(timer == 50) //il giocatore ha 50 frame per capire che la tartaruga si sta abbassando
 		{
-			this.spriteID = "turtle2";
-			deathTouch = false;
+			this.setSpriteID("turtle2");
+			this.setDeathTouch(false);
 		}
 
 	}

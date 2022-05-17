@@ -5,102 +5,135 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Random;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 
-public class FroggerCtrl implements KeyListener, MouseListener, Serializable
+public class FroggerCtrl implements KeyListener, MouseListener    //clase controller che gestisce il gioco
 {
-	
-	PnlFrog frogView;
-	public FroggerModel model;
-	private int nFrame=0;
+	//model e view
+	private PnlFrog frogView;
+	private FroggerModel model;
+	private int nFrame=0; //variabile usata come contatore
 	private final Random random = new Random();
-	private int timerPrize = randTemp();
+	private int timerPrize = randTemp();    //randomizzo il tempo che ci impiega la mosca per spostarsi
 	private boolean first = true;
-	private NPC npcContact;
-	private boolean contact;
+	private NPC npcContact; //npc che sto toccando
+	private boolean contact; //se la rana sta toccando qualcosa
 	
 	private Prize precedente;
 
 	private Server server;
 	
-	private static boolean multiplayer = false;
+	private static boolean multiplayer = false; //se stiamo giocando in multiplayer o no
 
-	private Timer t= new Timer(33, (e) ->
+	private static final int  MAX_TIME = 500;
+	private static final int  PRIZE_TIME_LOWER_BOUND = 100;
+	private static final int  PRIZE_TIME_VARIATION = 150;
+	private static final int  MAX_DISTANCE_FROM_PRIZE = 100;
+	private static final int  SOUND_TIME_THRESHOLD = 110;
+	private static final int  WATER_LOWER_BOUND = 700;
+	private static final int  WATER_HIGHER_BOUND = 1200;
+	private static final int  PRIZE_BLINK_THRESHOLD = 40;
+	private static final int  SLIDING_FRAMES = 5;
+	
+	public PnlFrog getFrogView()
 	{
-
-		try {
-			nextFrame();
-		} catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
+		return frogView;
+	}
+	
+	public FroggerModel getModel()
+	{
+		return model;
+	}
+	
+	
+	//timer che gestisce lo scorrere dei frame
+	private Timer timer = new Timer(33, (e) ->
+	{
+		
+		nextFrame();
 		if (this.first)
 		{
 			initialization();
 		}
 	});
 	
-	public FroggerCtrl(FroggerModel model) throws IOException
+	public FroggerCtrl(FroggerModel model)
 	{
 		this.model = model;
 		this.frogView = new PnlFrog(model);
 		frogView.addKeyListener(this);
 		frogView.addMouseListener(this);
-
-		server = new Server(this);
+		
+		try
+		{
+			server = new Server(this);
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 	
+	/**
+	 * inizializzo i premi la prima volta che il gioco viene avviato
+	 */
 	private void initialization()
 	{
 		this.first = false;
-		for (int j = 0; j < model.prizes.size(); j++)
+		for (int j = 0; j < model.getPrizes().size(); j++)
 		{
-			Prize prize1 = model.prizes.get(j);
-			if (prize1.isBonus())
+			Prize prize1 = model.getPrizes().get(j);
+			if (prize1.isBonus())   //cerco la mosca
 			{
-				prize1.stepNext(frogView.destinations);
+				prize1.stepNext(frogView.getDestinations());
 
-				for (int i = 0; i < model.prizes.size(); i++)
+				for (int i = 0; i < model.getPrizes().size(); i++)   //tolgo la lilypad e metto la rana
 				{
-					Prize prize2 = model.prizes.get(i);
-					if (prize1.hitbox.intersects(prize2.hitbox) && prize1.p.getX() != prize2.p.getX())
+					Prize prize2 = model.getPrizes().get(i);
+					if (prize1.getHitbox().intersects(prize2.getHitbox()) && prize1.p.getX() != prize2.p.getX())
 						precedente = prize2;
 				}
-				swapPrize(prize1);
+				swapPrize(prize1); //randomizzo la sua posizione
 			}
 		}
 	}
 	
-	
-	private void nextFrame() throws IOException {
-		model.tempo--;
+	/**
+	 * metodo che aggiorna ogni frame
+	 */
+	private void nextFrame()  {
+		model.setTempo(model.getTempo()-1);
 
 		contact = false;
 
-		npcContact = model.NPCs.get(0);
+		npcContact = model.getNPCs().get(0);
 
-		if(model.frog.isMoving())
+		if(model.getFrog().isMoving())   //gestisco il cambio di sprite quando la rana si sta muovendo
 		{
 			nFrame++;
-			model.frog.nextSlide();
-			if (nFrame>=5) {
+			model.getFrog().nextSlide();
+			if (nFrame>=SLIDING_FRAMES)  //usa 5 frame per compiere un movimento
+			{
 				nFrame = 0;
-				model.frog.setMoving(false);
+				model.getFrog().setMoving(false);
 			}
-		}else {
-			model.frog.rotate(model.frog.getDirection());
+		}
+		else
+		{
+			model.getFrog().rotate(model.getFrog().getDirection());
 		}
 
-		for (Turtle t : model.turtles)
+		for (Turtle t : model.getTurtles())  //faccio immerge od emergere le tartarughe
 		{
 			t.immersion();
 		}
 
-
-
-		int size = model.NPCs.size();
+		// uso i thread per processare la lista in quarti in parallelo al posto di scorrerla linearmente
+		int size = model.getNPCs().size();
 		ExecutorService service = Executors.newFixedThreadPool(4);
 		
 		service.submit(() -> moveNpc(0, size / 4));
@@ -113,59 +146,64 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		try
 		{
 			service.awaitTermination(3, TimeUnit.MILLISECONDS);
-			checkCollision(model.frog);
+			checkCollision(model.getFrog()); //controllo le collisione
 		}
 		catch (InterruptedException e)
 		{
 			e.printStackTrace();
 		}
 
-		if (!npcContact.deathTouch && this.contact)
+		if (!npcContact.isDeathTouch() && this.contact)
 		{
-			model.frog.stepNext(npcContact.dx);
+			model.getFrog().stepNext(npcContact.getDx());
 		}
 		
-		if (model.frog.getVite() <= 0)
+		if (model.getFrog().getVite() <= 0) //controllo che le vite siano finite
 		{
-			frogView.state = PnlFrog.STATE.GAME_OVER;
-			if(frogView.state== PnlFrog.STATE.GAME_OVER && server.getClientView().state== PnlFrog.STATE.GAME_OVER)
+			frogView.setState(PnlFrog.STATE.GAME_OVER);
+			if (multiplayer)
 			{
-				frogView.state= PnlFrog.STATE.GAME_OVER_MULTI;
-				server.getClientView().state = PnlFrog.STATE.GAME_OVER_MULTI;
-				frogView.repaint();
-				server.getClientView().repaint();
+				if (server.getClientView().getState() == PnlFrog.STATE.GAME_OVER)
+				{
+					frogView.setState(PnlFrog.STATE.GAME_OVER_MULTI);
+					server.getClientView().setState(PnlFrog.STATE.GAME_OVER_MULTI);  //in caso siamo in multiplayer aggiorno la schermata finale con il punteggio avversario
+					frogView.repaint();
+					server.getClientView().repaint();
+				}
 			}
-			t.stop();
+			timer.stop();   //fermo il timer
 		}
 		
-		checkTime(model.frog);
-		if (model.frog.p.getY() >= 1200)
-			checkPrize(model.frog);
+		checkTime(model.getFrog()); //controllo che ci sia ancora tempo disponibile
+		
+		if (model.getFrog().p.getY() >= WATER_HIGHER_BOUND)
+			checkPrize(model.getFrog()); //check per vedere se ho raggiunto la destinazione
 		
 
-		updatePrize();
+		updatePrize();  //sposto la mosca
 		
-		updateSkull();
+		updateSkull();  //controllo se mettere lo scheletro o no
 		
-		frogView.setEntities(model.entities);
+		frogView.setEntities(model.getEntities());
 		
 		if (multiplayer)
-			server.send();
-		
-		
-		
+			server.send(); //in caso sia in multiplayer invio quello che è successo in questo frame
 		
 		frogView.repaint();
-		
 	}
 	
+	/**
+	 * cambio le posizioni degli npc
+	 * @param start npc di partenza
+	 * @param end npc di fine
+	 */
 	private void moveNpc(int start, int end)
 	{
 		for (int i = start; i < end; i++)
 		{
-			NPC npc = model.NPCs.get(i);
-			npc.stepNext();
-			if (npc.dx > 0)
+			NPC npc = model.getNPCs().get(i);
+			npc.stepNext(); //sposto ogni npc
+			if (npc.getDx() > 0)
 			{
 				if (npc.p.getX() - npc.getDimx() > 1020)
 				{
@@ -180,7 +218,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 				}
 			}
 			
-			if (model.frog.hitbox.intersects(npc.hitbox))
+			if (model.getFrog().getHitbox().intersects(npc.getHitbox())) //controllo se un npc sta toccando la rana
 			{
 				this.contact = true;
 				this.npcContact = npc;
@@ -188,23 +226,29 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		}
 	}
 	
-	
+	/**
+	 * metto lo scheletro in caso di morte
+	 */
 	private void updateSkull()
 	{
-		for (Skull s : model.skulls)
+		for (Skull s : model.getSkulls())
 		{
 			if (s.getTimeToLive() > 0)
 			{
-				model.entities.add(s);
+				model.getEntities().add(s);
 			}
 			else
 			{
-				model.entities.remove(s);
+				model.getEntities().remove(s);
 			}
-			s.setTimeToLive(s.getTimeToLive() - 1);
+			s.setTimeToLive(s.getTimeToLive() - 1);//aggiorno il numero di frame per cui deve rimanere
 		}
 	}
 	
+	/**
+	 * controllo se la rana deve morire ed in caso la uccido
+	 * @param frog rana giocante
+	 */
 	private void checkCollision(Frog frog)
 	{
 		if ((this.contact && this.npcContact.deathTouch) || (!this.contact && frog.p.getY() >= 701 && frog.p.getY() <= 1200))
@@ -213,19 +257,21 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		}
 	}
 	
-	
+	/**
+	 * sposto la mosca e tolgo la lilypad che ha la stessa posizione
+	 */
 	private void updatePrize()
 	{
-		timerPrize--;
-		if(model.prizes.size()==0)
+		timerPrize--;   //aggiorno il tempo della mosca
+		if(model.getPrizes().size()==0) //se ho finito gli slot di arrivo il gioco finisce
 		{
-			frogView.state= PnlFrog.STATE.GAME_OVER;
+			frogView.setState(PnlFrog.STATE.GAME_OVER);
 		}
-		if (timerPrize <= 40)
+		if (timerPrize <= PRIZE_BLINK_THRESHOLD)   //if che fa lampeggiare la mosca
 		{
 			if (timerPrize % 6 >= 3)
 			{
-				for (Prize p : model.prizes)
+				for (Prize p : model.getPrizes())
 				{
 					if (p.isBonus())
 					{
@@ -235,7 +281,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 			}
 			else
 			{
-				for (Prize p : model.prizes)
+				for (Prize p : model.getPrizes())
 				{
 					if (p.isBonus())
 					{
@@ -243,66 +289,82 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 					}
 				}
 			}
-			if (timerPrize <= 0)
+			if (timerPrize <= 0) //quando il tempo è finito la mosca cambia posizione
 			{
-				timerPrize = randTemp();
+				timerPrize = randTemp();  //randomizzo un nuovo tempo
 				
-				for (int i = 0; i < model.prizes.size(); i++)
+				for (int i = 0; i < model.getPrizes().size(); i++) //cerco la mosca e la sposto
 				{
-					if (model.prizes.get(i).isBonus())
+					if (model.getPrizes().get(i).isBonus())
 					{
-						model.prizes.get(i).stepNext(frogView.destinations);
-						swapPrize(model.prizes.get(i));
+						model.getPrizes().get(i).stepNext(frogView.getDestinations());
+						swapPrize(model.getPrizes().get(i));
 					}
 				}
 			}
 		}
 	}
 	
+	/**
+	 * scambio fisicamente mosca e lilypad
+	 * @param bonus mosca
+	 */
 	private void swapPrize(Prize bonus)
 	{
-		model.prizes.add(precedente);
-		model.entities.add(precedente);
-		for (int i = 0; i < model.prizes.size(); i++)
+		model.getPrizes().add(precedente);
+		model.getEntities().add(precedente); //riaggiungo la lilypad sulla quale stava la mosca
+		for (int i = 0; i < model.getPrizes().size(); i++)
 		{
-			if (bonus.hitbox.intersects(model.prizes.get(i).hitbox) && bonus.p.getX() != model.prizes.get(i).p.getX())
+			if (bonus.getHitbox().intersects(model.getPrizes().get(i).getHitbox()) && bonus.p.getX() != model.getPrizes().get(i).p.getX())
 			{
-				precedente = model.prizes.get(i);
-				model.prizes.remove(precedente);
-				model.entities.remove(precedente);
+				precedente = model.getPrizes().get(i);
+				model.getPrizes().remove(precedente);    //tolgo la lilypad sulla quale la mosca è arrivata
+				model.getEntities().remove(precedente);
 			}
 		}
 	}
 	
+	/**
+	 * gestisco la morte della rana
+	 * @param frog rana giocante
+	 */
 	private void updateMorte(Frog frog)
 	{
-		model.skulls.add(new Skull(frog.p.getX(), frog.p.getY(), 0, "skull", 0, 0));
-		if (frog.p.getY() > 700 && frog.p.getY() < 1200)
+		model.getSkulls().add(new Skull(frog.p.getX(), frog.p.getY(), 0, "skull", 0, 0)); //aggiungo uno scheletro
+		if (frog.p.getY() > WATER_LOWER_BOUND && frog.p.getY() < WATER_HIGHER_BOUND)    //riproduco il suono adeguato
 		{
-			Sound.soundMorteAcqua();
+			Sound.soundStart("acqua");
 		}
 		else
 		{
-			Sound.soundMorteAuto();
+			Sound.soundStart("auto");
 		}
-			nFrame=0;
+			nFrame=0; //fermo il movimento
 			frog.morte();
 		
 		resetTempo();
 	}
-
-
+	
+	/**
+	 * controllo se c`è ancora tempo disponibile
+	 *
+	 * @param frog rana giocante
+	 */
 	private void checkTime(Frog frog)
 	{
 		if (model.tempo == 110)
 		{
-			Sound.soundTicToc();
+			Sound.soundStart("tempo"); //riproduco il suono quando il tempo sta finendo
 		}
-		if (model.tempo <= 0)
+		if (model.getTempo() <= 0)   //quando il tempo scade la rana muore
 			updateMorte(frog);
 		
 	}
 	
+	/**
+	 * metodo che cambia lo sprite quando la rana arriva a destinazione
+	 * @param frog rana giocante
+	 */
 	private void checkPrize(Frog frog)
 	{
 		
@@ -310,32 +372,32 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		
 		for (Prize p : model.prizes)
 		{
-			if (frog.hitbox.intersects(p.hitbox))
+			if (frog.getHitbox().intersects(p.getHitbox()))   //controlla che la rana stia toccando un obbiettivo
 			{
 				
-				updatePoint(frog, p.getPoint());
+				updatePoint(frog, p.getPoint()); //aggiorno il punteggio
 				
-				for (int i = 0; i < frogView.destinations.size(); i++)
+				for (int i = 0; i < frogView.getDestinations().size(); i++)
 				{
-					if (distance(frog.p, frogView.destinations.get(i)) <= 100)
-						frogView.destinations.remove(i);
+					if (distance(frog.p, frogView.getDestinations().get(i)) <= MAX_DISTANCE_FROM_PRIZE)
+						frogView.getDestinations().remove(i); //tolgo dalle destinazioni gli obbiettivi già colpiti
 				}
 				
 				if (p.isBonus())
 				{
-					resetBonus(p);
+					resetBonus(p); //sposto la mosca
 				}
 				else
 				{
-					p.setSprite("lilyPadFrog");
+					p.setSprite("lilyPadFrog"); //cambio lo sprite
 					p.setHitbox(null);
 					model.prizes.remove(p);
 				}
 				
 				
-				frog.resetPosition();
+				frog.resetPosition(); //riporto la rana all'inizio
 				
-				resetTempo();
+				resetTempo();   //resetto il tempo
 				
 				save = true;
 				
@@ -343,30 +405,35 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 			}
 		}
 		
-		if (!save)
+		if (!save)  // se ho mancato tutte le destinazioni la rana muore
 			updateMorte(frog);
 	}
 	
+	/**
+	 * aggiorno la posizione della mosca quando viene presa
+	 *
+	 * @param bonus mosca
+	 */
 	private void resetBonus(Prize bonus)
 	{
 
-		bonus.stepNext(frogView.destinations);
+		bonus.stepNext(frogView.getDestinations());
 
-		timerPrize = randTemp();
-		model.entities.add(precedente);
+		timerPrize = randTemp(); //nuovo tempo
+		model.getEntities().add(precedente);
 		precedente.setSprite("lilyPadFrog");
 		precedente.setHitbox(null);
 		
 		for (int i = 0; i < model.prizes.size(); i++)
 		{
-			if (model.prizes.size() == 1)
+			if (model.getPrizes().size() == 1) //caso in cui ci sia solo un posto
 			{
 				model.prizes.add(precedente);
 				model.entities.add(precedente);
 				model.prizes.remove(bonus);
 				model.entities.remove(bonus);
 			}
-			else if (bonus.hitbox.intersects(model.prizes.get(i).hitbox) && bonus.p.getX() != model.prizes.get(i).p.getX())
+			else if (bonus.getHitbox().intersects(model.getPrizes().get(i).getHitbox()) && bonus.p.getX() != model.getPrizes().get(i).p.getX()) //caso generale, controllo quale lilypad la mosca sta toccando
 			{
 				precedente = model.prizes.get(i);
 				model.prizes.remove(precedente);
@@ -396,8 +463,8 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	 */
 	private void updatePoint(Frog frog, int point)
 	{
-		model.setPoints(model.getPoints() + point + 100 * frog.getVite() + 5 * model.tempo);
-		Sound.soundPoint();
+		model.setPoints(model.getPoints() + point + 100 * frog.getVite() + 5 * model.getTempo());
+		Sound.soundStart("point");
 	}
 	
 	
@@ -437,17 +504,17 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		if (frogView.state == PnlFrog.STATE.MENU)
 			if(frogView.getPlayButton().contains(e.getX()/frogView.scale,e.getY()/(frogView.scale)-1500))
 			{
-				frogView.state = PnlFrog.STATE.GAME;
+				frogView.setState(PnlFrog.STATE.GAME);
 				frogView.repaint();
-				t.start();
+				timer.start();
 			}
 			if(frogView.getMultiButton().contains(e.getX()/frogView.scale,e.getY()/(frogView.scale)-1500))
 			{
-				frogView.state = PnlFrog.STATE.LOADING;
+				frogView.setState(PnlFrog.STATE.LOADING);
 				frogView.repaint(); //todo da togliere o sistemare
 				multiplayer = true;
 				server.connessione();
-				t.start();
+				timer.start();
 			}
 			if (frogView.getQuitButton().contains(e.getX()/frogView.scale,e.getY()/(frogView.scale)-1500))
 				System.exit(0);
@@ -470,95 +537,45 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 
 	public static BufferedImage associaSprite (String spriteID)
 	{
-		switch (spriteID)
-		{
-			case "frogUp":
-				return FroggerModel.spritesFrog[0];
-
-			case "frogRight":
-				return FroggerModel.spritesFrog[1];
-
-			case "frogDown":
-				return FroggerModel.spritesFrog[2];
-
-			case "frogLeft":
-				return FroggerModel.spritesFrog[3];
-
-			case "frogMovUp":
-				return FroggerModel.spritesFrogMov[0];
-
-			case "frogMovRight":
-				return FroggerModel.spritesFrogMov[1];
-
-			case "frogMovDown":
-				return FroggerModel.spritesFrogMov[2];
-
-			case "frogMovLeft":
-				return FroggerModel.spritesFrogMov[3];
-
-			case "truck":
-				return FroggerModel.spriteCarro;
-
-			case "bulldozer":
-				return FroggerModel.spriteBulldozer;
-
-			case "autoSport":
-				return FroggerModel.spriteAutoSport;
-
-			case "police":
-				return FroggerModel.spritePolice;
-
-			case "formula1":
-				return FroggerModel.spriteFormula1;
-
-			case "formula2":
-				return FroggerModel.spriteFormula2;
-
-			case "log3":
-				return FroggerModel.spriteLog3;
-
-			case "log4":
-				return FroggerModel.spriteLog4;
-
-			case "log6":
-				return FroggerModel.spriteLog6;
-
-			case "turtle1":
-				return FroggerModel.spritesTurtle[0];
-
-			case "turtle2":
-				return FroggerModel.spritesTurtle[1];
-
-			case "turtle3":
-				return FroggerModel.spritesTurtle[2];
-
-			case "fly":
-				return FroggerModel.spriteFly;
-
-			case "lilyPad":
-				return FroggerModel.spriteLilyPad;
-
-			case "lilyPadFrog":
-				return FroggerModel.spriteFrogLily;
-
-			case "skull":
-				return FroggerModel.spriteSkull;
-
-			case "void":
-			default:
-				return FroggerModel.spriteVoid;
-
-		}
+		return switch (spriteID)
+			{
+				case "frogUp" -> FroggerModel.spritesFrog[0];
+				case "frogRight" -> FroggerModel.spritesFrog[1];
+				case "frogDown" -> FroggerModel.spritesFrog[2];
+				case "frogLeft" -> FroggerModel.spritesFrog[3];
+				case "frogMovUp" -> FroggerModel.spritesFrogMov[0];
+				case "frogMovRight" -> FroggerModel.spritesFrogMov[1];
+				case "frogMovDown" -> FroggerModel.spritesFrogMov[2];
+				case "frogMovLeft" -> FroggerModel.spritesFrogMov[3];
+				case "truck" -> FroggerModel.spriteCarro;
+				case "bulldozer" -> FroggerModel.spriteBulldozer;
+				case "autoSport" -> FroggerModel.spriteAutoSport;
+				case "police" -> FroggerModel.spritePolice;
+				case "formula1" -> FroggerModel.spriteFormula1;
+				case "formula2" -> FroggerModel.spriteFormula2;
+				case "log3" -> FroggerModel.spriteLog3;
+				case "log4" -> FroggerModel.spriteLog4;
+				case "log6" -> FroggerModel.spriteLog6;
+				case "turtle1" -> FroggerModel.spritesTurtle[0];
+				case "turtle2" -> FroggerModel.spritesTurtle[1];
+				case "turtle3" -> FroggerModel.spritesTurtle[2];
+				case "fly" -> FroggerModel.spriteFly;
+				case "lilyPad" -> FroggerModel.spriteLilyPad;
+				case "lilyPadFrog" -> FroggerModel.spriteFrogLily;
+				case "skull" -> FroggerModel.spriteSkull;
+				case "void"-> FroggerModel.spriteVoid;
+				default -> FroggerModel.spriteVoid;
+			};
 	}
 
 	public Transfer modelToTransfer (FroggerModel model)
 	{
-		return new Transfer(model.entities, model.tempo, model.getPoints(),model.frog.getVite());
+		return new Transfer(model.getEntities(), model.getTempo(), model.getPoints(),model.getFrog().getVite());
 	}
 	
 	public void startGame ()
 	{
-		frogView.state = PnlFrog.STATE.GAME;
+		frogView.setState(PnlFrog.STATE.GAME);
 	}
 	
 }

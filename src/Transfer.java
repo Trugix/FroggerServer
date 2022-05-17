@@ -8,6 +8,26 @@ public class Transfer implements Serializable   //classe di servizio per inviare
 	int punteggio;  //punteggio attuale
 	int vite;   //vite attuali
 	
+	public ArrayList<Entity> getEntities()
+	{
+		return entities;
+	}
+	
+	public int getTime()
+	{
+		return time;
+	}
+	
+	public int getPunteggio()
+	{
+		return punteggio;
+	}
+	
+	public int getVite()
+	{
+		return vite;
+	}
+	
 	public Transfer(ArrayList<Entity> entities, int time, int punteggio, int vite)
 	{
 		this.entities = entities;

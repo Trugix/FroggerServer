@@ -16,13 +16,13 @@ public class FroggerModel implements Serializable   //modello del gioco
 	private static final String PATH_SPRITE = "src/../sprites/"; //cartella degli sprite
 	
 	//liste dei vari oggetti sullo schermo
-	public ArrayList<Entity> entities = new ArrayList<>();
-	public ArrayList<NPC> NPCs = new ArrayList<>();
-	public ArrayList<Prize> prizes = new ArrayList<>();
-	public ArrayList<Turtle> turtles = new ArrayList<>();
-	public ArrayList<Skull> skulls = new ArrayList<>();
+	private ArrayList<Entity> entities = new ArrayList<>();
+	private ArrayList<NPC> NPCs = new ArrayList<>();
+	private ArrayList<Prize> prizes = new ArrayList<>();
+	private ArrayList<Turtle> turtles = new ArrayList<>();
+	private ArrayList<Skull> skulls = new ArrayList<>();
 	
-	public int tempo = 500; //tempo di partenza
+	private int tempo = 500; //tempo di partenza
 	
 	private int punteggioAvversario;    //punteggio dell'avversario
 	
@@ -38,9 +38,9 @@ public class FroggerModel implements Serializable   //modello del gioco
 	
 	public int points = 0;  //proprio punteggio
 	//elenco degli sprite
-	public static BufferedImage[] spritesFrog;
-	public static BufferedImage[] spritesFrogMov;
-	public static BufferedImage spriteCarro;
+	public static final BufferedImage[] spritesFrog;
+	public static final BufferedImage[] spritesFrogMov;
+	public static final BufferedImage spriteCarro;
 	public static final BufferedImage spriteAutoSport;
 	public static final BufferedImage spriteBulldozer;
 	public static final BufferedImage spriteFormula1;
@@ -54,8 +54,10 @@ public class FroggerModel implements Serializable   //modello del gioco
 	public static final BufferedImage spriteLilyPad;
 	public static final BufferedImage spriteFrogLily;
 	public static final BufferedImage spriteSkull;
+	public static final BufferedImage spriteLilFrog;
 	public static final BufferedImage spriteVoid;
 	
+	private Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 70, "froUp", 75, 75);
 	
 	static
 	{
@@ -79,6 +81,7 @@ public class FroggerModel implements Serializable   //modello del gioco
 			spriteLilyPad = ImageIO.read(new File(PATH_SPRITE + "lily.png"));
 			spriteFrogLily = ImageIO.read(new File(PATH_SPRITE + "frogAtRest.png"));
 			spriteSkull = ImageIO.read(new File(PATH_SPRITE + "skull.png"));
+			spriteLilFrog = ImageIO.read(new File(PATH_SPRITE + "frogSmall.png"));
 			spriteVoid = ImageIO.read(new File(PATH_SPRITE + "void.png"));
 		}
 		catch (IOException e)
@@ -87,8 +90,48 @@ public class FroggerModel implements Serializable   //modello del gioco
 		}
 	}
 	
-	public Frog frog = new Frog(STARTING_FROGX, STARTING_FROGY, 70, "froUp", 75, 75);
+	public ArrayList<Entity> getEntities()
+	{
+		return entities;
+	}
 	
+	
+	public ArrayList<NPC> getNPCs()
+	{
+		return NPCs;
+	}
+	
+	
+	public ArrayList<Prize> getPrizes()
+	{
+		return prizes;
+	}
+	
+	public ArrayList<Turtle> getTurtles()
+	{
+		return turtles;
+	}
+	
+	
+	public ArrayList<Skull> getSkulls()
+	{
+		return skulls;
+	}
+	
+	public int getTempo()
+	{
+		return tempo;
+	}
+	
+	public void setTempo(int tempo)
+	{
+		this.tempo = tempo;
+	}
+	
+	public Frog getFrog()
+	{
+		return frog;
+	}
 	
 	public FroggerModel(int i) //costruttore vuoto
 	{
@@ -201,7 +244,7 @@ public class FroggerModel implements Serializable   //modello del gioco
 				if (frog.p.getX() < 0)  //per evitare che la rana esca dallo schermo
 					frog.p.setX(0);
 				frog.rotate(3);
-				Sound.soundHop();
+				Sound.soundStart("hop");
 			}
 			case KeyEvent.VK_RIGHT ->
 			{
@@ -209,7 +252,7 @@ public class FroggerModel implements Serializable   //modello del gioco
 				if (frog.p.getX() > 920) //per evitare che la rana esca dallo schermo
 					frog.p.setX(920);
 				frog.rotate(1);
-				Sound.soundHop();
+				Sound.soundStart("hop");
 			}
 			case KeyEvent.VK_DOWN ->
 			{
@@ -217,7 +260,7 @@ public class FroggerModel implements Serializable   //modello del gioco
 				if (frog.p.getY() < 10) //per evitare che la rana esca dallo schermo
 					frog.p.setY(10);
 				frog.rotate(2);
-				Sound.soundHop();
+				Sound.soundStart("hop");
 			}
 			case KeyEvent.VK_UP ->
 			{
@@ -225,7 +268,7 @@ public class FroggerModel implements Serializable   //modello del gioco
 				if (frog.p.getY() > 1210) //per evitare che la rana esca dallo schermo
 					frog.p.setY(1210);
 				frog.rotate(0);
-				Sound.soundHop();
+				Sound.soundStart("hop");
 			}
 			default ->
 			{
@@ -240,9 +283,9 @@ public class FroggerModel implements Serializable   //modello del gioco
 	 */
 	public void transferToModel(Transfer transfer)
 	{
-		this.points = transfer.punteggio;
-		this.entities = transfer.entities;
-		this.tempo = transfer.time;
-		this.frog.setVite(transfer.vite);
+		this.points = transfer.getPunteggio();
+		this.entities = transfer.getEntities();
+		this.tempo = transfer.getTime();
+		this.frog.setVite(transfer.getVite());
 	}
 }

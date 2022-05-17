@@ -7,9 +7,6 @@ import java.net.Socket;
 
 public class Server
 {
-	private ServerSocket server = null;
-	private Socket socketClient = null;
-	private int porta = 1234;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private Transfer statoClient;

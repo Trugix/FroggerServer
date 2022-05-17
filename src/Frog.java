@@ -1,6 +1,7 @@
-import java.awt.*;
+import java.awt.Rectangle;
+import java.io.Serializable;
 
-public class Frog extends Entity    //rana giocabile
+public class Frog extends Entity implements Serializable   //rana giocabile
 {
 	
 	private static final int MAX_VITE = 6;

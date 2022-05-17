@@ -1,7 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -51,21 +50,14 @@ public class FroggerApp //main
 		mainPanel.setBackground(Color.WHITE);
 		
 		FroggerModel model;
-		FroggerCtrl control = null;
+		FroggerCtrl control;
 		
-		try
-		{
-			model = new FroggerModel();
-			control = new FroggerCtrl(model);
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		model = new FroggerModel();
+		control = new FroggerCtrl(model);
 		
-		assert control != null;
-		frame.add(control.frogView, BorderLayout.CENTER);
-		control.frogView.setVisible(true);
+		
+		frame.add(control.getFrogView(), BorderLayout.CENTER);
+		control.getFrogView().setVisible(true);
 		frame.setVisible(true);
 	}
 	

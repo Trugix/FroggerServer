@@ -45,7 +45,7 @@ public class Prize extends Entity   //entità che danno un punteggio se colpite
 			else    //altrimenti la mosca non appare
 			{
 				setSprite("void");
-				this.hitbox = null;
+				this.setHitbox(null);
 			}
 		}
 	}
