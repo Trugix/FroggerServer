@@ -504,13 +504,14 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 	public void mousePressed(MouseEvent e)
 	{
 		if (frogView.getState() == PnlFrog.STATE.MENU)
-			if(frogView.getPlayButton().contains(e.getX()/frogView.getScale(),e.getY()/(frogView.getScale())-1500)) //single player
+		{
+			if (frogView.getPlayButton().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500)) //single player
 			{
 				frogView.setState(PnlFrog.STATE.GAME);
 				frogView.repaint();
 				timer.start();
 			}
-			if(frogView.getMultiButton().contains(e.getX()/frogView.getScale(),e.getY()/(frogView.getScale())-1500))//2 giocatori
+			if (frogView.getMultiButton().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500))//2 giocatori
 			{
 				frogView.setState(PnlFrog.STATE.LOADING);
 				frogView.repaint(); //todo da togliere o sistemare
@@ -518,8 +519,9 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 				server.connessione();
 				timer.start();
 			}
-			if (frogView.getQuitButton().contains(e.getX()/frogView.getScale(),e.getY()/(frogView.getScale())-1500)) //buttone quit
+			if (frogView.getQuitButton().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500)) //buttone quit
 				System.exit(0);
+		}
 	}
 	
 	
