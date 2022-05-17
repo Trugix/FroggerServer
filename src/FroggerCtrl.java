@@ -285,15 +285,9 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 		{
 			Sound.soundMorteAuto();
 		}
-		try
-		{
 			nFrame=0;
 			frog.morte();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		
 		resetTempo();
 	}
 
@@ -338,14 +332,9 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 					model.prizes.remove(p);
 				}
 				
-				try
-				{
-					frog.resetPosition();
-				}
-				catch (IOException e)
-				{
-					e.printStackTrace();
-				}
+				
+				frog.resetPosition();
+				
 				resetTempo();
 				
 				save = true;
@@ -426,16 +415,10 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-		try
-		{
+	public void keyPressed(KeyEvent e)
+	{
 			if (!model.frog.isMoving())
 				model.moveFrog(e.getKeyCode());
-		}
-		catch (IOException ex)
-		{
-			ex.printStackTrace();
-		}
 	}
 
 	@Override
@@ -452,13 +435,13 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 	public void mousePressed(MouseEvent e)
 	{
 		if (frogView.state == PnlFrog.STATE.MENU)
-			if(frogView.getPlayButton().contains(e.getX()/frogView.s,e.getY()/(frogView.s)-1500))
+			if(frogView.getPlayButton().contains(e.getX()/frogView.scale,e.getY()/(frogView.scale)-1500))
 			{
 				frogView.state = PnlFrog.STATE.GAME;
 				frogView.repaint();
 				t.start();
 			}
-			if(frogView.getMultiButton().contains(e.getX()/frogView.s,e.getY()/(frogView.s)-1500))
+			if(frogView.getMultiButton().contains(e.getX()/frogView.scale,e.getY()/(frogView.scale)-1500))
 			{
 				frogView.state = PnlFrog.STATE.LOADING;
 				frogView.repaint(); //todo da togliere o sistemare
@@ -466,7 +449,7 @@ public class FroggerCtrl implements KeyListener, MouseListener, Serializable
 				server.connessione();
 				t.start();
 			}
-			if (frogView.getQuitButton().contains(e.getX()/frogView.s,e.getY()/(frogView.s)-1500))
+			if (frogView.getQuitButton().contains(e.getX()/frogView.scale,e.getY()/(frogView.scale)-1500))
 				System.exit(0);
 	}
 	

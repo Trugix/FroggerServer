@@ -1,9 +1,8 @@
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-public class Entity implements Serializable
+public class Entity //entità generica presente nel gioco
 {
 	public int getDimx()
 	{
@@ -15,7 +14,7 @@ public class Entity implements Serializable
 		this.dimx = dimx;
 	}
 
-	protected class Position implements Serializable
+	protected class Position implements Serializable //posizione dell'entità espressa in x,y
 	{
 		protected int x;
 		protected int y;
@@ -48,13 +47,13 @@ public class Entity implements Serializable
 	}
 
 	protected Position p;
-	protected String spriteID;
-	protected int dx;
-	protected int dimx;
-	protected int dimy;
-	protected Rectangle2D hitbox;
+	protected String spriteID;  //stringa che verrà usata per linkare ogni entità al suo sprite
+	protected int dx; //numero di pixel che l'entità percorre in un frame
+	protected int dimx; //larghezza
+	protected int dimy; //altezza
+	protected Rectangle2D hitbox;   //hitbox usata per calcolare le collisioni
 
-	public Entity () {}
+	public Entity () {} //costruttore usato per generare delle posizioni senza creare un'entità
 
 	public Entity(int x, int y, int dx, String spriteID, int dimx, int dimy)
 	{
@@ -75,7 +74,10 @@ public class Entity implements Serializable
 	{
 		this.spriteID = spriteID;
 	}
-
+	
+	/**
+	 * metodo che aggiorna la posizione e l'hitbox dell'entità ad ogni frame
+	 */
 	public void stepNext()
 	{
 		p.setX(p.getX() + dx);

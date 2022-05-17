@@ -2,11 +2,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.io.IOException;
-import java.net.ServerSocket;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class FroggerApp
+public class FroggerApp //main
 {
 	private JFrame frame;
 	
