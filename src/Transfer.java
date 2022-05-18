@@ -7,8 +7,7 @@ public class Transfer implements Serializable   //classe di servizio per inviare
 	private int time;   //tempo rimasto
 	private int punteggio;  //punteggio attuale
 	private int vite;   //vite attuali
-	
-	private int destinazioni;
+	private int destinazioni;   //destinazioni occupate
 	
 	public int getDestinazioni()
 	{
