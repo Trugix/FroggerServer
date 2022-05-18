@@ -1,5 +1,5 @@
 import javax.swing.Timer;
-import java.awt.*;
+import java.awt.EventQueue;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
