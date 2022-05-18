@@ -507,28 +507,37 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		if (frogView.getState() == PnlFrog.STATE.MENU)
+		switch (frogView.getState())
 		{
-			if (frogView.getPlayButton().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500)) //single player
-			{
-				frogView.setState(PnlFrog.STATE.GAME);
-				frogView.repaint();
-				timer.start();
-			}
-			if (frogView.getMultiButton().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500))//2 giocatori
-			{
-				frogView.setState(PnlFrog.STATE.LOADING);
-				frogView.repaint();
-				multiplayer = true;
-				EventQueue.invokeLater(() ->{
-					server.connessione();
+			case MENU:
+				if (frogView.getPlayButton().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500)) //single player
+				{
+					frogView.setState(PnlFrog.STATE.GAME);
+					frogView.repaint();
 					timer.start();
-				});
-				//EventQueue.invokeLater( ()-> server.connessione());
-				//EventQueue.invokeLater( () ->timer.start());
-			}
-			if (frogView.getQuitButton().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500)) //buttone quit
-				System.exit(0);
+				}
+				if (frogView.getMultiButton().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500))//2 giocatori
+				{
+					frogView.setState(PnlFrog.STATE.LOADING);
+					frogView.repaint();
+					multiplayer = true; //siamo in multiplayer
+					EventQueue.invokeLater(() ->
+					{   //uso invokeLater perchè la connessione è più veloce del repaint della schermata di caricamento
+						server.connessione();       //in questo modo server.connessione() aspetta che la schermata sia cambiata
+						timer.start();
+					});
+				}
+				if (frogView.getQuitButton().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500)) //buttone quit
+					System.exit(0);
+			break;
+			case GAME_OVER_MULTI:
+			case GAME_OVER:
+				if (frogView.getQuitButtonMulti().contains(e.getX() / frogView.getScale(), e.getY() / (frogView.getScale()) - 1500))
+				{
+					server.setStop(true);
+					System.exit(0);
+				}
+			break;
 		}
 	}
 	

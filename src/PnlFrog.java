@@ -28,6 +28,14 @@ public class PnlFrog extends JPanel //pannello grafico
 	private static final Rectangle playButton = new Rectangle(300, -1100, 400, 100);
 	private static final Rectangle multiButton = new Rectangle(300, -900, 400, 100);
 	private static final Rectangle quitButton = new Rectangle(300, -700, 400, 100);
+	private static final Rectangle quitButtonMulti = new Rectangle(300, -300, 400, 100);
+	
+	private static final String FROGGER = "FROGGER";
+	private static final String PLAYER1 = "1 PLAYER";
+	private static final String PLAYER2 = "2 PLAYERS";
+	private static final String QUIT = "QUIT GAME";
+	private static final String LOADING = "WAITING FOR CONNECTION...";
+	private static final String GAME_OVER = "GAME OVER";
 	
 	private boolean first = true;
 	
@@ -84,6 +92,11 @@ public class PnlFrog extends JPanel //pannello grafico
 		return quitButton;
 	}
 	
+	public Rectangle getQuitButtonMulti()
+	{
+		return quitButtonMulti;
+	}
+	
 	public void setEntities(ArrayList<Entity> entities)
 	{
 		this.entities = entities;
@@ -123,19 +136,21 @@ public class PnlFrog extends JPanel //pannello grafico
 				g2.scale(1, -1);
 				g2.setFont(ftn);
 				g2.setColor(Color.magenta);
-				g2.drawString("FROGGER", 250, -1200);
+				g2.drawString(FROGGER, 250, -1200);
 				g2.setColor(Color.yellow);
-				g2.drawString("FROGGER", 255, -1205);
+				g2.drawString(FROGGER, 255, -1205);
 				g2.setColor(Color.GREEN);
-				g2.drawString("FROGGER", 260, -1210);
+				g2.drawString(FROGGER, 260, -1210);
 				g2.setColor(Color.yellow);
 				g2.setFont(ftn1);
-				g2.drawString("1 PLAYER", 360, -1030);
+				g2.drawString(PLAYER1, 360, -1030);
 				g2.draw(playButton);
-				g2.drawString("2 PLAYER", 360, -830);
+				g2.drawString(PLAYER2, 340, -830);
 				g2.draw(multiButton);
-				g2.drawString("QUIT GAME", 330, -630);
+				g2.drawString(QUIT, 330, -630);
 				g2.draw(quitButton);
+				g2.setFont(ftn2);
+				g2.drawString("USA LE FRECCIE PER MUOVERTI", 110, -50);
 				g2.scale(1, -1);
 			}
 			case LOADING ->
@@ -144,17 +159,15 @@ public class PnlFrog extends JPanel //pannello grafico
 				g2.scale(1, -1);
 				g2.setFont(ftn2);
 				g2.setColor(Color.YELLOW);
-				g2.drawString("WAITING FOR CONNECTION...", 175, -755);
+				g2.drawString(LOADING, 175, -755);
 				g2.scale(1, -1);
 			}
 			case GAME ->
 			{  //disegno il gioco
 				paintBackground(g2);  //Sfondo giocabile, secondo layer
 				for (Entity e : entities)
-				{
 					g2.drawImage(FroggerCtrl.associaSprite(e.getSpriteID()), e.p.getX(), e.p.getY(), null);
-					// g2.draw(e.hitbox); //solo per vedere l'hitbox
-				}
+				
 				g2.drawImage(FroggerCtrl.associaSprite(entities.get(0).getSpriteID()), entities.get(0).p.x, entities.get(0).p.y, null);
 				printHud(g2);
 				g2.setColor(Color.WHITE);
@@ -163,6 +176,9 @@ public class PnlFrog extends JPanel //pannello grafico
 			case GAME_OVER ->
 			{     //schermata finale
 				paintGameOver(g2);
+				g2.setColor(Color.YELLOW);
+				g2.draw(quitButtonMulti);
+				g2.drawString(QUIT,330,-230);
 				g2.scale(1, -1);
 			}
 			case GAME_OVER_MULTI ->
@@ -174,6 +190,9 @@ public class PnlFrog extends JPanel //pannello grafico
 					g2.drawString("Hai perso", 170, -400);
 				else
 					g2.drawString("Parità", 170, -400);
+				g2.setColor(Color.YELLOW);
+				g2.draw(quitButtonMulti);
+				g2.drawString(QUIT,330,-230);
 				g2.scale(1, -1);
 			}
 		}
@@ -183,11 +202,11 @@ public class PnlFrog extends JPanel //pannello grafico
 		g2.scale(1, -1);
 		g2.setFont(ftn);
 		g2.setColor(Color.magenta);
-		g2.drawString("GAME OVER", 180, -755);
+		g2.drawString(GAME_OVER, 180, -755);
 		g2.setColor(Color.yellow);
-		g2.drawString("GAME OVER", 185, -760);
+		g2.drawString(GAME_OVER, 185, -760);
 		g2.setColor(Color.GREEN);
-		g2.drawString("GAME OVER", 190, -765);
+		g2.drawString(GAME_OVER, 190, -765);
 		g2.setFont(ftn1);
 		g2.drawString("Il tuo punteggio è: " + modelToDraw.getPoints(), 170, -500);
 	}

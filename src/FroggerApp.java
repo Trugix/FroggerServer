@@ -58,6 +58,7 @@ public class FroggerApp //main
 		
 		frame.add(control.getFrogView(), BorderLayout.CENTER);
 		control.getFrogView().setVisible(true);
+		frame.setIconImage(FroggerModel.spritesFrog[2]);
 		frame.setVisible(true);
 	}
 	

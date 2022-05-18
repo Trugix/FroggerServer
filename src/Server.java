@@ -12,7 +12,13 @@ public class Server
 	private FroggerModel clientModel = new FroggerModel(0);  //crea un'istanza di model che verrà usata per la finestra del client
 	private PnlFrog clientView;
 	private boolean first = true;
+	private boolean stop = false;
 	private FroggerCtrl ctrl;
+	
+	public void setStop(boolean stop)
+	{
+		this.stop = stop;
+	}
 	
 	public PnlFrog getClientView()
 	{
@@ -32,7 +38,7 @@ public class Server
 		@Override
 		public void run()
 		{
-			while (true)
+			while (!stop)
 			{
 				try
 				{
@@ -51,6 +57,7 @@ public class Server
 					{
 						clientView.setState(PnlFrog.STATE.GAME_OVER);
 						ctrl.getModel().setPunteggioAvversario(statoClient.getPunteggio()); //aggiorna la variabile usata per calcolare chi ha vinto alla fine del gioco
+						stop = true;
 					}
 					if(ctrl.getFrogView().getState()== PnlFrog.STATE.GAME_OVER && clientView.getState()== PnlFrog.STATE.GAME_OVER ) //se entrambi i giocatori sono a GAME_OVER allora si passa
 					{                                                                                                               //alla schermata finale
@@ -113,6 +120,7 @@ public class Server
 		mainPanel.setBackground(Color.WHITE);
 		
 		clientFrame.add(clientView);
+		clientFrame.setIconImage(FroggerModel.spritesFrog[2]);
 		clientFrame.setVisible(true);
 		clientFrame.setFocusable(false);
 	}
