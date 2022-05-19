@@ -13,6 +13,7 @@ import java.net.Socket;
 
 public class Server
 {
+	private static final String ERROR ="ERRORE NELLA TRASMISSIONE DEI DATI TRA CLIENT E SERVER";
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private FroggerModel clientModel = new FroggerModel(0);  //crea un'istanza di model che verrà usata per la finestra del client
@@ -74,7 +75,7 @@ public class Server
 				}
 				catch (Exception e)
 				{
-					System.out.println("ERRORE NELLA COMUNICAZIONE CON IL CLIENT");
+					System.out.println(ERROR);
 					e.printStackTrace();
 					System.exit(0);
 				}
