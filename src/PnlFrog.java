@@ -150,7 +150,7 @@ public class PnlFrog extends JPanel //pannello grafico
 				g2.drawString(QUIT, 330, -630);
 				g2.draw(quitButton);
 				g2.setFont(ftn2);
-				g2.drawString("USA LE FRECCIE PER MUOVERTI", 110, -50);
+				g2.drawString("USA LE FRECCE PER MUOVERTI", 110, -50);
 				g2.scale(1, -1);
 			}
 			case LOADING ->
