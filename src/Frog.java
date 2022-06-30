@@ -99,13 +99,13 @@ public class Frog extends Entity implements Serializable   //rana giocabile
 	}
 	
 	/**
-	 *
+	 * metodo che si occupa della gestione della morte della rana
 	 */
 	public void morte()
 	{
-		resetPosition();
-		isMoving = false;
-		this.vite--;
+		resetPosition(); //resetta la posizione
+		isMoving = false; //ovviamente il movimento deve fermarsi
+		this.vite--;    //tolgo una vita
 	}
 	
 	public void resetPosition()
