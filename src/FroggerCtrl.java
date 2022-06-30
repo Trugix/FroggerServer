@@ -594,7 +594,7 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 		frogView.setState(PnlFrog.STATE.GAME);
 	}
 	
-	//metodi di interfacce non usati
+	//metodi di interface non usati
 	@Override
 	public void keyTyped(KeyEvent e) {}
 	@Override
