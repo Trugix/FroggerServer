@@ -108,6 +108,9 @@ public class Frog extends Entity implements Serializable   //rana giocabile
 		this.vite--;    //tolgo una vita
 	}
 	
+	/**
+	 * porto la rana nella posizione di partenza
+	 */
 	public void resetPosition()
 	{
 		this.p.setX(STARTING_FROGX);
