@@ -575,7 +575,7 @@ public class FroggerCtrl implements KeyListener, MouseListener    //clase contro
 				case "lilyPad" -> FroggerModel.spriteLilyPad;
 				case "lilyPadFrog" -> FroggerModel.spriteFrogLily;
 				case "skull" -> FroggerModel.spriteSkull;
-				case "void"-> FroggerModel.spriteVoid;
+				case "void"-> FroggerModel.spriteVoid; //non faccio collassare il caso void nel default per ordine mentale
 				default -> FroggerModel.spriteVoid;
 			};
 	}

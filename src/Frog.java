@@ -20,6 +20,10 @@ public class Frog extends Entity implements Serializable   //rana giocabile
 	
 	private int vite;   // numero di vite attuali
 	
+	private int direction = 0;  //direzione in cui la rana sta guardando
+	
+	private boolean isMoving = false;
+	
 	public int getDirection()
 	{
 		return direction;
@@ -29,10 +33,6 @@ public class Frog extends Entity implements Serializable   //rana giocabile
 	{
 		this.direction = direction;
 	}
-	
-	private int direction = 0;  //direzione in cui la rana sta guardando
-	
-	private boolean isMoving = false;
 	
 	public boolean isMoving()
 	{
