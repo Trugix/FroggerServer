@@ -148,7 +148,6 @@ public class FroggerModel implements Serializable   //modello del gioco
 	
 	public FroggerModel(int i) //costruttore vuoto
 	{
-	
 	}
 	
 	/**
