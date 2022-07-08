@@ -247,26 +247,29 @@ public class FroggerModel implements Serializable   //modello del gioco
 	 */
 	public void moveFrog(int direzione)
 	{
-		frog.setMoving(true); //dice a controller che la rana dovrà muoversi
 		switch (direzione)
 		{
 			case KeyEvent.VK_LEFT ->
 			{
+				frog.setMoving(true);
 				frog.rotate(3);
 				Sound.soundStart("hop");
 			}
 			case KeyEvent.VK_RIGHT ->
 			{
+				frog.setMoving(true);
 				frog.rotate(1);
 				Sound.soundStart("hop");
 			}
 			case KeyEvent.VK_DOWN ->
 			{
+				frog.setMoving(true);
 				frog.rotate(2);
 				Sound.soundStart("hop");
 			}
 			case KeyEvent.VK_UP ->
 			{
+				frog.setMoving(true);
 				frog.rotate(0);
 				Sound.soundStart("hop");
 			}
